@@ -1,0 +1,45 @@
+{
+  "name": "drakeleung.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrakeLeung/drakeleung.github.io.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "Drake Leung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrakeLeung/drakeleung.github.io/issues"
+  },
+  "homepage": "https://github.com/DrakeLeung/drakeleung.github.io",
+  "devDependencies": {
+    "browser-sync": "^2.7.5",
+    "del": "^1.2.0",
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-csso": "^1.0.0",
+    "gulp-if": "^1.2.5",
+    "gulp-jade": "^1.0.1",
+    "gulp-jshint": "^1.11.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-nodemon": "^2.0.3",
+    "gulp-plumber": "^1.0.1",
+    "gulp-postcss": "^5.1.8",
+    "gulp-sass": "^2.0.1",
+    "gulp-size": "^1.2.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-subtree": "^0.1.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-useref": "^1.1.2",
+    "wiredep": "^2.2.2"
+  },
+  "dependencies": {
+    "express": "^4.12.4"
+  }
+}

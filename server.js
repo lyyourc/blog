@@ -9,10 +9,11 @@ app.use(express.static('dist'));
 //   // res.sendFile(__dirname + '/dist/index.html');
 // });
 
-// hllo
+// hll
 
 app.use('/login', function(req, res) {
   res.json('logined');
 });
 
 app.listen(9000);
+
