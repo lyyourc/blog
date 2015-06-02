@@ -1,0 +1,23 @@
+//
+   Created by drake on 6/2/15.
+
+doctype html
+html(lang='en')
+  head
+    link(rel='stylesheet', href=config.root + 'styles/main.css')
+    title Hello world
+
+  body
+    header
+      h2
+        a(href=config.root)= config.title
+      p= config.subtitle
+
+    section
+      each post in page.posts.toArray()
+        article
+          h2
+            a(href=post.permalink alt=post.title)= post.title
+          .article-entry !{post.content}
+
+    script(src='scripts/app.js')
