@@ -2,8 +2,12 @@
 Thumbs.db
 db.json
 *.log
-node_modules/
 public/
 .deploy*/
-.idea/
 .deploy_git
+
+bower_components
+node_modules
+
+.tmp
+.idea/
