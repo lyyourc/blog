@@ -1,0 +1,29 @@
+main {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+main article {
+  margin-bottom: 50px;
+  padding: 10px $article-padding;
+  background: $article-bg;
+
+  & .article-title {
+    font-size: 2.5em;
+    margin: 0;
+    padding-bottom: .2em;
+    border-bottom: 1px solid #ccc;
+
+    & a:hover {
+      color: $color-base;
+    }
+  }
+}
+
+main article {
+  & .article-meta {
+    border-top: 1px solid #ccc;
+    padding-top: .5em;
+  }
+}
+

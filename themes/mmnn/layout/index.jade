@@ -8,16 +8,8 @@ html(lang='en')
     title Hello world
 
   body
-    header
-      h2
-        a(href=config.root)= config.title
-      p= config.subtitle
+    include _partial/header
+    include _partial/article
 
-    section
-      each post in page.posts.toArray()
-        article
-          h2
-            a(href=post.permalink alt=post.title)= post.title
-          .article-entry !{post.content}
 
     script(src='scripts/app.js')

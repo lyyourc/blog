@@ -1,0 +1,20 @@
+{
+  "name": "blog",
+  "version": "0.0.0",
+  "homepage": "https://github.com/DrakeLeung/blog",
+  "authors": [
+    "DrakeLeung <drakeleung42@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bourbon": "~4.2.3",
+    "font-awesome": "~4.3.0"
+  }
+}

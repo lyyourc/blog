@@ -1,0 +1,39 @@
+header[role='banner'] {
+  text-align: center;
+  margin-bottom: 50px;
+
+  & > h1.title {
+    margin: 0;
+    padding: 2em 0;
+    background: $color-banner;
+  }
+}
+
+header[role='banner'] .about-me {
+  margin-top: - $avantar-height / 2;
+
+  & > img {
+    display: inline-block;
+    height: $avantar-height;
+    widows: $avantar-width;
+    border-radius: 50%;
+    border: 3px solid #fff;
+  }
+
+  & .author {
+    margin: 1px;
+  }
+
+}
+
+header[role='banner'] .about-me .social-list {
+  padding: 0;
+
+  & > li, & > li a {
+    display: inline-block;
+  }
+
+  & > li a {
+    margin: 0 .5em;
+  }
+}

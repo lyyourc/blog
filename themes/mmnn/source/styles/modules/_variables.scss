@@ -1,13 +1,23 @@
 //color
+$color-base: #3c948b;
 $color-border: #ddd;
-$color-background: #eee;
+$color-background: #fff;
+$color-anchor: #000;
 
-
-//layout
+//article
 $article-padding: 20px;
+$article-bg: #eee;
 
 
 //font
 $font-size: 14px;
 $font-mono: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
 $line-height: 1.6em;
+
+// banner
+$color-banner: $color-base;
+$avantar-width: 100px;
+$avantar-height: 100px;
+
+// anticle
+$article-title: #fff;

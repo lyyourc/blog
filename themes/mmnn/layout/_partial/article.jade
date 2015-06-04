@@ -1,0 +1,11 @@
+main
+  each post in page.posts.toArray()
+    article
+      h2.article-title
+        a(href=post.permalink title=post.title)= post.title
+
+      .article-entry !{post.content}
+
+      .article-meta
+        include article/article-meta
+        +date(post.date)
