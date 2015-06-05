@@ -1,0 +1,22 @@
+mixin date(date)
+  != date.format(config.date_format)
+
+
+mixin category(categories)
+  - option = {}
+  - option.show_count =  false
+  - option.style = 'none'
+  - option.separator = ','
+
+  if categories.length > 0
+    != list_categories(categories, option)
+  else
+    a null
+
+
+mixin tag(tags)
+  if tags.length > 0
+    != list_tags(tags, { show_count:false, style:'a'})
+  else
+    a null
+

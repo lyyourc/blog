@@ -2,11 +2,20 @@
   box-sizing: border-box;
 }
 
+html {
+  font-family: $font-sans;
+}
+
 body {
   background: $color-background;
 }
 
 a {
-  text-decoration: none;
   color: $color-anchor;
+  text-decoration: none;
+  
+  &:hover {
+    color: lighten($color-anchor, 40%);
+  }
+    
 }

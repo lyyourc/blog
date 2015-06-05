@@ -3,13 +3,11 @@
 
 doctype html
 html(lang='en')
-  head
-    link(rel='stylesheet', href=config.root + 'styles/main.css')
-    title Hello world
+  include _partial/html_head
 
   body
     include _partial/header
-    include _partial/article
+    include _partial/archive
 
-
+    include _partial/footer
     script(src='scripts/app.js')

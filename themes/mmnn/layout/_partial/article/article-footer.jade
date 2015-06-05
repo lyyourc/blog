@@ -1,0 +1,9 @@
+// article footer
+//- such as category, tags, comment, share...
+
+footer.article-footer
+  span.article.category.fa.fa-folder
+    +category(post.categories)
+  span |
+  span.article-tag.fa.fa-tags
+    +tag(post.tags)

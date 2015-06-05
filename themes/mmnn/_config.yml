@@ -1,5 +1,18 @@
+# base
+author: Drake Leung
+author_url: https://github.com/DrakeLeung
+theme_name: mmnn
+theme_url: I dont konw now
+
+# render sass
 node_sass:
   outputStyle: nested
   precision: 5
   sourceComments: false
+
+#about
+social:
+  avantar: /images/about.png
+  github: https://github.com/DrakeLeung
+  weibo: http://weibo.com/cha12chalyc
 

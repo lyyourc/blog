@@ -1,11 +1,14 @@
 main
+  include ../_mixins/article
+
   each post in page.posts.toArray()
     article
-      h2.article-title
-        a(href=post.permalink title=post.title)= post.title
 
-      .article-entry !{post.content}
+      include article/article-meta
 
-      .article-meta
-        include article/article-meta
-        +date(post.date)
+      include article/article-inner
+
+      include article/article-footer
+
+
+
