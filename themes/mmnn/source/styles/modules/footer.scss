@@ -3,17 +3,27 @@ footer.app-footer {
   background: $color-base;
   font-size: .9em;
 
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
   & .footer-info {
     padding: 1em 3em;
   }
 
   & a {
-    padding-left: .3em;
+    color: lighten($color-anchor, 15%)
+  }
+
+  & .pulse-heart {
+    margin-left: .5em;
+    @include animation(pulse .8s infinite);
+    color: #e8111c;
+  }
+}
+
+@include keyframes(pulse) {
+  0%, 100% {
+    @include transform(scale(.6));
+  }
+  20%, 76% {
+    @include transform(scale(.8));
   }
 }
 

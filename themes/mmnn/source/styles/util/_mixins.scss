@@ -9,3 +9,10 @@
     transform: translateY(-50%) translateX(-50%);
   }
 }
+
+@mixin my-border-radius($args: 50%) {
+  @include border-bottom-radius($args);
+  @include border-top-radius($args);
+  @include border-left-radius($args);
+  @include border-right-radius($args);
+}

@@ -1,9 +1,10 @@
-@import "modules/variables";
-@import "util/normalize";
-@import "util/mixins";
 
 @import "../bower_components/bourbon/app/assets/stylesheets/bourbon";
 @import "../bower_components/font-awesome/scss/font-awesome";
+
+@import "modules/variables";
+@import "util/normalize";
+@import "util/mixins";
 
 @import "modules/base";
 @import "modules/header";

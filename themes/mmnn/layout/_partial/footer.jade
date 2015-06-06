@@ -3,16 +3,14 @@
 footer.app-footer
   .footer-info
     p
-      | Proudly Powered by
-      a(href='https://hexo.io') hexo
+      | Proudly powered by #[a(href='https://hexo.io') hexo]
+      i.pulse-heart.fa.fa-heart
 
-    p
-      | &copy; !{date(new Date(), 'YYYY')} |
-      | Theme
+    p.
+      &copy; !{date(new Date(), 'YYYY')} |
 
-      a(href=theme.theme_url)= theme.theme_name
+      Theme #[a(href=theme.theme_url)= theme.theme_name]
 
-      |  Designed by
-      a(href=theme.author_url)= theme.author
+      designed by #[a(href=theme.author_url)= theme.author]
 
 
