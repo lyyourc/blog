@@ -1,15 +1,11 @@
-main
-  include ../_mixins/article
+include ../_mixins/article
 
-  each post in page.posts.toArray()
-    article
+article
+  include article/article-meta
 
-      include article/article-meta
+  include article/article-inner
 
-      include article/article-inner
+  include article/article-footer
 
-      include article/article-footer
-
-  include article/article-page-nav
 
 

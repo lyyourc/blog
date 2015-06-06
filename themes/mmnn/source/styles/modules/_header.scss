@@ -16,7 +16,8 @@ header[role='banner'] .about-me {
     display: inline-block;
     height: $avantar-height;
     width: $avantar-width;
-    border-radius: 50%;
+    @include my-border-radius(50%);
+
     border: 3px solid #fff;
   }
 

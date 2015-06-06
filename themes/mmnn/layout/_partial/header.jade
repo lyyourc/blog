@@ -1,5 +1,6 @@
 header(role='banner')
-  h1.title= config.subtitle
+  h1.title
+    a(href=config.root)= config.title
 
   .about-me
     img(src=theme.social.avantar)
@@ -7,9 +8,15 @@ header(role='banner')
 
     ul.social-list
       li
-        a.fa.fa-lg.fa-github(href=theme.social.github)
+        a.fa.fa-lg.fa-github(
+          href=theme.social.github ? theme.social.github : '#'
+        )
+
       li
-        a.fa.fa-lg.fa-weibo(href=theme.social.weibo)
+        a.fa.fa-lg.fa-weibo(
+          href=theme.social.weibo ? theme.social.weibo : '#'
+        )
+
       li
         a.fa.fa-lg.fa-rss(href="#")
 

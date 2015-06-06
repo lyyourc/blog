@@ -4,6 +4,9 @@
 section.article-inner
   header.article-header
     h1.article-title
-      a(href=post.permalink title=post.title)= post.title
+      a(
+        href=url_for(post.link? post.link: post.path)
+        title=post.title
+      )= post.title
 
   .article-entry !{post.content}

@@ -1,6 +1,5 @@
-//- each post in page.posts.toArray()
-  //!= partial('_partial/article.jade', { post: post, index: true})
+each post in page.posts.toArray()
+  != partial('article', { post: post })
 
-include article
-
+!= partial('article/article-page-nav')
 
