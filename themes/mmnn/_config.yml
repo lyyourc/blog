@@ -12,7 +12,7 @@ node_sass:
 
 #about
 social:
-  avantar: /images/about.png
+  avantar: images/about.png
   github: https://github.com/DrakeLeung
   weibo: http://weibo.com/cha12chalyc
 

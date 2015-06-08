@@ -13,7 +13,7 @@ timezone:
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://drakeleung.github.io/blog/
-root: /
+root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -71,7 +71,7 @@ theme: mmnn
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/DrakeLeung/blog.git
+  repo: git@github.com:DrakeLeung/blog.git
   branch: gh-pages
 
 # disqus comment
