@@ -84,6 +84,14 @@ main .article-footer {
       padding: .3em;
     }
   }
+
+  & .article-comment-count {
+    float: right;
+  }
+
+  & .article-comment {
+    margin-top: 100px;
+  }
 }
 
 

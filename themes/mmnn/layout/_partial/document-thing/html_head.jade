@@ -6,3 +6,16 @@ head
   link(rel='stylesheet', href=url_for('styles/main.css'))
   //link(rel='stylesheet', href='http://fonts.useso.com/css?family=Source+Code+Pro')
   title Welcome :)
+
+  if config.disqus_shortname
+    - comment = page.comments ? 'embed.js' : 'count.js'
+    script.
+      var disqus_shortname = '#{config.disqus_shortname}';
+
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.src = '//' + disqus_shortname + '.disqus.com/#{comment}';
+        document.getElementsByTagName('head')[0].appendChild(s);
+      })();
+
+
