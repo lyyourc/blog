@@ -16,3 +16,21 @@
   @include border-left-radius($args);
   @include border-right-radius($args);
 }
+
+@mixin tablet {
+  @media (min-width: #{$tablet}) and (max-width: #{$desktop}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media (max-width: #{$tablet}) {
+    @content;
+  }
+}

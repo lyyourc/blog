@@ -2,12 +2,14 @@ doctype html
 html
   include _partial/document-thing/html_head
 
-  body
+  body.container
     include _partial/header
 
     main
       != body
 
     include _partial/footer
+
+    include _widget/back-to-top
 
     include _partial/document-thing/html-footer

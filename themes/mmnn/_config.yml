@@ -4,6 +4,8 @@ author_url: https://github.com/DrakeLeung
 theme_name: mmnn
 theme_url: I dont konw now
 
+favicon: images/favicon.ico
+
 # render sass
 node_sass:
   outputStyle: nested

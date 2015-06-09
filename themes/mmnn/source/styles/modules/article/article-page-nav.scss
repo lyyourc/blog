@@ -1,0 +1,20 @@
+main .page-nav {
+  margin: 50px 0;
+  text-align: center;
+
+  & .prev, & .next {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    background: $color-base;
+    margin: 0 2em;
+
+    position: relative;
+  }
+
+  & a {
+    @include center;
+  }
+}

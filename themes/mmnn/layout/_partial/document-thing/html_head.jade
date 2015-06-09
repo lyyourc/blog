@@ -3,19 +3,25 @@
 
 head
   meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
   link(rel='stylesheet', href=url_for('styles/main.css'))
+  link(rel='shortcut icon' href=url_for(theme.favicon))
   //link(rel='stylesheet', href='http://fonts.useso.com/css?family=Source+Code+Pro')
-  title Welcome :)
+  //title &#x1F601;
+  title &#128522; Code My Life
 
   if config.disqus_shortname
-    - comment = page.comments ? 'embed.js' : 'count.js'
+    - disqus_script = page.comments ? 'embed.js' : 'count.js'
+
     script.
       var disqus_shortname = '#{config.disqus_shortname}';
+      var disqus_identifier = '#{page.path}';
+      var disqus_url = '#{page.permalink}';
 
       (function () {
         var s = document.createElement('script'); s.async = true;
-        s.src = '//' + disqus_shortname + '.disqus.com/#{comment}';
+        s.src = '//' + disqus_shortname + '.disqus.com/#{disqus_script}';
         document.getElementsByTagName('head')[0].appendChild(s);
-      })();
+      }());
 
 

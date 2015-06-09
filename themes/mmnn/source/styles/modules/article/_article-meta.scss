@@ -1,0 +1,17 @@
+main .article-meta {
+  padding-top: .5em;
+  float: right;
+
+  & span {
+    margin: .5em;
+  }
+
+  & .article-time small {
+    padding-left: .5em;
+  }
+
+  & .article-author a {
+    font-weight: bold;
+    padding: .5em;
+  }
+}

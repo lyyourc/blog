@@ -1,0 +1,26 @@
+main .article-footer {
+  border-top: 1px dashed #eee;
+
+  & span {
+    margin: .5em;
+    margin-left: 0;
+
+    &.article-comment-count {
+      float: right;
+    }
+
+    @include phone {
+      display: block;
+
+      &.article-comment-count {
+        float: none;
+      }
+    }
+
+  }
+
+
+  & a {
+    margin-left: .5em;
+  }
+}

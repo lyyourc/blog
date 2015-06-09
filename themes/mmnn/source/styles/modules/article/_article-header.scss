@@ -1,0 +1,8 @@
+main .article-header {
+  & .article-title a {
+    color: $article-font-color;
+    &:hover {
+      color: $color-base;
+    }
+  }
+}
