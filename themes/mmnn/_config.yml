@@ -26,5 +26,5 @@ baidu_analytics: true
 
 # navs
 navs:
-  Home: /
+  Home: https://github.com/DrakeLeung/blog/
   Archives: archives
