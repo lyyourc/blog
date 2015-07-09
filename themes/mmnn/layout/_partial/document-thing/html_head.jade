@@ -24,4 +24,8 @@ head
         document.getElementsByTagName('head')[0].appendChild(s);
       }());
 
+  if theme.google_analytics
+    != partial('_widget/google-analytics')
 
+  if theme.baidu_analytics
+    != partial('_widget/baidu-analytics')

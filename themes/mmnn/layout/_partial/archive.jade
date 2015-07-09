@@ -1,5 +1,18 @@
-each post in page.posts.toArray()
-  != partial('article', { post: post, index: true })
+if pagination == 2
+  each post in page.posts.toArray()
+    != partial('article', { post: post, index: true })
 
-!= partial('article/article-page-nav')
+else
+  - var last
+  each post in page.posts.toArray()
+    - var year = post.date.year()
 
+    - if (last== null || last !== year)
+      - last = year
+      h1= last
+
+    h3
+      a(href=url_for(post.path))= post.title
+
+
+  != partial('article/article-page-nav')

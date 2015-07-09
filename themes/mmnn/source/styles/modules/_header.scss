@@ -4,8 +4,16 @@ header[role='banner'] {
 
   & > h1.title {
     margin: 0;
-    padding: 2em 0;
+    padding: 6.5rem 0;
     background: $color-banner;
+  }
+}
+
+header[role='banner'] nav.main-nav {
+  & a {
+    display: block;
+    float: left;
+    padding: 1.2rem;
   }
 }
 
@@ -35,6 +43,6 @@ header[role='banner'] .about-me .social-list {
   }
 
   & > li a {
-    margin: 0 .5em;
+    margin: 0 .8rem;
   }
 }

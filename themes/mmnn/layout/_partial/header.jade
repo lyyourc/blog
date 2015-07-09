@@ -1,4 +1,8 @@
 header(role='banner')
+  nav.main-nav
+    - each nav, index in theme.navs
+      a(href=url_for(nav))= index
+
   h1.title
     a(href=config.root)= config.title
 

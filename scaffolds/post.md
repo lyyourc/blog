@@ -1,6 +1,10 @@
 title: {{ title }}
 date: {{ date }}
-tags:
-categories:
+
+author: Drake Leung
+
+tags: 
+
+categories: 
 
 ---

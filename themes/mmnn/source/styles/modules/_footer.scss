@@ -1,10 +1,10 @@
 footer.app-footer {
   height: 100px;
   background: $color-base;
-  font-size: .9em;
+  font-size: 1.4rem;
 
   & .footer-info {
-    padding: 1em 3em;
+    margin: 2rem 2rem;
   }
 
   & a {
@@ -12,7 +12,7 @@ footer.app-footer {
   }
 
   & .pulse-heart {
-    margin-left: .5em;
+    margin-left: .5rem;
     @include animation(pulse .8s infinite);
     color: #e8111c;
   }
@@ -27,3 +27,13 @@ footer.app-footer {
   }
 }
 
+// sticky footer
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1
+}
