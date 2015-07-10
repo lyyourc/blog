@@ -1,0 +1,46 @@
+.article-list {
+  @include display(flex);
+  @include flex-direction(row);
+  @include flex-wrap(wrap);
+  @include align-items(center);
+  @include justify-content(center);
+  @include align-content(stretch);
+}
+
+.article-item {
+  width: 28rem;
+  margin: 1rem;
+  padding: 1rem;
+  background: #fff;
+
+  // thumbnail
+  .thumbnail {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  // description
+  p.article-description {
+    color: #777;
+    border-left: 4px solid #ccc;
+    padding: 0 10px;
+  }
+
+  // article meta
+  span::before {
+    margin-right: .5rem;
+  }
+  .article-comment-count {
+    float: right;
+  }
+
+  // thumbnail
+  img {
+    width: 100%;
+  }
+
+  &:hover {
+    border: 2px solid $color-base;
+  }
+}

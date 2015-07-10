@@ -4,7 +4,8 @@ date: 2015-06-11 01:47:58
 
 tags: gulp
 categories: FrontEnd
-
+description:
+  通过研究generator-gulp-webapp这个例子, 来实践一下gulp的各种用途.
 ---
 
 我们研究的例子是[generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp/blob/master/app%2Ftemplates%2Fgulpfile.js)的gulp recipe.
@@ -14,7 +15,7 @@ categories: FrontEnd
 ```javascript
 var gulp = require('gulp'),
  $ = require('gulp-load-plugins')();
- 
+
 gulp.task('views', function() {
   gulp.src('app/views/index.jade')
     .pipe($.plumber())
@@ -71,13 +72,13 @@ gulp.task('wiredep', function() {
 doctype html
   head
     meta(charset='utf-8')
-    
+
     // bower:css
     // endbower
-    
+
   body
     p Goodbye world
-    
+
     // bower:js
     // endbower
 ```
@@ -98,13 +99,13 @@ doctype html
 ```jade
 doctype html
 html
-  head 
+  head
     meta(charset='utf-8')
     title(My blog)
-    
+
     // bower:css
     // endbower
-    
+
   body
     p Goodbye world
 
@@ -119,7 +120,7 @@ html
   "main": [
     "src/semantic.less",
     "dist/semantic.js",
-    "dist/semantic.css" 
+    "dist/semantic.css"
   ]
 }
 ```

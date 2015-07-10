@@ -1,7 +1,10 @@
 header(role='banner')
   nav.main-nav
     - each nav, index in theme.navs
-      a(href=url_for(nav))= index
+      if index == 'Home' 
+        a(href=url_for(config.root))= index
+      else 
+        a(href=url_for(nav))= index
 
   h1.title
     a(href=config.root)= config.title
@@ -23,5 +26,3 @@ header(role='banner')
 
       li
         a.fa.fa-lg.fa-rss(href="#")
-
-

@@ -24,4 +24,9 @@ main .article-footer {
   & a {
     margin-left: .5em;
   }
+
+  // disqus comment
+  section.article-comment {
+    margin-top: 5rem;
+  }
 }

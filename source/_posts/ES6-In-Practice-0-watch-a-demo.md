@@ -3,6 +3,8 @@ author: Drake Leung
 date: 2015-06-18 16:02:11
 tags: ES6
 categories: JavaScript
+description:
+  通过视频JavaScript 2015来实践一个demo, 利用的包管理器是jspm.
 ---
 
 吃完半个西瓜，太饱。于是上yutube，然后搜了`es6 tutorial`，发现了一个30k+ views的[JavaScript In 2015](https://youtu.be/iukBMY4apvI)视频。遂看，**收货良多**。
@@ -18,7 +20,7 @@ categories: JavaScript
   // 需要引入这2个js文件
   <script src="jspm_packages/system.js"></script>
   <script src="config.js"></script>
-  
+
   // 下面是我们自己的js文件
   <script>
     System.import('lib/main');

@@ -3,6 +3,8 @@ author: Drake Leung
 date: 2015-07-06 14:51:18
 tags: scope
 categories: JavaScript
+description:
+  scope系列的第1篇, 主题是从编译理论知识来讲解为什么需要scope, scope又是什么, 有什么作用.
 ---
 
 下面我们会学习JavaScript的scope，也就是作用域．其实很简单~  

@@ -1,18 +1,28 @@
+include ../_mixins/article
+
 if pagination == 2
   each post in page.posts.toArray()
     != partial('article', { post: post, index: true })
 
 else
-  - var last
-  each post in page.posts.toArray()
-    - var year = post.date.year()
+  if page.category
+    h1= page.category
+    
+  section.article-list
+    each post in page.posts.toArray()
+      section.article-item
+        a(href=url_for(post.path)).thumbnail
+        a(href=url_for(post.path))= post.title
+        p.article-description= post.description
+          
+        span.fa.fa-calendar.article-date
+          small= date(post.date)
+          
+        span.article-comment-count.fa.fa-comments
+          a(
+            href=url_for(post.path)
+            data-disqus-identifier=post.path
+            class='disqus-comment-count'
+          ) 
 
-    - if (last== null || last !== year)
-      - last = year
-      h1= last
-
-    h3
-      a(href=url_for(post.path))= post.title
-
-
-  != partial('article/article-page-nav')
+!= partial('article/article-page-nav')

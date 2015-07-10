@@ -61,11 +61,20 @@ time_format: HH:mm:ss
 per_page: 2
 pagination_dir: page
 
-# per page for archive
+# per page for different page
 archive_generator:
   per_page: 10
   yearly: true
   monthly: true
+
+category_generator:
+  per_page: 10
+
+index_generator:
+  per_page: 2
+
+tag_generator:
+  per_page: 10
 
 # Extensions
 ## Plugins: http://hexo.io/plugins/
@@ -88,4 +97,3 @@ feed:
   type: atom
   path: atom.xml
   limit: 20
-

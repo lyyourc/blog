@@ -2,11 +2,10 @@ title: JavaScript For Kids - This
 date: 2015-06-09 15:09:05
 
 author: Drake Leung
-
 tags: This
-
 categories: JavaScript
-
+description:
+  this系列第一篇, 主要讲解了this在4种模式下的不同取值.
 ---
 
 ## Reference
@@ -195,7 +194,7 @@ console.log(ex.loved);
 ```javascript
 var ex = {
   loved: true,
-  
+
   foo() {
     setTimeout(() => {
       console.log(this.loved);
