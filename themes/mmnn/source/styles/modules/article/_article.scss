@@ -10,7 +10,7 @@ main {
 
   margin: 0 auto;
 
-  & article {
+  article {
     margin-bottom: 50px;
     padding: 10px $article-padding;
     // background: $article-bg;
@@ -19,13 +19,17 @@ main {
     line-height: $line-height;
     @include my-border-radius(1em);
 
-    & a {
+    a {
       text-decoration: none;
       color: $color-base;
 
       &:hover {
         color: $article-font-color;
       }
+    }
+
+    img {
+      max-width: 100%;
     }
   }
 }

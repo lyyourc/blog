@@ -9,4 +9,6 @@ section.article-inner
         title=post.title
       )= post.title
 
+    != toc(post.content, {list_number: false})
+    
   .article-entry !{post.content}

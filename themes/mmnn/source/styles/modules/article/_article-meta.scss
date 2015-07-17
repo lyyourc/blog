@@ -1,6 +1,9 @@
 main .article-meta {
   padding-top: .5em;
-  float: right;
+
+  @include desktop {
+    float: right;
+  };
 
   & span {
     margin: .5em;

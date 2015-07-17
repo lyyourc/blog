@@ -1,4 +1,4 @@
-header[role='banner'] {
+header[class='banner'] {
   text-align: center;
   margin-bottom: 50px;
 
@@ -9,15 +9,15 @@ header[role='banner'] {
   }
 }
 
-header[role='banner'] nav.main-nav {
-  & a {
+header[class='banner'] nav.main-nav {
+  a {
     display: block;
     float: left;
     padding: 1.2rem;
   }
 }
 
-header[role='banner'] .about-me {
+header[class='banner'] .about-me {
   margin-top: - $avantar-height / 2;
 
   & > img {
@@ -29,13 +29,13 @@ header[role='banner'] .about-me {
     border: 3px solid #fff;
   }
 
-  & .author {
+  .author {
     margin: 1px;
   }
 
 }
 
-header[role='banner'] .about-me .social-list {
+header[class='banner'] .about-me .social-list {
   padding: 0;
 
   & > li, & > li a {

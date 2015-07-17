@@ -1,4 +1,4 @@
-header(role='banner')
+header(class='banner' role='banner')
   nav.main-nav
     - each nav, index in theme.navs
       if index == 'Home' 
@@ -17,12 +17,23 @@ header(role='banner')
       li
         a.fa.fa-lg.fa-github(
           href=theme.social.github ? theme.social.github : '#'
+          title='GitHub'
         )
 
       li
         a.fa.fa-lg.fa-weibo(
           href=theme.social.weibo ? theme.social.weibo : '#'
+          title='微博'
         )
 
       li
-        a.fa.fa-lg.fa-rss(href="#")
+        a.fa.fa-lg.fa-shield(
+          href=theme.social.zhihu ? theme.social.zhihu : '#'
+          title='知乎'
+        )
+        
+      li
+        a.fa.fa-lg.fa-code(
+          href=theme.social.segmentfault ? theme.social.segmentfault : '#'
+          title='segmentfault'
+        )

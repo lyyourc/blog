@@ -1,8 +1,22 @@
 main .article-header {
-  & .article-title a {
+  .article-title {
+    font-size: 2rem;
+
+    @include desktop {
+      font-size: 3rem;
+    }
+  }
+
+  .article-title a {
     color: $article-font-color;
+
     &:hover {
       color: $color-base;
     }
+  }
+
+  ol.toc,
+  ol.toc-child {
+    list-style: none;
   }
 }
