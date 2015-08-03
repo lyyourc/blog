@@ -11,7 +11,7 @@ header(class='banner' role='banner')
 
   .about-me
     img(src=url_for(theme.social.avantar))
-    h3.author= config.author
+    p.author= config.author
 
     ul.social-list
       li
@@ -25,15 +25,21 @@ header(class='banner' role='banner')
           href=theme.social.weibo ? theme.social.weibo : '#'
           title='微博'
         )
-
-      li
-        a.fa.fa-lg.fa-shield(
-          href=theme.social.zhihu ? theme.social.zhihu : '#'
-          title='知乎'
-        )
         
       li
-        a.fa.fa-lg.fa-code(
-          href=theme.social.segmentfault ? theme.social.segmentfault : '#'
-          title='segmentfault'
+        a.fa.fa-lg.fa-rss(
+          href='#'
+          title='rss'
         )
+
+      //- li
+      //-   a.fa.fa-lg.fa-shield(
+      //-     href=theme.social.zhihu ? theme.social.zhihu : '#'
+      //-     title='知乎'
+      //-   )
+      //-   
+      //- li
+      //-   a.fa.fa-lg.fa-code(
+      //-     href=theme.social.segmentfault ? theme.social.segmentfault : '#'
+      //-     title='segmentfault'
+      //-   )

@@ -5,7 +5,10 @@ main .article-inner {
 
     blockquote {
       color: #777;
-      padding: 0 15px;
+      padding: 0 3px;
+      @include  desktop {
+        padding: 0 1.5rem;
+      }
       border-left: 4px solid #ddd;
     }
   }

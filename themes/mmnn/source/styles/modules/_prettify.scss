@@ -18,7 +18,7 @@ $purple: #cc99cc;
   background: $background;
   //margin: 0 $article-padding * -1;
   margin: 0;
-  padding: 15px $article-padding;
+  padding: 40px $article-padding;
   border-style: solid;
   border-color: $color-border;
   border-width: 1px 0;
@@ -54,15 +54,18 @@ $purple: #cc99cc;
 
   .highlight {
     @extend .code-block;
+
     pre {
       border: none;
       margin: 0;
       padding: 0;
     }
+
     table {
       margin: 0;
       width: auto;
     }
+
     td {
       border: none;
       padding: 0;
@@ -84,6 +87,12 @@ $purple: #cc99cc;
     }
     .line {
       height: $font-size * ($line-height / 1em);
+    }
+
+    // for full-width code block
+    margin: 0 -20vw;
+    table {
+      margin: 0 0 0 20vw;
     }
   }
 }

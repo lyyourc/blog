@@ -1,4 +1,4 @@
-header[class='banner'] {
+header.banner {
   text-align: center;
   margin-bottom: 50px;
 
@@ -9,7 +9,7 @@ header[class='banner'] {
   }
 }
 
-header[class='banner'] nav.main-nav {
+header.banner nav.main-nav {
   a {
     display: block;
     float: left;
@@ -17,25 +17,25 @@ header[class='banner'] nav.main-nav {
   }
 }
 
-header[class='banner'] .about-me {
+header.banner .about-me {
   margin-top: - $avantar-height / 2;
 
-  & > img {
+  img {
     display: inline-block;
     height: $avantar-height;
     width: $avantar-width;
     @include my-border-radius(50%);
 
-    border: 3px solid #fff;
+    border: 3px solid #eee;
   }
 
   .author {
-    margin: 1px;
+    font-style: italic;
   }
 
 }
 
-header[class='banner'] .about-me .social-list {
+header.banner .about-me .social-list {
   padding: 0;
 
   & > li, & > li a {

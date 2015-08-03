@@ -4,7 +4,7 @@
  */
 
 $(document).ready(function() {
-	backToTop();
+	// backToTop();
 	visibilityChage();
 
 });

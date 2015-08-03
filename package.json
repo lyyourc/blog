@@ -19,10 +19,8 @@
     "hexo-renderer-marked": "^0.2.4",
     "hexo-renderer-sass": "^0.1.2",
     "hexo-renderer-stylus": "^0.2.0",
-    "hexo-server": "^0.1.2"
+    "hexo-server": "^0.1.2",
+    "hexo-tag-codepen": "^0.1.2"
   },
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-purifycss": "^0.2.0"
-  }
+  "devDependencies": {}
 }

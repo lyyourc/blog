@@ -3,17 +3,17 @@ footer.app-footer {
   background: $color-base;
   font-size: 1.4rem;
 
-  & .footer-info {
+  .footer-info {
     margin: 2rem 2rem;
   }
 
-  & a {
+  a {
     color: lighten($color-anchor, 15%)
   }
 
-  & .pulse-heart {
+  .pulse-heart {
     margin-left: .5rem;
-    @include animation(pulse .8s infinite);
+    @include animation(pulse 5s infinite);
     color: #e8111c;
   }
 }
