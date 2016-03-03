@@ -3,7 +3,7 @@ author: Drake Leung
 date: 2015-07-09 18:24:19
 tags: [scope, 作用域]
 categories: JavaScript
-description:
+foreword:
   scope系列的第2篇, 主题是嵌套作用域, 有block scope, function scope等等.
 thumbnail: images/js.png
 ---

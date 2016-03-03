@@ -3,7 +3,7 @@ author: Drake Leung
 tags: [scope, closure]
 categories: [JavaScript]
 date: 2015-07-19 01:58:31
-description: 闭包其实很简单，只要你想通了lexical scope就迎刃而解了。
+foreword: 闭包其实很简单，只要你想通了lexical scope就迎刃而解了。
 ---
 
 ## What is Closure

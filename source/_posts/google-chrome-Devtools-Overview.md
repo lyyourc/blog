@@ -3,7 +3,7 @@ author: Drake Leung
 tags: [google chrome, devtools]
 categories: [Tools]
 date: 2015-07-16 01:29:29
-description: 学习google chrome DevTools的４个部分. 分别为Console, Elements, Network以及Sources.
+foreword: 学习google chrome DevTools的４个部分. 分别为Console, Elements, Network以及Sources.
 ---
 
 官方文档: [Chrome DevTools](https://developer.chrome.com/devtools)

@@ -3,7 +3,7 @@ author: Drake Leung
 date: 2015-06-18 16:02:11
 tags: ES6
 categories: JavaScript
-description:
+foreword:
   通过视频JavaScript 2015来实践一个demo, 利用的包管理器是jspm.
 ---
 

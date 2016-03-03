@@ -3,7 +3,7 @@ author: Drake Leung
 tags: [scope]
 categories: [JavaScript]
 date: 2015-07-18 23:52:57
-description: 通过Lexical scope(静态作用域)以及Dynamical socpe(动态)做比较，了解JavaScript的作用域。
+foreword: 通过Lexical scope(静态作用域)以及Dynamical socpe(动态)做比较，了解JavaScript的作用域。
 ---
 
 我们先来看一个例子:

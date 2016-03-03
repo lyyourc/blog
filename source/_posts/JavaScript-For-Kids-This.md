@@ -1,18 +1,15 @@
-title: JavaScript For Kids - This
+---
+title: 笨方法学 JavaScript - This 关键字
 date: 2015-06-09 15:09:05
 
 author: Drake Leung
 tags: This
 categories: JavaScript
-description:
-  this系列第一篇, 主要讲解了this在4种模式下的不同取值.
+foreword:
+  this系列第一篇, 主要讲解了this在5种模式下的不同取值.
 ---
 
-## Reference
-[You dont know JavaScript - This](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) chapter
-
-## 2 Misconception
-### Itself
+## 2 个常见的误解
 第一个普遍错误就是认为`this`是指向这个`function`本身。举个例子:
 ```javascript
 function foo() {
@@ -204,3 +201,6 @@ var ex = {
 
 ex.foo(); // true
 ```
+
+## Reference
+[You dont know JavaScript - This](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) chapter

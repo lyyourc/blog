@@ -3,7 +3,7 @@ author: Drake Leung
 tags: [BFC]
 categories: [CSS]
 date: 2015-07-25 01:21:40
-description: BFC？听起来很高大上的样子~
+foreword: BFC？听起来很高大上的样子~
 ---
 
 看了[Understanding Block Formatting Contexts in CSS](http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/)这篇文章，终于有点明白什么是BFC(Block Formatting Context)了。

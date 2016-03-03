@@ -1,10 +1,10 @@
-title: gulp-in-practice
+title: gulp in practice
 author: Drake Leung
 date: 2015-06-11 01:47:58
 
 tags: gulp
 categories: FrontEnd
-description:
+foreword:
   通过研究generator-gulp-webapp这个例子, 来实践一下gulp的各种用途.
 ---
 
@@ -63,7 +63,7 @@ gulp.task('wiredep', function() {
   gulp.src('app/views/index.jade')
     pipe(wiredep({
         // options
-    }})
+    }))
     .pipe(gulp.dest('app/views/index.jade'));
 });
 ```
@@ -89,7 +89,7 @@ doctype html
 举个例子：`semantic-ui`下的`bower.json`里的`main`没有指定他的CSS文件。
 ```json
 {
-  "main: [
+  "main": [
     "src/semantic.less",
     "dist/semantic.js"
   ]
@@ -147,7 +147,7 @@ gulp.task('wiredep', function() {
   gulp.src('app/views/index.jade')
     pipe(wiredep({
       ignorePath: /^(\.\.\/)*\.\./  // 去掉../..
-    }})
+    }))
     .pipe(gulp.dest('app/views/index.jade'));
 });
 ```
