@@ -1,0 +1,25 @@
+section.project {
+  li {
+    overflow: hidden;
+
+    h4.project-name {
+      float: left;
+      width: 9rem;
+      // border: 1px solid $primary-color;
+      background: $primary-green;
+      color: #fff;
+      text-align: center;
+      margin-top: 3px;
+      border-radius: 3px;
+      font-size: 1.2rem;
+      padding: .5rem;
+    }
+
+    p.project-details {
+      float: left;
+      width: 70%;
+      margin-left: 2rem;
+      margin-top: 0;
+    }
+  }
+}

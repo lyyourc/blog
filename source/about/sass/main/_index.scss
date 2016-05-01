@@ -1,0 +1,57 @@
+@import "./header";
+@import "./work";
+@import "./project";
+@import "./skills";
+
+main {
+  width: 700px;
+  float: right;
+  overflow: hidden;
+
+  padding: 2rem 1rem;
+  background: $main-bg-color;
+
+  /* create a line after heading */
+  // h3 {
+  //   display: table;
+  //   white-space: nowrap;
+  //   &::after {
+  //     border-top: 3px solid $primary-color;
+  //     content: '';
+  //     display: table-cell;
+  //     position: relative;
+  //     top: 0.5em;
+  //     width: 100%;
+  //   }
+  // }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  > section {
+    border-left: 5px solid $primary-red;
+    padding-left: 3rem;
+    margin-top: 2rem;
+
+    position: relative;
+    overflow: hidden;
+
+    // timeline indicator
+    &::before {
+      content: '';
+      display: block;
+      width: 1rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: #f33;
+
+      position: absolute;
+      left: -.5rem;
+    }
+  }
+
+  > section:first-child {
+    margin-top: 0;
+  }
+}
