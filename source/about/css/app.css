@@ -53,6 +53,7 @@ aside {
     padding: 1.5rem 1rem; }
   aside p {
     padding: 1.5rem 1rem;
+    padding-bottom: 0;
     margin: 0; }
   aside li {
     padding: .5rem; }
