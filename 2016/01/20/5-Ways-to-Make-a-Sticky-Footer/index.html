@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>5 Ways To Make A Sticky Footer | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/01/20/5-Ways-to-Make-a-Sticky-Footer/">5 Ways To Make A Sticky Footer</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">January 20 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p><em>Sticky Footer</em>在内容展示的网站都会用到。比如blog，xx的主页等等。</p>
+<h2 id="What-is-Sticky-Footer"><a href="#What-is-Sticky-Footer" class="headerlink" title="What is Sticky Footer"></a>What is Sticky Footer</h2><p>为了简单起见，我们不妨假设我们的<code>index.html</code>是这样的:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ways to make a sticky foote<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>那么，如下面的图所示，图<code>a</code>和<code>b</code>都不是<em>Sticky Footer</em>.</p>
+<p><img src="http://ww2.sinaimg.cn/large/7f85b91egw1f0asb7siypj20go088q4x.jpg" alt=""></p>
+<p>因为图<code>a</code>的页脚的后面还有空白部分。我们想要的应该是页脚就是在页面的最底部。</p>
+<p>那么图<code>b</code>为什么不是呢？他不是在页面的最底部吗？没错，但是我们想要的是只有当<strong>scroller bar</strong>滑到最底部的时候，才会出现页脚。</p>
+<p>像下面的图<code>c</code>和<code>d</code>才是我们的<em>Sticky Footer</em>:<br><img src="http://ww2.sinaimg.cn/large/7f85b91egw1f0asq75p07j20gl09i0vh.jpg" alt=""></p>
+<h2 id="Ways-to-Sticky-Footer"><a href="#Ways-to-Sticky-Footer" class="headerlink" title="Ways to Sticky Footer"></a>Ways to Sticky Footer</h2><p>废话少说，下面会介绍几种创建<em>Sticky Footer</em>的方法。</p>
+<p>我们会从最简单的方法开始，但最简单的不一定是最好的，符合自己的使用场景才是最好的。最后总结每种方法的优缺点。</p>
+<p>(P.S. 假设我们都使用上面的<code>index.html</code>所示结构)</p>
+<h3 id="Flexbox"><a href="#Flexbox" class="headerlink" title="Flexbox"></a>Flexbox</h3><p><em><a href="https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/" target="_blank" rel="external">方法来源</a></em></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* #0 */</span></div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">display</span>: flex;</div><div class="line">  <span class="attribute">flex-direction</span>: column;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100vh</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* #1 */</span></div><div class="line"><span class="selector-tag">main</span> &#123;</div><div class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#0</code>是中的<code>min-height: 100vh</code>是为了让<code>&lt;main&gt;</code>的高度没有大于屏幕的高度时，使得<code>footer</code>可以在页面的底部。而，<code>margin: 0</code>是去掉原本浏览器自带的<code>&lt;body&gt;</code>的样式。</p>
+<p><code>#1</code>的<code>flex: 1</code>是为了让<code>&lt;main&gt;</code>占满多余的空间。</p>
+<h3 id="Modern-Way"><a href="#Modern-Way" class="headerlink" title="Modern Way"></a>Modern Way</h3><p><em><a href="http://mystrd.at/modern-clean-css-sticky-footer/" target="_blank" rel="external">方法来源</a></em></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* #0 */</span></div><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* #1 */</span></div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">margin-bottom</span>: <span class="number">100px</span>; <span class="comment">/* same to footer height */</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* #2 */</span></div><div class="line"><span class="selector-tag">footer</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#0</code>中的<code>position: relative</code>很显然是为了让<code>&lt;html&gt;</code>变成<em>containning block</em>，<br>这个在<code>#2</code>会说到。同样地，<code>min-height: 100%</code>和上面的<em>flexbox</em>方法中的<code>#0</code>一样。</p>
+<p><code>#1</code>的<code>margin-bottom</code>设为<code>100px</code>是和<code>&lt;footer&gt;</code>的高度一样的。目的是当<code>&lt;body&gt;</code>的内容溢出<br>的时候，防止<code>&lt;footer&gt;</code>的内容蹿到<code>&lt;body&gt;</code>里面。</p>
+<p><code>#2</code>设置了<code>position: absolute</code>，这样，<code>left</code>和<code>bottom</code>的值都是相对于<code>&lt;footer&gt;</code>的<em>containning block</em>来说的。<br>由于在<code>#0</code>设置了<code>&lt;html&gt;</code>的<code>position</code>为<code>relative</code>，所以<code>&lt;html&gt;</code>就是<code>&lt;footer&gt;</code>的<em>containning block</em>。</p>
+<h3 id="Table-Way"><a href="#Table-Way" class="headerlink" title="Table Way"></a>Table Way</h3><p><em><a href="http://codepen.io/anon/pen/zrRLVW" target="_blank" rel="external">方法来源</a>或者<a href="https://gist.github.com/goldsky/7322156" target="_blank" rel="external">这个</a></em></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">display</span>: table; <span class="comment">/* #0 */</span></div><div class="line">&#125;</div><div class="line"><span class="selector-tag">main</span>,</div><div class="line"><span class="selector-tag">footer</span> &#123;</div><div class="line">  <span class="attribute">display</span>: table-row;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* #1</span></div><div class="line">main &#123;</div><div class="line">  height: 100%;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="selector-tag">footer</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">1px</span>; <span class="comment">/* #2 */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实这个方法就是利用了<code>table</code>布局，然后设置<code>&lt;footer&gt;</code>的高度为<code>1px</code>(如<code>#2</code>所示)。但是我并不知道为什么。<br>并且，如果我把<code>#2</code>注释掉，把<code>#1</code>的注释去掉，也是work的。所以不知道设置<code>1px</code>有什么用。</p>
+<h3 id="Old-Way"><a href="#Old-Way" class="headerlink" title="Old Way"></a>Old Way</h3><p><em><a href="http://ryanfait.com/resources/footer-stick-to-bottom-of-page/" target="_blank" rel="external">方法来源</a></em></p>
+<p>这种方法需要我们改变一下我们的<code>index.html</code>，给我们的<code>&lt;main&gt;</code>添加一个空白的<code>&lt;div&gt;</code>。<br>他其实是<code>&lt;footer&gt;</code>的<em>placeholder</em>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ways to make a sticky foote<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"push"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> <span class="comment">&lt;!-- new --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">main</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>那么，对应的CSS是这样的：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">main</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">margin-bottom</span>: -<span class="number">100px</span>; <span class="comment">/* #0 */</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">footer</span>,</div><div class="line"><span class="selector-class">.push</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100px</span>; <span class="comment">/* #1 */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#0</code>给<code>&lt;main&gt;</code>设置了<code>margin-bottom: -100px</code>。这是<code>&lt;footer&gt;</code>的高度的相反数。<br>他是为了让<code>&lt;footer&gt;</code>可以蹿到<code>&lt;div class=&quot;push&quot;&gt;&lt;/div&gt;</code>的位置。</p>
+<p>因为<code>.push</code>就是<code>&lt;footer&gt;</code>的placeholder, 显然他们的<code>height</code>必须是一样的，如<code>#1</code>所示。</p>
+<p>其实我们还可以使用为了<code>:after</code>改进一下。因为<code>.push</code>存在的意义只是为了样式而样式，并不是页面的结构，所以也没有必要出现在<code>index.html</code>里面。因此，我们有了下面的<em>Old Way Plus</em>。</p>
+<h3 id="Old-Way-Plus"><a href="#Old-Way-Plus" class="headerlink" title="Old Way Plus"></a>Old Way Plus</h3><p><em><a href="https://css-tricks.com/snippets/css/sticky-footer/" target="_blank" rel="external">方法来源</a></em></p>
+<p>(注意，这个时候我们并不需要给<code>&lt;main&gt;</code>添加一个<code>&lt;div class=&quot;push&quot;&gt;&lt;/div&gt;</code>)</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">main</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="comment">/* equal to footer height */</span></div><div class="line">  <span class="attribute">margin-bottom</span>: -<span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* #0 */</span></div><div class="line"><span class="selector-tag">main</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">footer</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#0</code>, 我们利用伪类<code>:after</code>来替代上面的<em>Old Way</em>的<code>.push</code>，这样就不需要给<code>index.html</code><br>添加不必要的标签。</p>
+<h2 id="To-Sum-Up"><a href="#To-Sum-Up" class="headerlink" title="To Sum Up"></a>To Sum Up</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>难度</th>
+<th>Footer需要固定高度</th>
+<th>浏览器兼容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flexbox</td>
+<td>+</td>
+<td>No</td>
+<td>+</td>
+</tr>
+<tr>
+<td>Modern way</td>
+<td>++</td>
+<td>Yes</td>
+<td>+++</td>
+</tr>
+<tr>
+<td>Table way</td>
+<td>++</td>
+<td>No</td>
+<td>++?</td>
+</tr>
+<tr>
+<td>Old way</td>
+<td>+++</td>
+<td>Yes</td>
+<td>+++</td>
+</tr>
+<tr>
+<td>Old way Plus</td>
+<td>++</td>
+<td>Yes</td>
+<td>++</td>
+</tr>
+</tbody>
+</table>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=<em>Sticky Footer</e"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/01/20/5-Ways-to-Make-a-Sticky-Footer/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

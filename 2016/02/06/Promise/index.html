@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>迷之前端轮子 - 实现 ES2015 Promise | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/02/06/Promise/">迷之前端轮子 - 实现 ES2015 Promise</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">February 06 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p>(所有代码请查看<a href="https://github.com/DrakeLeung/tiny-promise" target="_blank" rel="external">GitHub tiny-promise</a>)</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>在此之前，我一直不明白 <em>promise</em> 的workflow是怎样子的。所以在使用的时候，一直很迷惑。比如，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>((resolve, reject) =&gt; &#123;</div><div class="line">  setTimeout(() =&gt; resolve(<span class="string">'success'</span>), <span class="number">1000</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">p1.then(msg =&gt; <span class="built_in">console</span>.log(msg))</div></pre></td></tr></table></figure>
+<p>对于上面的代码，之前的我只知道<code>resolve</code>的参数<code>success</code>会传给<code>then</code>的<code>msg</code>。但是为什么呢？而且，我更没想过到底是<code>then</code>先执行呢还是<code>resolve</code>先执行？这有什么影响？</p>
+<h2 id="How"><a href="#How" class="headerlink" title="How"></a>How</h2><p>那么，就让我们从零开始实现一个promise吧。</p>
+<h3 id="Promise-Constructor"><a href="#Promise-Constructor" class="headerlink" title="Promise Constructor"></a>Promise Constructor</h3><p>根据<a href="http://devdocs.io/javascript/global_objects/promise" target="_blank" rel="external">docs</a>，<code>Promise</code>这个构造函数只接受一个参数，且这个参数是一个<code>function</code>。他有2个参数，分别是<code>resolve</code>和<code>reject</code>。<br>我们要在构造函数里面执行<code>executor</code>函数，并且传2个参数给他。</p>
+<p>并且，我们构造函数还有一些property，比如他的状态，数据等</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">TinyPromise</span> (<span class="params">executor</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.state = promiseState.PENDING</div><div class="line">  <span class="keyword">this</span>.msg = <span class="keyword">void</span> <span class="number">0</span></div><div class="line">  <span class="keyword">this</span>.chains = [] <span class="comment">// 在`then()`时再讲</span></div><div class="line"></div><div class="line">  executor(resolve, reject)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接着，定义<code>resolve</code>和<code>reject</code>这2个传给<code>executor</code>的参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> resolve = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> self = <span class="keyword">this</span></div><div class="line"></div><div class="line">  <span class="keyword">if</span> (self.state !== promiseState.FULLFILLED) &#123; <span class="comment">// #0</span></div><div class="line">    self.state = promiseState.FULLFILLED</div><div class="line">    self.msg = value</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  notify(self) <span class="comment">// 下面再讲</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>#0</code>为什么要加上<code>if</code>判断呢？因为有可能<code>resolve</code>并不是异步执行的，所以在调用<code>then()</code>的时候，promise的状态已经为<code>fullfilled</code>了，所以这个时候<code>value</code>是<code>undefined</code>的。你可以自己试试。</p>
+<p>到底<code>chains</code>是什么呢？</p>
+<h3 id="Then"><a href="#Then" class="headerlink" title="Then"></a>Then</h3><p>当调用<code>then</code>的时候，他会返回一个promise。重复之，便形成了链(chain)。因此，我们每次都把这个promise放进<code>this.chains</code>里面。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>[<span class="string">'then'</span>] = (onFullfilled, onRejected) =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> o = &#123;</div><div class="line">    onFullfilled,</div><div class="line">    onRejected</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  o.promise = <span class="keyword">new</span> <span class="keyword">this</span>.constructor((resolve, reject) =&gt; &#123;</div><div class="line">    o = <span class="built_in">Object</span>.assign(o, &#123;resolve, reject&#125;)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">this</span>.chains = [...this.chains, o]</div><div class="line"></div><div class="line">  <span class="comment">// doesn't call resolve or reject in executor async-ly</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.state === promiseState.FULLFILLED) <span class="comment">// #0</span></div><div class="line">    resolve.call(<span class="keyword">this</span>)</div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === promiseState.REJECTED)</div><div class="line">    reject.call(<span class="keyword">this</span>)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> o.promise</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>#0</code>，我们为什么需要做这个判断呢？因为在调用<code>then</code>时，promise的状态已经不是<code>pending</code>了。为什么？看看文本前面的<em>Why</em>部分。</p>
+<p>注意到，我们把<code>then</code>的2个参数，以及<code>executor</code>的2个参数都放进了<code>this.chains</code>里面。</p>
+<h3 id="Notify"><a href="#Notify" class="headerlink" title="Notify"></a>Notify</h3><p><code>notify</code>函数的作用就是把<code>then</code>返回的结果传递到下一个<code>then</code>里面去。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> handleFullfill = (chain, self) =&gt; &#123;</div><div class="line">  <span class="comment">// 上一个then()的success handler的返回值</span></div><div class="line">  <span class="keyword">const</span> result = chain.onFullfilled(self.msg)</div><div class="line">  <span class="comment">// 传给下一个then()</span></div><div class="line">  chain.resolve(result)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> notify = self =&gt; &#123;</div><div class="line">  self.chains.forEach(chain =&gt; &#123;</div><div class="line">    <span class="keyword">switch</span> (self.state) &#123;</div><div class="line">      <span class="keyword">case</span> promiseState.FULLFILLED:</div><div class="line">        handleFullfill(chain, self)</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line">      <span class="keyword">case</span> promiseState.REJECTED:</div><div class="line">        handleReject(chain, self)</div><div class="line">        <span class="keyword">break</span></div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve"></a>Promise.resolve</h3><p>这个方法<code>resolve</code>其实就是<code>Promise</code>构造函数的一个property。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">defineProp(TinyPromise, <span class="string">'resolve'</span>, msg =&gt;</div><div class="line">  <span class="keyword">new</span> TinyPromise((resolve, reject) =&gt; &#123;</div><div class="line">    resolve(msg)</div><div class="line">  &#125;)</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> defineProp = (</div><div class="line">  obj = &#123;&#125;,</div><div class="line">  prop,</div><div class="line">  value</div><div class="line">) =&gt; &#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.defineProperties(obj, prop, &#123;</div><div class="line">      value,</div><div class="line">      writable: <span class="literal">true</span>,</div><div class="line">      configurable: <span class="literal">true</span>,</div><div class="line">      enumerate: <span class="literal">true</span></div><div class="line">    &#125;)</div><div class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">    obj[prop] = value</div><div class="line">    <span class="keyword">return</span> obj</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap up"></a>Wrap up</h2><p>实现完以上，你就可以解决本文前面部分<em>Why</em>的问题了。</p>
+<p><code>then</code>首先会执行，因为<code>resolve</code>是异步的(<code>setTimeout</code>里面)。这时，我们把<code>then</code>的参数放在一个对象数组里面。等到<code>resolve</code>调用的时候，我们再去遍历这个数组，调用<code>then</code>的参数，并且把返回值传给下一个promise。</p>
+<p>如果<code>resolve</code>不是异步的话，那么<code>resolve</code>比<code>then</code>先执行。在<code>then</code>执行的时候，状态已经为<code>fullfilled</code>了。因此只需要直接调用<code>notify</code>函数。</p>
+<p>Cool~</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=(所有代码请查看<a href="htt"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/02/06/Promise/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

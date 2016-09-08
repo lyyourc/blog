@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>bubble sorting visually | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/03/27/bubble-sorting-visually/">bubble sorting visually</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">March 27 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p>TL;DR: <a href="http://plnkr.co/edit/je2wWv?p=preview" target="_blank" rel="external">在线例子和相关代码请查看这里。</a></p>
+<p>本文章的目的来源于知乎的一个问题：<a href="https://www.zhihu.com/question/41642706" target="_blank" rel="external">我用js写了一个冒泡排序法，怎么用html和css把排序过程展现出来？</a></p>
+<p>下面讲一下要解决的几个问题和 tips。</p>
+<h2 id="如何实现「交换」的动画"><a href="#如何实现「交换」的动画" class="headerlink" title="如何实现「交换」的动画"></a>如何实现「交换」的动画</h2><p>我觉得这个是整个应用的难点。</p>
+<p>看了 <a href="http://visualgo.net/sorting.html" target="_blank" rel="external">visual.net</a>，他的实现是利用 CSS3 的 <code>transform</code> 函数里面的 <code>translate</code>。这似乎是不错的想法，但是我发现要用 JS 获取 <code>translate</code> 对应的值的话，<a href="http://stackoverflow.com/questions/21912684/how-to-get-value-of-translatex-and-translatey" target="_blank" rel="external">有点麻烦</a>。</p>
+<p>接着，我又看了一个答案的<a href="http://meowtec.github.io/demo/sort-v/" target="_blank" rel="external">实现</a>。他的方法是利用 CSS 中的 <code>left</code>。而 <code>left</code> 的值是相对于设定了 <code>position: relative</code> 的 <em>parent</em>。</p>
+<p>我不是很懂上面的方法。但是我想到了另一个方法：<strong><code>left</code> 是相对于他本身</strong>。也就是设置他本身为 <code>position: relative</code> 而不是他的 <em>parent</em>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.bar</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;  <span class="comment">/* must set, or not transition when value in falsy */</span></div><div class="line">  <span class="comment">/*transition: left 1s;*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我之所以设置 <code>left</code> 为 <code>0</code>，是因为我们要用 CSS3 的 <code>transition</code> 实现渐变的效果。</p>
+<p>然后，每次交换的时候，我们只需要把他当前的 <code>left</code> 加/减 柱形图的宽度。没错，这就是这种方法的「缺点」之一，我们需要用 JS 写死柱形图的宽度。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">swap () &#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line"></div><div class="line">  <span class="keyword">const</span> getLeft = item =&gt;</div><div class="line">    <span class="built_in">parseInt</span>(item.style.left.slice(<span class="number">0</span>, <span class="number">-2</span>)) || <span class="number">0</span> <span class="comment">// rm 'px'</span></div><div class="line"></div><div class="line">  item1.style.left = <span class="string">`<span class="subst">$&#123;this.barWidth + getLeft(item1)&#125;</span>px`</span></div><div class="line">  item2.style.left = <span class="string">`<span class="subst">$&#123;-this.barWidth + getLeft(item2)&#125;</span>px`</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在交换的时候，我们要先找到对应的 DOM 元素，也就是上面代码中的 <code>item</code> 和 <code>item2</code>。</p>
+<p>怎么找？（假设我们排序的是一堆数字）<br>一开始我想到了两种方法。</p>
+<p>第一种是，根据数字，找到具有对用数字的 DOM 元素，就像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">swap (value1, value2) &#123;</div><div class="line">  <span class="keyword">const</span> item1 = <span class="keyword">this</span>.el.querySelector(<span class="string">`[data-value='<span class="subst">$&#123;value1&#125;</span>']`</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但这种方法是行不通的。为什么？<br>因为当有多个数字相同的时候，我们找到的 DOM 元素不一定是我们想要交换的。因为 <code>querySelector</code> 返回的总是第一个匹配的元素。</p>
+<p>那我们在 <code>item1</code> 后面才开始找 <code>item2</code> 行不行？使用 CSS3 的 <code>~</code> 选择器。比如这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">swap (value1, value2) &#123;</div><div class="line">  <span class="keyword">const</span> item1 = <span class="keyword">this</span>.el.querySelector(<span class="string">`[data-value='<span class="subst">$&#123;value1&#125;</span>']`</span>)</div><div class="line">  <span class="keyword">const</span> item2 = <span class="keyword">this</span>.el.querySelector(<span class="string">`[data-value='<span class="subst">$&#123;value2&#125;</span>'] ~ data-value='<span class="subst">$&#123;value2&#125;</span>']`</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种方法有时可以，有时是不可以的。为什么？<br>因为我们的 DOM 结构根本就没有变化，只是用 CSS 的 <code>left</code> 在视觉上改变了位置而已。</p>
+<p>因此，我们的第二种方法当然就是在交换的时候，不仅改变 <code>left</code> 的值，而且交换 DOM 的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">swapDOM</span>(<span class="params">element1, element2</span>) </span>&#123;</div><div class="line">  element1.parentNode.insertBefore(element2, element1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是，这种方法还是行不通的。因为 <code>insertBefore</code> 会把 <code>element2</code> 从 DOM 中删掉。这样的话，就没有了「交换」的渐变效果。</p>
+<p>果然，我们还是不能 DOM 元素。那么只能返回第一种方法。</p>
+<p>这个时候我突然想到了 React 中循环的时候需要写上 <code>key</code> 属性。然后。。。然后只要把 <code>key</code> 和 数字绑定在一起，查找数字对应的 DOM 元素只需要使用 <code>key</code> 就行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// data = [64, 39, 78, 36]</span></div><div class="line"><span class="keyword">this</span>.items = data.map((d, i) =&gt; (&#123;key: <span class="string">`key-<span class="subst">$&#123;i&#125;</span>`</span>, value: d&#125;))</div><div class="line"></div><div class="line">swap (key1, key2) &#123;</div><div class="line">  <span class="keyword">const</span> item1 = <span class="keyword">this</span>.el.querySelector(<span class="string">`[data-key='<span class="subst">$&#123;key1&#125;</span>']`</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>终于搞定了「交换」动画了，不知道有没有更好的实现方法呢？</p>
+<h2 id="为什么我的「交换」动画一瞬间就跑完了"><a href="#为什么我的「交换」动画一瞬间就跑完了" class="headerlink" title="为什么我的「交换」动画一瞬间就跑完了"></a>为什么我的「交换」动画一瞬间就跑完了</h2><p>假设我们的排序算法是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">sort () &#123;</div><div class="line">  <span class="keyword">const</span> items = <span class="keyword">this</span>.items</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; items.length; i++) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; items.length - i - <span class="number">1</span>; j++) &#123;</div><div class="line">      <span class="keyword">const</span> item1 = items[j]</div><div class="line">      <span class="keyword">const</span> item2 = items[j + <span class="number">1</span>]</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (less(item2.value, item1.value)) &#123;</div><div class="line">        swap(j, j + <span class="number">1</span>, items)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意到，我们的 <code>swap</code> 函数是在 <code>for</code> 循环里面调用的，这是没错的。</p>
+<p>然而我们的「交换」动画就跑完了，根本没有渐变的效果，我们想要的是等到前一个交换动画完成后，下一个才发生。为什么会这样？因为我们的两个 <code>for</code> 是瞬间就可以跑完的= =</p>
+<p>怎么解决这个问题呢？<code>setInterval</code>？好像会把排序算法的逻辑扰乱。<br>突然，我想到了 jQuery 好像有个动画队列的东西。</p>
+<p>也就是说，<strong>我们可以把所有的动画先放在一个队列里面。然后再一个一个地出队，一个一个地调用。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> () &#123;</div><div class="line">  <span class="keyword">for</span> () &#123;</div><div class="line">    <span class="keyword">if</span> (less(item2.value, item1.value)) &#123;</div><div class="line">      <span class="keyword">this</span>.queue.push(() =&gt; <span class="keyword">this</span>.swap(item1.key, item2.key))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">play () &#123;</div><div class="line">  <span class="keyword">const</span> intervalId = setInterval(() =&gt; &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.queue.length === <span class="number">0</span>) &#123;</div><div class="line">      clearInterval(intervalId)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">const</span> swap = <span class="keyword">this</span>.queue.shift()</div><div class="line">      swap()</div><div class="line">    &#125;</div><div class="line">  &#125;, <span class="number">2</span> * <span class="number">1000</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看了知乎上的答案，这个问题还有其他实现的方法。<strong>总的来说，就是如何解决异步编程问题。</strong></p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p>可以利用 CSS 的 伪元素<code>::before</code> 以及 <code>attr</code> 函数，来实现柱形图上显示对应的数字。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.bar</span><span class="selector-pseudo">::before</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="built_in">attr</span>(data-value);</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">top</span>: -<span class="number">16px</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#233</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Continue"><a href="#Continue" class="headerlink" title="Continue"></a>Continue</h2><p>我们的代码还可以继续优化，比如接口如何设计，使得可以扩展于其他的排序算法。还有用户体验,比如，排序前中后状态的颜色都设为不同，等等。</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=TL;DR: <a href="http"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/03/27/bubble-sorting-visually/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

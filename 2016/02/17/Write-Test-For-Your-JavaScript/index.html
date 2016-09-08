@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>为你的JavaScript代码写测试 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/02/17/Write-Test-For-Your-JavaScript/">为你的JavaScript代码写测试</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">February 17 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p>下面会讲解如何使用 karama, jasmine 以及 webpack，来为我们的 ES6 代码编写测试。<br>（最后我写了一个可用的例子，请查看 <a href="https://github.com/DrakeLeung/ES2015-Starter-Kit/tree/master" target="_blank" rel="external">ES2015-Starter-Kit</a> ）</p>
+<h2 id="艰难的抉择"><a href="#艰难的抉择" class="headerlink" title="艰难的抉择"></a>艰难的抉择</h2><blockquote>
+<p>首先，我们要写测试，用什么写？自己写一个函数，还是使用某个测试框架？</p>
+</blockquote>
+<p>看起来，后者可观一点。</p>
+<blockquote>
+<p>然后，有哪些测试框架可以选择？选哪个？</p>
+</blockquote>
+<p>于是，我们 google 之，找到 stackoverflow 的一个问题 <a href="http://stackoverflow.com/questions/300855/javascript-unit-test-tools-for-tdd" target="_blank" rel="external">JavaScript unit test tools for TDD</a>。</p>
+<p>看了问题回答，很纠结，太多了不知道选择哪个！最后，我决定选择 <a href="https://karma-runner.github.io/0.13/index.html" target="_blank" rel="external">Karma</a>, <a href="https://github.com/jasmine/jasmine" target="_blank" rel="external">Jasmine</a> 和 <a href="http://mochajs.org/" target="_blank" rel="external">Mocha</a> 这三者之一，根据 Star 数量以及维护团队。</p>
+
+<blockquote>
+<p>那么，<em>Karma</em>, <em>Jasmine</em> 以及 <em>Mocha</em> 这三者之间哪个好，有什么不同？</p>
+</blockquote>
+<p>于是，我们不妨 google，找到了 <a href="http://stackoverflow.com/questions/24391462/what-are-the-differences-between-mocha-chai-karma-jasmine-should-js-etc-te" target="_blank" rel="external">What are the differences between mocha, chai, karma, jasmine, should.js, etc. testing frameworks?</a> 这个问题。</p>
+<p>从回答中我们可以知道：<em>Karma</em> 只是一个 test runner，他负责提供 environment。而 <em>Jasmine</em> 和 <em>Mocha</em> 是编写测试脚本的框架。也就是说，我们可以选择 <em>Karma + Jasmine</em>或者 <em>Karma + Mocha</em>。我们不妨先选择前者~</p>
+<p>综上所述，<strong>我们要使用 <em>Karma + Jasmine</em> 组合来为我们的 JavaScript 代码写测试</strong>。</p>
+<h2 id="战斗的号角"><a href="#战斗的号角" class="headerlink" title="战斗的号角"></a>战斗的号角</h2><p>接下来，我们根据文档（<a href="https://karma-runner.github.io/0.13/intro/installation.html" target="_blank" rel="external">karma - Installation</a>, <a href="https://karma-runner.github.io/0.13/intro/configuration.html" target="_blank" rel="external">karma - Configuration</a> 和 <a href="http://jasmine.github.io/2.0/introduction.html" target="_blank" rel="external">Jasmine - introduction</a>），很容易就能搞起来。</p>
+<p>在这里我想说的是：当编写多个测试脚本的时候，你也许可以使用 <code>beforeEach</code> 和 <code>afterEach</code>。他们分别会在每个测试（spec）的之前和之后执行一次。</p>
+<h2 id="副本"><a href="#副本" class="headerlink" title="副本"></a>副本</h2><p>最后还有一个问题是<em>如何结合 <a href="http://webpack.github.io/" target="_blank" rel="external">Webpack</a></em> 来为我们的ES6代码编写测试。</p>
+<p>我不得不承认，这是一个很不错的问题。然而，我也通过google找到了答案。</p>
+<p>详细教程请看 <em>VueJS</em> 的 <a href="https://vuejs.github.io/vue-loader/workflow/testing.html" target="_blank" rel="external">Testing</a> 文档。</p>
+<h2 id="战斗的荣耀"><a href="#战斗的荣耀" class="headerlink" title="战斗的荣耀"></a>战斗的荣耀</h2><p>你可以为你的仓库弄一个亮晶晶的 <a href="https://docs.travis-ci.com/user/status-images/" target="_blank" rel="external">travis ci status image</a>：</p>
+<p><img src="https://travis-ci.org/travis-ci/travis-web.svg?branch=master" alt=""></p>
+<p>详细设置请查看 <a href="https://docs.travis-ci.com/user/getting-started/" target="_blank" rel="external">travis docs</a>以及这篇教程 <a href="http://www.sitepoint.com/testing-javascript-jasmine-travis-karma/" target="_blank" rel="external">Testing JavaScript with Jasmine, Travis, and Karma</a>。</p>
+<p>最后，如果还是不懂的话，可以查看我写的一个例子：<a href="https://github.com/DrakeLeung/ES2015-Starter-Kit/tree/master" target="_blank" rel="external">ES2015-Starter-Kit</a></p>
+<h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><ul>
+<li><a href="http://stackoverflow.com/questions/300855/javascript-unit-test-tools-for-tdd" target="_blank" rel="external">JavaScript unit test tools for TDD</a></li>
+<li><a href="http://stackoverflow.com/questions/24391462/what-are-the-differences-between-mocha-chai-karma-jasmine-should-js-etc-te" target="_blank" rel="external">What are the differences between mocha, chai, karma, jasmine, should.js, etc. testing frameworks?</a></li>
+<li><a href="https://vuejs.github.io/vue-loader/workflow/testing.html" target="_blank" rel="external">vuejs - Testing</a></li>
+<li><a href="http://www.sitepoint.com/testing-javascript-jasmine-travis-karma/" target="_blank" rel="external">Testing JavaScript with Jasmine, Travis, and Karma</a></li>
+</ul>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=下面会讲解如何使用 karama, ja"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/02/17/Write-Test-For-Your-JavaScript/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

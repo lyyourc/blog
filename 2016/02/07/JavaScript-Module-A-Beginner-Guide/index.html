@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>「译」JavaScript Modules Part1: A Beginner Guide | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/02/07/JavaScript-Module-A-Beginner-Guide/">「译」JavaScript Modules Part1: A Beginner Guide</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">February 07 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p><strong>(原文：<a href="https://medium.freecodecamp.com/javascript-modules-a-beginner-s-guide-783f7d7a5fcc#.4ufizwkud" target="_blank" rel="external">JavaScript Modules: A Beginner’s Guide - Preethi Kasireddy</a>)</strong></p>
+<p>如果你是刚接触 JavaScript 的话，像「module bundler vs. module loaders」， 「Webpack vs. Browserify」 以及「AMD vs. CommonJS」这些术语可以一下子把你搞晕。</p>
+<p>JavaScript的模块系统(module system)也许是很吓人的，但是对于web开发者来说，理解他是很重要的。</p>
+<p>在本文，我会使用通俗易懂的话(以及一些代码)来解释这些术语。我希望能帮助到你。</p>
+<p>注意：为了简单起见，我会分成2部分来说：Part 1 会解释什么是 <em>module</em> 以及为什么要使用他们。Part 2 (在下周发表)会接着解释什么是 <em>bundle modules</em> 以及其实现方法。</p>
+<h2 id="Part-1-有谁可以再解释解释什么是-module-吗？"><a href="#Part-1-有谁可以再解释解释什么是-module-吗？" class="headerlink" title="Part 1: 有谁可以再解释解释什么是 module 吗？"></a>Part 1: 有谁可以再解释解释什么是 module 吗？</h2><p>好的作者会把他们的书籍分成多个章节；好的程序员也会把他们的程序分成多个模块。</p>
+<p>就像书的章节一样，module 只是单词(在这里，即是 code )的集合。</p>
+<p>但是，好的模块是高度包含自己独立的功能。这让他们可以根据需求更改，删除，增加，而不扰乱整个系统。</p>
+<h2 id="为什么使用-module-？"><a href="#为什么使用-module-？" class="headerlink" title="为什么使用 module ？"></a>为什么使用 module ？</h2><p>使用modules对于大型，相互依赖的代码库来说是很多好处的。在我看来，最重要的是：</p>
+<p><strong>1) 可维护性：</strong>根据定义，module 是独立的。一个设计良好的 module 是尽可能多地减少代码的耦合，从而他能够独立地开发和改进。当一个 module 的耦合度低的时候，更新他是很容易一件事情。</p>
+<p>回到我们书籍的例子，当你因为更新了一个章节，从而需要调整剩余章节的话，这简直是噩耗。相反，你更愿意编写章节的时候，不影响其他章节。</p>
+<p><strong>2) 命名空间(namespacing)：</strong>在 JavaScript 中，在 top-level 函数的作用域的外面的变量就是 <em>global</em> (全局)变量，全局变量即是每个人都可以 access 他们。因为这样，就很容易造成”命名空间污染”，也就是无相关的代码共享全局变量。</p>
+<p>在毫无相关的代码中共享全局变量在开发中 <a href="http://c2.com/cgi/wiki?GlobalVariablesAreBad" target="_blank" rel="external">is a big no no</a>。</p>
+<p>在本文的下面，我们会解释 module 可以让我们避免命名空间污染，通过为我们的变量创建私有空间。</p>
+<p><strong>3) 可重用性：</strong>我们不妨老实承认，我们过去是把一个项目的代码copy到另一个项目中。比方说，你copy了你之前项目的一些util方法到当前的项目中。</p>
+<p>这是很浪费时间的。但是慢着，如果使用 module ，一个我们可以不断复用的 module ，这不是很好吗？</p>
+<h2 id="你是如何合并模块-incorporate-modules"><a href="#你是如何合并模块-incorporate-modules" class="headerlink" title="你是如何合并模块(incorporate modules)?"></a>你是如何合并模块(incorporate modules)?</h2><p>有很多方法可以在你的程序中合并模块。我们现在就来讲解他们的其中一些：</p>
+<h3 id="Module-Pattern"><a href="#Module-Pattern" class="headerlink" title="Module Pattern"></a>Module Pattern</h3><p><em>Module pattern</em> 其实就是模仿 <em>class</em> 的概念(因为 JavaScript 并不真正地支持 class )，因此我们可以把公有方法，私有方法以及变量都保存在一个对象里面——这个就有点类似于 class 在其他编程语言(如 Java 或者 Python )中的使用。这可以让我们给公有方法创建 API ，然后暴露出去；并且同时可以把私有的变量和方法都封装在一个闭包作用域(closure scope)中。</p>
+<p>有几个方法可以实现 module pattern。在第一个例子中。我会使用 <em>anonymous closure</em>。他会把我们所有的代码都放进一个匿名函数里面。(记住：在 JavaScript 中，<code>function</code> 是创建作用域的唯一方法？)</p>
+<p><strong>例子一：Anonymous closure</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// We keep these variables private inside this closure scope</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> myGrades = [<span class="number">93</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">0</span>, <span class="number">55</span>, <span class="number">91</span>];</div><div class="line"></div><div class="line">  <span class="keyword">var</span> average = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> total = myGrades.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">accumulator, item</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> accumulator + item&#125;, <span class="number">0</span>);</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="string">'Your average grade is '</span> + total / myGrades.length + <span class="string">'.'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> failing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> failingGrades = myGrades.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> item &lt; <span class="number">70</span>;&#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="string">'You failed '</span> + failingGrades.length + <span class="string">' times.'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(failing());</div><div class="line"></div><div class="line">&#125;());</div><div class="line"></div><div class="line"><span class="comment">// ‘You failed 2 times.’</span></div></pre></td></tr></table></figure>
+<p>有了这个，我们的匿名函数就有了它自己的求值环境(evaluation environment)或者”closure”，并且我们可以立马对他求值(evaluate)。这可以让我们从 parent namespace(global) 中隐藏变量。</p>
+<p>这种方法的好处就是，你可以在匿名函数中使用局部变量而不会 overwrite(覆盖) 已经存在的全局变量，但与此同时，你还可以 access 全局变量，就像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> global = <span class="string">'Hello, I am a global variable :)'</span>;</div><div class="line"></div><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// We keep these variables private inside this closure scope</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> myGrades = [<span class="number">93</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">0</span>, <span class="number">55</span>, <span class="number">91</span>];</div><div class="line"></div><div class="line">  <span class="keyword">var</span> average = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> total = myGrades.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">accumulator, item</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> accumulator + item&#125;, <span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="string">'Your average grade is '</span> + total / myGrades.length + <span class="string">'.'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> failing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> failingGrades = myGrades.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> item &lt; <span class="number">70</span>;&#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="string">'You failed '</span> + failingGrades.length + <span class="string">' times.'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(failing());</div><div class="line">  <span class="built_in">console</span>.log(global);</div><div class="line">&#125;());</div><div class="line"></div><div class="line"><span class="comment">// 'You failed 2 times.'</span></div><div class="line"><span class="comment">// 'Hello, I am a global variable :)'</span></div></pre></td></tr></table></figure>
+<p>注意到在匿名函数2旁的括号是必须的，因为以关键字<code>function</code>开头的语句会被认为是 <em>function declaration</em> (记住，在 JavaScript 中，你是不能定义没有名字的function declaration。) 因此，这对括号就创建一个 <em>function expression</em>。如果不明白的话，你可以<a href="http://stackoverflow.com/questions/1634268/explain-javascripts-encapsulated-anonymous-function-syntax" target="_blank" rel="external">阅读这里</a>。</p>
+<p><strong>例子二：Global import</strong></p>
+<p>另一个较流行的方法是 <em>global import</em> ，就像 jQuery 一样。他有点类似于上面的　<em>anonymous closure</em>，只是现在我们把全局变量作为参数传进了匿名函数中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">globalVariable</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// Keep this variables private inside this closure scope</span></div><div class="line">  <span class="keyword">var</span> privateFunction = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Shhhh, this is private!'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Expose the below methods via the globalVariable interface while</span></div><div class="line">  <span class="comment">// hiding the implementation of the method within the</span></div><div class="line">  <span class="comment">// function() block</span></div><div class="line"></div><div class="line">  globalVariable.each = <span class="function"><span class="keyword">function</span>(<span class="params">collection, iterator</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(collection)) &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; collection.length; i++) &#123;</div><div class="line">        iterator(collection[i], i, collection);</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> collection) &#123;</div><div class="line">        iterator(collection[key], key, collection);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  globalVariable.filter = <span class="function"><span class="keyword">function</span>(<span class="params">collection, test</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> filtered = [];</div><div class="line">    globalVariable.each(collection, <span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (test(item)) &#123;</div><div class="line">        filtered.push(item);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> filtered;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  globalVariable.map = <span class="function"><span class="keyword">function</span>(<span class="params">collection, iterator</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> mapped = [];</div><div class="line">    globalUtils.each(collection, <span class="function"><span class="keyword">function</span>(<span class="params">value, key, collection</span>) </span>&#123;</div><div class="line">      mapped.push(iterator(value));</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> mapped;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  globalVariable.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">collection, iterator, accumulator</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> startingValueMissing = accumulator === <span class="literal">undefined</span>;</div><div class="line"></div><div class="line">    globalVariable.each(collection, <span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span>(startingValueMissing) &#123;</div><div class="line">        accumulator = item;</div><div class="line">        startingValueMissing = <span class="literal">false</span>;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        accumulator = iterator(accumulator, item);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> accumulator;</div><div class="line"></div><div class="line">  &#125;;</div><div class="line"></div><div class="line"> &#125;(globalVariable));</div></pre></td></tr></table></figure>
+<p>在这个例子中，<code>globalVariable</code> 在全局中唯一的一个变量。这个方法比前一个方法好的地方在于：你可以在前面就定义全局变量，这样就方便别人阅读你的代码。</p>
+<p><strong>例子三：Object interface</strong></p>
+<p>创建 module 的例子还有一个就是使用独立的 <em>object interface</em>，就像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myGradesCalculate = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// Keep this variable private inside this closure scope</span></div><div class="line">  <span class="keyword">var</span> myGrades = [<span class="number">93</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">0</span>, <span class="number">55</span>, <span class="number">91</span>];</div><div class="line"></div><div class="line">  <span class="comment">// Expose these functions via an interface while hiding</span></div><div class="line">  <span class="comment">// the implementation of the module within the function() block</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    average: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> total = myGrades.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">accumulator, item</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> accumulator + item;</div><div class="line">        &#125;, <span class="number">0</span>);</div><div class="line"></div><div class="line">      <span class="keyword">return</span><span class="string">'Your average grade is '</span> + total / myGrades.length + <span class="string">'.'</span>;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    failing: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> failingGrades = myGrades.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">          <span class="keyword">return</span> item &lt; <span class="number">70</span>;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="string">'You failed '</span> + failingGrades.length + <span class="string">' times.'</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">myGradesCalculate.failing(); <span class="comment">// 'You failed 2 times.'</span></div><div class="line">myGradesCalculate.average(); <span class="comment">// 'Your average grade is 70.33333333333333.'</span></div></pre></td></tr></table></figure>
+<p>显而易见，这种方法可以让我们自己定义哪些变量/方法是私有的(例如，<code>myGrads</code>)，以及哪些变量/方法是我们想要暴露给他们的，通过 <code>return</code> 语句(比如，<code>average</code> &amp; <code>failing</code>)。</p>
+<p><strong>例子四：Revealing module pattern</strong></p>
+<p>这个跟上面的方法是很相似的，除了他保证所有的变量和方法都是私有的，直到我们显式地暴露出去：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myGradesCalculate = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// Keep this variable private inside this closure scope</span></div><div class="line">  <span class="keyword">var</span> myGrades = [<span class="number">93</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">0</span>, <span class="number">55</span>, <span class="number">91</span>];</div><div class="line"></div><div class="line">  <span class="keyword">var</span> average = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> total = myGrades.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">accumulator, item</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> accumulator + item;</div><div class="line">      &#125;, <span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span><span class="string">'Your average grade is '</span> + total / myGrades.length + <span class="string">'.'</span>;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> failing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> failingGrades = myGrades.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> item &lt; <span class="number">70</span>;</div><div class="line">      &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="string">'You failed '</span> + failingGrades.length + <span class="string">' times.'</span>;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="comment">// Explicitly reveal public pointers to the private functions</span></div><div class="line">  <span class="comment">// that we want to reveal publicly</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    average: average,</div><div class="line">    failing: failing</div><div class="line">  &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">myGradesCalculate.failing(); <span class="comment">// 'You failed 2 times.'</span></div><div class="line">myGradesCalculate.average(); <span class="comment">// 'Your average grade is 70.33333333333333.'</span></div></pre></td></tr></table></figure>
+<p>上面好像讲了好多东西，其实对于 module pattern 来说，只是冰山一角。下面是一些我认为比较有用的资源：</p>
+<ul>
+<li><a href="https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript" target="_blank" rel="external">Learn JavaScript Design Patterns</a> - by <em>Addy Osmani</em></li>
+<li><a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html" target="_blank" rel="external">Adequately Good by Ben Cherry</a> - 通过例子讲述module pattern的高级使用</li>
+<li><a href="https://carldanley.com/js-module-pattern/" target="_blank" rel="external">Blog of Carl Danley</a> - module pattern的概述以及其他 JavaScript pattern 的资源</li>
+</ul>
+<h2 id="CommonJS-and-AMD"><a href="#CommonJS-and-AMD" class="headerlink" title="CommonJS and AMD"></a>CommonJS and AMD</h2><p>上面讲到的所有方法都有一个共同点：使用全局变量将其所有代码都封装在一个函数里面，从而使用 <em>closure scope</em> 为他自己创建出了一个私有的命名空间。</p>
+<p>他们各自有各自的优点，但是他们也有他们的弊端。</p>
+<p>其中一个，作为一名开发者，为了加载你的文件，你需要知道正确的依赖顺序。比如，你要在项目中使用 <code>Backbone</code>，那么你需要通过 <code>script</code> 标签来加载他的源文件。</p>
+<p>但是，因为 <code>Backbone</code> 是依赖 <code>Underscore.js</code>，那么加载 <code>Backbone</code> 的 <code>script</code> 标签就不能在 <code>Underscore</code> 的前面。</p>
+<p>作为一名开发者，维护依赖以及让他们的顺序都正确的话，有时是一件很头疼的事情。</p>
+<p>另一个弊端就是他们仍然会产生命名空间冲突。比如，你的两个 module 具有相同的名字。又或者，你的一个模块有两个版本，并且你同时需要他们。</p>
+<p>因此，你也会这样想到：能不能设计一种方法，既可以访问 module 的接口，但同时又不污染全局作用域。</p>
+<p>其实有两种已经实现好的方法：即是 CommonJS 和 AMD 。</p>
+<h3 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h3><p>CommonJS是一个自愿的工作小组，设计和实现 JavaScript 模块系统的 API。</p>
+<p>一个 CommonJS 模块其实就是 <code>exports</code> 了具体对象的 JavaScript 代码块，使得他们能够被程序中的其他模块 <code>require</code> 。如果你写过 <code>Node.js</code> 的话，你应该对他很熟悉。</p>
+<p>有了 CommonJS，每个 JavaScript 文件在他们各自唯一的 module context (就像封装在一个闭包中)保存了模块。在这个作用域里面，我们使用 <code>module.exports</code> 对象来暴露模块，使用<code>require</code>来加载他们。</p>
+<p>当你定义了一个 CommonJS 文件，也许他就长这样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myModule</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.hello = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'hello!'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">this</span>.goodbye = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'goodbye!'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = myModule;</div></pre></td></tr></table></figure>
+<p>我们使用特殊的对象<code>module</code>，然后把我们函数的引用赋给<code>module.exports</code>。这个让CommonJS的模块系统知道我们想要暴露哪些，从而让别的文件引用。</p>
+<p>然后，如果别人想使用我的<code>myModule</code>，他们可以引用它到文件中，像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myModule = <span class="built_in">require</span>(<span class="string">'myModule'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> myModuleInstance = <span class="keyword">new</span> myModule();</div><div class="line">myModuleInstance.hello(); <span class="comment">// 'hello!'</span></div><div class="line">myModuleInstance.goodbye(); <span class="comment">// 'goodbye!'</span></div></pre></td></tr></table></figure>
+<p>这个方法比前面所讲的 <em>module pattern</em> 有2个明显的优点：</p>
+<ol>
+<li>避免全局命名空间的污染</li>
+<li>让我们的依赖更加清晰</li>
+</ol>
+<p>而且，语法很简洁，我很喜欢。</p>
+<p>还有一个注意的是，CommonJS是针对server实现的，并且<strong>同步加载modules</strong>。这是很重要的，因为如果我们有3个module需要引入，那么他会一个接着一个加载。</p>
+<p>现在，CommonJS对于server端很极好的。但是不幸的是，他不适用于浏览器。因为在web读取一个module比在磁盘中读取慢得多。如果开始加载module，就会阻塞浏览器直到modules全部加载完毕。(我会在 Part 2 讲述解决方法)。</p>
+<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><p>CommonJS是很好，但是如果我们想要异步加载modules呢？答案就是<em>Asynchronous Module Definition</em>，即<em>AMD</em>。</p>
+<p>使用AMD加载module就像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'myModule'</span>, <span class="string">'myOtherModule'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">myModule, myOtherModule</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(myModule.hello());</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><code>define</code>函数的第一个参数是一个数组，他包含了所需的依赖。这些依赖会在背后加载(不会阻塞)，而且一旦加载完毕，<code>define</code>就会调用传给他的callback函数。</p>
+<p>接着，callback函数就会把加载好的依赖作为他的参数——在上面例子中，即是<code>myModule</code>和<code>myOtherModule</code>。最后，这些依赖他们自己必须通过关键字<code>define</code>来定义。</p>
+<p>比如，<code>myModule</code>也许是这样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">define([], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</div><div class="line">    &#125;,</div><div class="line">    goodbye: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'goodbye'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>不像CommonJS，AMD是以浏览器为核心来实现异步加载module的。(注意到，有很多人强烈地认为动态加载文件是不好的，这个我们在Part 2会讲到)。</p>
+<p>除了异步之外，AMD的另一个优点是，你的module可以是对象，函数，构造函数，字符串，JSON以及其他类型。而CommonJS只支持对象作为module。</p>
+<p>总的来说，AMD并不兼容io，文件系统，以及其他面向server的feature，并且，封装的语法比<code>require</code>较复杂一点。</p>
+<h3 id="UMD"><a href="#UMD" class="headerlink" title="UMD"></a>UMD</h3><p>对于需要你同时支持AMD和CommonJS的项目，你可以选择<em>Universal Module Definition (UMD)</em>。</p>
+<p>UMD本质上创建了一个方式，支持他们其中的一种，也支持全局变量的定义。因此，UMD module可以同时在client和server端使用。</p>
+<p>让我们来看看UMD是怎样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">root, factory</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd) &#123;</div><div class="line">      <span class="comment">// AMD</span></div><div class="line">    define([<span class="string">'myModule'</span>, <span class="string">'myOtherModule'</span>], factory);</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">'object'</span>) &#123;</div><div class="line">      <span class="comment">// CommonJS</span></div><div class="line">    <span class="built_in">module</span>.exports = factory(<span class="built_in">require</span>(<span class="string">'myModule'</span>), <span class="built_in">require</span>(<span class="string">'myOtherModule'</span>));</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Browser globals (Note: root is window)</span></div><div class="line">    root.returnExports = factory(root.myModule, root.myOtherModule);</div><div class="line">  &#125;</div><div class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span> (<span class="params">myModule, myOtherModule</span>) </span>&#123;</div><div class="line">  <span class="comment">// Methods</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">notHelloOrGoodbye</span>(<span class="params"></span>)</span>&#123;&#125;; <span class="comment">// A private method</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;&#125;; <span class="comment">// A public method because it's returned (see below)</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">goodbye</span>(<span class="params"></span>)</span>&#123;&#125;; <span class="comment">// A public method because it's returned (see below)</span></div><div class="line"></div><div class="line">  <span class="comment">// Exposed public methods</span></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">      hello: hello,</div><div class="line">      goodbye: goodbye</div><div class="line">  &#125;</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>更多关于UMD的例子，请查看 <a href="https://github.com/umdjs/umd" target="_blank" rel="external">enlightening repo</a>。</p>
+<h2 id="Native-JS"><a href="#Native-JS" class="headerlink" title="Native JS"></a>Native JS</h2><p>哈！你居然能看到这里，看来我没有搞晕你。太棒了。因为在结束之前，我们还有一个定义module的方法。</p>
+<p>如你所见，上面的方法没有一种是原生JavaScript支持的。相反，我们使用了各种各样的方式去模拟一个模块系统。</p>
+<p>幸运的是，在TC39工作的人(设计ECMAScript的语法和语义)在ES6实现了内置的模块系统。</p>
+<p>下面的资源很好地讲解了ES6的模块系统：</p>
+<ul>
+<li><a href="http://jsmodules.io/cjs.html" target="_blank" rel="external">jsmodules.io</a></li>
+<li><a href="http://exploringjs.com/es6/ch_modules.html" target="_blank" rel="external">exploringjs.com</a></li>
+</ul>
+<p>ES6的module结合了CommonJS和AMD的优点，比如简洁的语法和异步加载。还有优点是，比如支持循环依赖。</p>
+<p>我最喜欢的ES6 modules的feature是，<em>imports</em>是<em>exports</em>的<strong>live read-only views</strong>(而CommonJS的import只是exports的一份copy而已，并且不是即时)。</p>
+<p>下面例子会讲述live read-only view是怎样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// lib/counter.js</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> counter = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  counter++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">decrement</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  counter--;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  counter: counter,</div><div class="line">  increment: increment,</div><div class="line">  decrement: decrement</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// src/main.js</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> counter = <span class="built_in">require</span>(<span class="string">'../../lib/counter'</span>);</div><div class="line"></div><div class="line">counter.increment();</div><div class="line"><span class="built_in">console</span>.log(counter.counter); <span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<p>在这个例子中，我们创建了module的<strong>2份copy</strong>：一个是当我们<code>export</code>他，另一个是当我们<code>require</code>他。</p>
+<p>并且，在<code>main.js</code>的那份copy已经和原本的失去连接了。这就是为什么当我们给<code>counter</code>增加时他还是<code>1</code>——因为我们<code>import</code>的<code>counter</code>已经和原来的失去联系。</p>
+<p>因为，增加<code>counter</code>会在原来的module可以实现，但是在你copy的那份就实现不了。如果想要后者实现的话，只能手动地操作了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">counter.counter++;</div><div class="line"><span class="built_in">console</span>.log(counter.counter); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>在另一个方面，ES6对于我们<code>import</code>的module创建了一个<strong>live read-only view</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// lib/counter.js</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">let</span> counter = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  counter++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">decrement</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  counter--;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// src/main.js</span></div><div class="line"><span class="keyword">import</span> * <span class="keyword">as</span> counter <span class="keyword">from</span> <span class="string">'../../counter'</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(counter.counter); <span class="comment">// 1</span></div><div class="line">counter.increment();</div><div class="line"><span class="built_in">console</span>.log(counter.counter); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>很cool，对吧。</p>
+<h2 id="向前看：bunding-modules"><a href="#向前看：bunding-modules" class="headerlink" title="向前看：bunding modules"></a>向前看：bunding modules</h2><p>哇。时间过得真快。我真的希望能够帮助你更好地理解JavaScript的modules。</p>
+<p>在下一部分，我会讲<strong>module bundling</strong>，涉及到几个核心的主题：</p>
+<ul>
+<li>为什么我们需要<em>module bundling</em></li>
+<li>不同方法实现<em>bundling</em></li>
+<li>ECMAScript的模块加载器API</li>
+<li>…更多…</li>
+</ul>
+<p>注意：为了简单起见，我跳过了许多细节(比如，循环依赖)。如果我留下了很重要或者很棒的东西，请留言让我知道！</p>
+<p><strong>(原文：<a href="https://medium.freecodecamp.com/javascript-modules-a-beginner-s-guide-783f7d7a5fcc#.4ufizwkud" target="_blank" rel="external">JavaScript Modules: A Beginner’s Guide - Preethi Kasireddy</a>)</strong></p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=<strong>(原文：<a href="
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/02/07/JavaScript-Module-A-Beginner-Guide/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

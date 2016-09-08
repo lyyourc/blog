@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>有趣的 Nginx | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/08/11/Oh-My-Nginx/">有趣的 Nginx</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">August 11 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <p>由于在开发项目的时候用到了 <code>nginx</code> ，觉得挺不错的，所以了解了一下。</p>
+<p>一个项目的开发环境一般都会分为4个阶段。</p>
+<ul>
+<li>test(local): 本地</li>
+<li>alpha</li>
+<li>beta</li>
+<li>production</li>
+</ul>
+<p>每个环境下，前端的域名是不同的，并且调用后台接口的 <code>url</code> 也是不同的。假设我们的项目名字叫做 <code>toon</code>，并且 root domain 是 <code>lyyourc.com</code>，那么就有：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 前端4个环境下的域名</span></div><div class="line">-  <span class="built_in">test</span>: toon.test.lyyourc.net</div><div class="line">- alpha: toon.alpha.lyyourc.net</div><div class="line">-  beta: toon.alpha.lyyourc.net</div><div class="line">-  prod: toon.lyyourc.com</div><div class="line"></div><div class="line"><span class="comment"># 后台接口</span></div><div class="line">-  alpha: toon-api.alpha.lyyourc.net</div><div class="line">-   beta: toon-api..beta.lyyourc.net</div><div class="line">-   prod: toon-api.lyyourc.com</div></pre></td></tr></table></figure>
+<p>那么，在这种情况下，我们应该如何：</p>
+<blockquote>
+<p>不同环境下，前端使用不同的域名，访问对应的后台接口呢？</p>
+</blockquote>
+<p>首先，我们要解决<strong>前端怎么使用域名来访问我们的 web 应用</strong>。</p>
+<p>最简单的办法当然是<strong>改 hosts</strong> 。应该还有其他办法，比如 <a href="https://github.com/typicode/hotel" target="_blank" rel="external">hotel - get local domain in seconds</a> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># my project - toon</span></div><div class="line">127.0.0.1 toon.test.lyyourc.net</div></pre></td></tr></table></figure>
+<p>接下来，我们需要用到 nginx 作为一个 <strong>proxy server</strong> ，把接收到请求转发到对应的后台接口。</p>
+<p>如果你还没接触过 nginx 的话，现在就是一个好机会啦。打开 <a href="http://nginx.org/en/docs/" target="_blank" rel="external">nginx 的官网</a>，安装，看 <a href="http://nginx.org/en/docs/beginners_guide.html" target="_blank" rel="external">Beginner’s Guide</a> 。</p>
+<p>下面，修改我们的 <code>nginx.conf</code>(OSX: <code>/usr/local/etc/nginx/</code>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">worker_processes  7;</div><div class="line">events &#123; worker_connections 256; &#125;</div><div class="line"></div><div class="line">http &#123;</div><div class="line">  server &#123;</div><div class="line">    <span class="comment"># 监听 80 端口</span></div><div class="line">    listen 80; </div><div class="line">    </div><div class="line">    <span class="comment"># 域名符合：toon.*.lyyourc.net 等</span></div><div class="line">    server_name ~^toon\.(.*\.)?(lyyourc)\.net$;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">      root <span class="string">"/Users/drake/Projects/demo/fun/nginx"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment"># 只要含有 `/api/` 请求，都转发</span></div><div class="line">    location /api/ &#123;</div><div class="line">      proxy_pass http://toon-api.alpha.lyyourc.net;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后运行：<code>sudo nginx -s reload</code>，重新读取 nginx 的配置文件。如果失败的话，会有相关的提示信息。比如下面少写了 <code>event</code> 这个指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nginx: [emerg] no <span class="string">"events"</span> section <span class="keyword">in</span> configuration</div></pre></td></tr></table></figure>
+<p>在上面的 <code>nginx.conf</code> 中，我们定义了：</p>
+<blockquote>
+<p>只要请求是来自 80 端口，域名符合，URL中包含了 <code>/api/</code> 的，我们都转发到 <code>http://toon-api.alpha.lyyourc.net</code> ，如果为 <code>/</code> 的话，直接读取 <code>/Users/drake/Projects/demo/fun/nginx</code> 目录下的 <code>index.html</code> 。</p>
+</blockquote>
+<p>然后，我们前端需要做的是：<strong>根据当前的域名，请求对应的后台接口。</strong></p>
+<ul>
+<li>写一个配置文件</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// host.js</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> apiHost = () =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> items = <span class="built_in">window</span>.location.hostname.split(<span class="string">'.'</span>)</div><div class="line">  <span class="keyword">const</span> env = items[<span class="number">1</span>]</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (env) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'test'</span>: <span class="comment">// 本地开发环境 =&gt; nginx</span></div><div class="line">      <span class="keyword">return</span> <span class="string">''</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> <span class="string">'alpha'</span>:</div><div class="line">      <span class="keyword">return</span> <span class="string">'//toon-api.alpha.lyyourc.net'</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> <span class="string">'beta'</span>:</div><div class="line">      <span class="keyword">return</span> <span class="string">'//toon-api.beta.lyyourc.net'</span></div><div class="line"></div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      <span class="keyword">return</span> <span class="string">'//toon-api.lyyourc.com'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>每次请求的时候都带上这个 host :</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; apiHost &#125; <span class="keyword">from</span> <span class="string">'host.js'</span></div><div class="line"></div><div class="line">fetch(<span class="string">`<span class="subst">$&#123;apiHot()&#125;</span>/api/heros/`</span>)</div><div class="line">  .then(res =&gt; res.json())</div></pre></td></tr></table></figure>
+<p>这时就有：</p>
+<ul>
+<li>前端域名为 <code>toon.test.lyyourc.net</code> 的时候</li>
+<li><code>apiHost</code> 返回空字符串 <code>&#39;&#39;</code> </li>
+<li>访问后台接口的 URL 为 <code>toon.test.lyyourc.net/api/xx</code></li>
+<li>在 <code>/etc/hosts</code> 匹配了这个 URL ，转到 <code>127.0.0.1</code></li>
+<li>Nginx 接收，转发到 <code>http://toon-api.alpha.lyyourc.net</code> </li>
+</ul>
+<p>为什么不直接在 <code>host.js</code> 里面返回 <code>http://toon-api.alpha.lyyourc.net</code> 呢？原因有2个我认为：1个是浏览器的同源策略而产生的<strong>跨域问题</strong>，另1个是当我们想要测试任何环境下的后台接口，我们只需要改 <code>nginx.conf</code> 里面的 <code>proxy_pass</code> 就好了。</p>
+<p>综上，<strong>不知道是否还有更好的解决办法呢？</strong></p>
+<p>其实 nginx 还可以做很多事情啦。比如一个服务器上轻松地跑多个 App ，还有反代 google ，配置 HTTPS 等等。</p>
+<p>Oh~ My Nginx!!</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=由于在开发项目的时候用到了 <code>"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/08/11/Oh-My-Nginx/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

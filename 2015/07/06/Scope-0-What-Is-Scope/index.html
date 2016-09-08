@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Scope(0) - What Is Scope | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2015/07/06/Scope-0-What-Is-Scope/">Scope(0) - What Is Scope</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">July 06 2015</p>
+  </section>
+
+  <section class="article-entry">
+    <p>下面我们会学习JavaScript的scope，也就是作用域．其实很简单~<br>在讲什么是scope之前，我们先讲讲为什么会有scope的存在．</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>我们都知道，一个程序最基本的功能就是对数据的基本操作，比如增删查改．</p>
+<p>这个时候，我们就要用到<strong>变量(variable)</strong>了．那么，我们怎么知道变量是存储在哪里的，我们又是怎样获取他的<br>值，并且修改呢？</p>
+<p>这个时候，我们就需要一个<em>特殊的地方</em>来存放变量，然后我们可以在这个地方<br>找到我们所需要的变量了．这个＊特殊的地方*就是scope．</p>
+<h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p>知道了为什么会有scope的存在，我们就很容易知道什么叫做scope了．个人认为的话，</p>
+<blockquote>
+<p>scope就是一个地方，用来存放变量的．因此，你可以通过scope来获取变量的值，<br>从而对这些变量进行基本的操作．</p>
+</blockquote>
+<h2 id="How-It-Works"><a href="#How-It-Works" class="headerlink" title="How It Works"></a>How It Works</h2><p>我们先来了解一些编译(compile)理论知识．</p>
+<p>首先，<strong>compile</strong>主要分成３个步骤．</p>
+<ol>
+<li><p>Lexing(Takenizing): 把一个要编译的语句分成一些有意义的taken.<br> 比如<code>var bar = 2;</code>会被分成<code>var</code>, <code>bar</code>, <code>=</code> <code>2</code>．</p>
+</li>
+<li><p>Parsing: 把所有的taken弄成一棵<em>AST</em>(abstract syntax tree, 抽象语法树)</p>
+</li>
+<li><p>Code Generation: 生成可执行代码</p>
+</li>
+</ol>
+<p><strong>我们需要明确的一点是: JavaScript的代码是”从上到下”,”一句一句”的编译然后就立马执行的.</strong><br>(注意我使用了双引号)</p>
+<p>接下来,介绍3位好机油.分别是浏览器的Engine, Compiler, Scope.</p>
+<ul>
+<li>Engine: 负责分配任务,以及执行代码.</li>
+<li>Compiler: 接受Engine传递的任务,编译可执行的代码返回给Engine</li>
+<li>Scope: 存放变量,函数声明等.</li>
+</ul>
+<p>那么,让我们通过一个例子,来看看他们是如何合作的.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Engine will split this statement into 2 parts:</span></div><div class="line"><span class="comment">// `var bar` and `bar = 10`.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> bar = <span class="number">10</span>;</div></pre></td></tr></table></figure>
+<p>Engine: 先把<code>var bar</code>交给Compiler.<br>Compiler: 问问Scope有没有声明过<code>bar</code>这个变量.没有的话不管他,否则让Scope声明<code>bar</code>变量.<br>Scope: 我这里没有<code>bar</code>, 那我就声明吧.  </p>
+<p>Engine: 我要开始执行<code>bar = 10</code>啦.Scope你好,请问你那里有没有<code>bar</code>这个变量?<br>Scope: 当然!刚才Compiler叫我声明了.<br>Engine: 既然你<code>bar</code>的话,那我就把<code>10</code>赋值给他咯.</p>
+<h2 id="Do-It"><a href="#Do-It" class="headerlink" title="Do It"></a>Do It</h2><p>通过Scope来查找变量,函数声明等等的过程叫做<code>identifier looking up</code>.</p>
+<p>下面，我们通过一个例子，来看看怎么一回事．</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> bar;</div><div class="line">bar = <span class="number">42</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar);</div></pre></td></tr></table></figure>
+<p>在第２行代码中，我们引用了<code>bar</code>这个变量，并给他赋值了<code>２</code>.<br>此时，这种引用就叫做<strong>LHS</strong>(left hand side),也就是等号的右边．</p>
+<p>在第３行中，我们引用了<code>bar</code>这个变量的值．此时，这个引用叫做<strong>RHS</strong>(right hand side)，<br>也就是等号的右边，准确来说是等号的非左边．</p>
+<p>那么，LHS和RHS有什么不同呢？</p>
+<p>LHS只是获取变量,不在乎这个变量对应的值是什么.例子中,我们只想把<code>42</code>赋值给<code>bar</code>.<br>还有一种情况也是<code>LHS</code>: 函数的参数.</p>
+<p>RHS是为了获取变量的值!例子中,我们想要的就是把<code>bar</code>这个变量对应的值打印出来.</p>
+<p>RHS如果在scope中找不到这个变量,那么就会报错: <code>Reference Error</code>.而LHS则会给<code>window</code><br>这个全局变量添加一个属性,如果在没有使用<code>use strict</code>的情况下.比如:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 'use strict;'</span></div><div class="line">foo = <span class="number">10</span>;</div><div class="line"><span class="built_in">console</span>.log(foo);</div></pre></td></tr></table></figure></p>
+<p>在上面的例子中,很明显在scope中是找不到<code>foo</code>这个变量的.<br>又由于他是LHS,所有就会有<code>window.foo = 10;</code>我们可以通过<code>console.log(window.hasOwnProperty(&#39;foo&#39;))</code>来测试一下.</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=下面我们会学习JavaScript的sc"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2015/07/06/Scope-0-What-Is-Scope/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

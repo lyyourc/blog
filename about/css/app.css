@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  margin: 0;
+  font-size: 1.6rem;
+  font-family: "Source Han Sans", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  width: 980px;
+  margin-left: auto;
+  margin-right: auto; }
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+p {
+  line-height: 1.5; }
+
+a {
+  text-decoration: none;
+  color: #42b983; }
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem; }
+  .avatar img {
+    padding-top: 1rem;
+    border-radius: 50%; }
+
+.info a {
+  text-decoration: none; }
+
+aside {
+  width: 280px;
+  float: right;
+  height: 100%;
+  padding: .8rem;
+  background: #fff;
+  color: #000; }
+  aside h4 {
+    text-align: center;
+    font-size: 1.2rem;
+    background: #42b983;
+    color: #fff;
+    margin: 0 1rem;
+    padding: .5rem 1rem; }
+  aside ul {
+    padding: 1.5rem 1rem; }
+  aside p {
+    padding: 1.5rem 1rem;
+    padding-bottom: 0;
+    margin: 0; }
+  aside li {
+    padding: .5rem; }
+
+header {
+  background: #000;
+  color: #42b983;
+  min-height: 8rem;
+  position: relative; }
+  header > p {
+    position: absolute;
+    top: 2rem;
+    left: 2rem; }
+
+.work li {
+  padding: .5rem 0; }
+
+section.project li {
+  overflow: hidden; }
+  section.project li h4.project-name {
+    float: left;
+    width: 9rem;
+    background: #42b983;
+    color: #fff;
+    text-align: center;
+    margin-top: 3px;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    padding: .5rem; }
+  section.project li p.project-details {
+    float: left;
+    width: 70%;
+    margin-left: 2rem;
+    margin-top: 0; }
+
+.skills ul {
+  display: flex;
+  flex-wrap: wrap; }
+.skills li {
+  padding-top: 1rem;
+  width: 50%;
+  padding-right: 1rem;
+  display: flex;
+  justify-content: space-between; }
+  .skills li span {
+    display: inline-block;
+    margin-top: -3px; }
+.skills h3 {
+  margin-bottom: .8rem; }
+.skills progress[value] {
+  -webkit-appearance: none;
+  appearance: none; }
+.skills progress[value]::-webkit-progress-value {
+  background-color: #42b983; }
+.skills progress[value]::-webkit-progress-bar {
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25) inset; }
+
+main {
+  width: 700px;
+  float: right;
+  overflow: hidden;
+  padding: 2rem 1rem;
+  background: #fff;
+  /* create a line after heading */ }
+  main h3 {
+    margin-top: 0; }
+  main > section {
+    border-left: 5px solid #f33;
+    padding-left: 3rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden; }
+    main > section::before {
+      content: '';
+      display: block;
+      width: 1rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: #f33;
+      position: absolute;
+      left: -.5rem; }
+  main > section:first-child {
+    margin-top: 0; }
+
+/*# sourceMappingURL=app.css.map */
