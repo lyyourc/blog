@@ -37,8 +37,11 @@
   </section>
 
   <section class="article-entry">
-    <h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p><em>nested scope</em>就是所谓的嵌套作用域, 顾名思义就是作用域之间具有嵌套的关系.<br>那么, 为什么我们需要的nested scope呢?</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>我们做出一下的假设:</p>
+    <h2 id="what"><a class="header-anchor" href="#what">#</a>What</h2>
+<p><em>nested scope</em>就是所谓的嵌套作用域, 顾名思义就是作用域之间具有嵌套的关系.<br>
+那么, 为什么我们需要的nested scope呢?</p>
+<h2 id="why"><a class="header-anchor" href="#why">#</a>Why</h2>
+<p>我们做出一下的假设:</p>
 <blockquote>
 <p>从头到尾只有一个socpe, 没有什么多个, 也没有什么嵌套关系.</p>
 </blockquote>
@@ -51,25 +54,39 @@
 <blockquote>
 <p>外部的scope嵌套着内部的scope, 内部的scope可以使用外部的scope的变量, 但反之不行!</p>
 </blockquote>
-<p>这样以来, 我们就可以不同scope之间就可以共用相同的变量. 这是极好的~<br>但是, 我们要怎样才可以创建出多个scope呢?</p>
-<h2 id="How"><a href="#How" class="headerlink" title="How"></a>How</h2><p>在JavaScript中, 有3种不同的scope. 分别是<strong>global scope</strong>, <strong>block scope</strong>以及<strong>function scope</strong>.</p>
-<h3 id="Global-Scope"><a href="#Global-Scope" class="headerlink" title="Global Scope"></a>Global Scope</h3><p>global scope(全局作用域)是不需要创建的, 只要你执行JavaScript文件的话, 他就被自动创建.</p>
+<p>这样以来, 我们就可以不同scope之间就可以共用相同的变量. 这是极好的~<br>
+但是, 我们要怎样才可以创建出多个scope呢?</p>
+<h2 id="how"><a class="header-anchor" href="#how">#</a>How</h2>
+<p>在JavaScript中, 有3种不同的scope. 分别是<strong>global scope</strong>, <strong>block scope</strong>以及<strong>function scope</strong>.</p>
+<h3 id="global-scope"><a class="header-anchor" href="#global-scope">#</a>Global Scope</h3>
+<p>global scope(全局作用域)是不需要创建的, 只要你执行JavaScript文件的话, 他就被自动创建.</p>
 <p>他是最外层的scope. 也就是说, 他可以嵌套其他作用域, 不可以被其他scope嵌套.</p>
 <p>在浏览器环境下, global scope可以看做为<code>window</code>这个对象.</p>
-<h3 id="Block-Scope"><a href="#Block-Scope" class="headerlink" title="Block Scope"></a>Block Scope</h3><p>block scope(块级作用域)指的是用<code>{}</code>(大括号)创建一个scope. 也就是说, <code>{}</code>内的变量定义和声明都是属于这个<code>{}</code>所创建的scope.</p>
+<h3 id="block-scope"><a class="header-anchor" href="#block-scope">#</a>Block Scope</h3>
+<p>block scope(块级作用域)指的是用<code>{}</code>(大括号)创建一个scope. 也就是说, <code>{}</code>内的变量定义和声明都是属于这个<code>{}</code>所创建的scope.</p>
 <p>在ES6中, 我们可以使用<code>let</code>这个keyword来实现</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> foo = <span class="number">2</span>;</div><div class="line">  <span class="built_in">console</span>.log(foo); <span class="comment">// 2</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// Reference Error</span></div></pre></td></tr></table></figure>
-<p>但是, 在ES6之前呢? 我们要怎样才能创建一个block scope呢? 一个trick就是使用<code>try-catch</code>.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  <span class="keyword">throw</span> <span class="number">2</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (foo) &#123;</div><div class="line">  <span class="built_in">console</span>.log(foo); <span class="comment">// 2</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">// Error</span></div></pre></td></tr></table></figure></p>
+<p>但是, 在ES6之前呢? 我们要怎样才能创建一个block scope呢? 一个trick就是使用<code>try-catch</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  <span class="keyword">throw</span> <span class="number">2</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (foo) &#123;</div><div class="line">  <span class="built_in">console</span>.log(foo); <span class="comment">// 2</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">// Error</span></div></pre></td></tr></table></figure>
 <p>在上面的例子中, <code>foo</code>这个keyword只能在<code>catch</code>块里面使用. 但是, 这种写法也太丑了. 因此, 在ES6之前可以说是没有block scope的.</p>
-<h2 id="Function-Scope"><a href="#Function-Scope" class="headerlink" title="Function Scope"></a>Function Scope</h2><p>当执行一个函数的时候, 就会创建一个属于这个函数的作用域. 当执行完这个函数之后, 理论上这个作用域是会被垃圾回收器回收的.</p>
+<h2 id="function-scope"><a class="header-anchor" href="#function-scope">#</a>Function Scope</h2>
+<p>当执行一个函数的时候, 就会创建一个属于这个函数的作用域. 当执行完这个函数之后, 理论上这个作用域是会被垃圾回收器回收的.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="number">42</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(a);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在上面的例子中, 一个有3个scope. 分别是global scope &gt; foo &gt; bar(<code>&gt;</code>表示嵌套关系).<br>Engine和各个scope之间的对话.</p>
-<p>Engine: 你好<code>bar scope</code>, 我想要一个<code>a</code>的RHS, 请问你有吗?<br>bar scope: 不好意思, 我没有. 你可以去问问我的外层作用域foo scope.<br>Engine: 你好<code>foo scope</code>, 请问你有见过<code>a</code>吗?<br>foo scope: 当然! 这就给你.<br>Engine: 那太好了. 既然找到的话, 我就不需要再向上层的作用域找了.  </p>
+<p>在上面的例子中, 一个有3个scope. 分别是global scope &gt; foo &gt; bar(<code>&gt;</code>表示嵌套关系).<br>
+Engine和各个scope之间的对话.</p>
+<p>Engine: 你好<code>bar scope</code>, 我想要一个<code>a</code>的RHS, 请问你有吗?<br>
+bar scope: 不好意思, 我没有. 你可以去问问我的外层作用域foo scope.<br>
+Engine: 你好<code>foo scope</code>, 请问你有见过<code>a</code>吗?<br>
+foo scope: 当然! 这就给你.<br>
+Engine: 那太好了. 既然找到的话, 我就不需要再向上层的作用域找了.</p>
 <p>从上面的对话中, 我们可以很容易知道: 当要查找一个变量的时候, 首先会在当前所在的作用域寻找, 如果没有找到的话, 就向上找, 直到global scope. 这个过程其实就叫做<strong>identifier resolution</strong>(或者identifier look-up).</p>
-<p>接下来, 我们再来优化一下上面的例子. 例子中的<code>bar</code>函数只是为了打印一个<code>a</code>, 我们以后再也不会引用到<code>bar</code>这个变量名. 但这个变量却污染了foo scope. 有没有办法既可以打印<code>a</code>又可以不创建一个变量名呢? 答案就是利用<strong>IIFE</strong>(Immediately invoked function express).<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="number">42</span>;</div><div class="line"></div><div class="line">  (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(a);</div><div class="line">  &#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>首先, 用<code>()</code>包住整个function body就表明了这个是一个expression, 接着用<code>()</code>来调用这个function expression.<br>对于IIFE还有其他写法, 你可以选择自己喜欢的口味~</p>
+<p>接下来, 我们再来优化一下上面的例子. 例子中的<code>bar</code>函数只是为了打印一个<code>a</code>, 我们以后再也不会引用到<code>bar</code>这个变量名. 但这个变量却污染了foo scope. 有没有办法既可以打印<code>a</code>又可以不创建一个变量名呢? 答案就是利用<strong>IIFE</strong>(Immediately invoked function express).</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="number">42</span>;</div><div class="line"></div><div class="line">  (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(a);</div><div class="line">  &#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先, 用<code>()</code>包住整个function body就表明了这个是一个expression, 接着用<code>()</code>来调用这个function expression.<br>
+对于IIFE还有其他写法, 你可以选择自己喜欢的口味~</p>
 <p>IIFE是很常见的, 因为他在调用一个函数的同时也<strong>避免了作用域的污染</strong>. 这是非常值得我们学习的.</p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>总的来说, nested scope是为了可以共用作用域而产生的, 也就是说内部的scope可以访问外部scope. 而JavaScript有3种作用域global scope, block scope以及function scope. 其中, function scope是最主要的, 并且要懂得其中的IIFE.</p>
+<h2 id="summary"><a class="header-anchor" href="#summary">#</a>Summary</h2>
+<p>总的来说, nested scope是为了可以共用作用域而产生的, 也就是说内部的scope可以访问外部scope. 而JavaScript有3种作用域global scope, block scope以及function scope. 其中, function scope是最主要的, 并且要懂得其中的IIFE.</p>
 
   </section>
 </article>
@@ -89,7 +106,7 @@
   class="twitter-share-button"
   data-size="large"
   data-via="DrakeLeung"
-  href="https://twitter.com/intent/tweet?text= id="What"><a href=""
+  href="https://twitter.com/intent/tweet?text= id="what"><a class="
 >
   Tweet
 </a>

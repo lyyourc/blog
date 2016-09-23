@@ -37,22 +37,34 @@
   </section>
 
   <section class="article-entry">
-    <p>最近实现了一个简单版的<a href="https://github.com/DrakeLeung/little-virtual-DOM" target="_blank" rel="external">Virtual DOM</a>。<br>之所以简单，是因为并没有实现React的diff算法，不过我们还是可以了解一下Virtual DOM。</p>
-<h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p><em>Virtual DOM</em> 其实就是用JS对象去表示DOM元素。<br><img src="/2016/01/31/Virtual-DOM/vdom0.png" alt="vdom0.png" title=""></p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>为什么要Virtual DOM呢？因为DOM的操作本身是很慢的。但更慢的是批量操作时的不当。</p>
-<p>比如，我们要添加5个<code>&lt;li&gt;</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> appendElement =</div><div class="line">  type =&gt;</div><div class="line">    () =&gt;</div><div class="line">      <span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createElement(type))</div><div class="line"></div><div class="line"><span class="built_in">Array</span>.from(<span class="built_in">Array</span>(<span class="number">5</span>)).forEach(appendElement(<span class="string">'li'</span>))</div></pre></td></tr></table></figure></p>
+    <p>最近实现了一个简单版的<a href="https://github.com/DrakeLeung/little-virtual-DOM" target="_blank" rel="external">Virtual DOM</a>。<br>
+之所以简单，是因为并没有实现React的diff算法，不过我们还是可以了解一下Virtual DOM。</p>
+<h2 id="what"><a class="header-anchor" href="#what">#</a>What</h2>
+<p><em>Virtual DOM</em> 其实就是用JS对象去表示DOM元素。</p>
+
+<h2 id="why"><a class="header-anchor" href="#why">#</a>Why</h2>
+<p>为什么要Virtual DOM呢？因为DOM的操作本身是很慢的。但更慢的是批量操作时的不当。</p>
+<p>比如，我们要添加5个<code>&lt;li&gt;</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> appendElement =</div><div class="line">  type =&gt;</div><div class="line">    () =&gt;</div><div class="line">      <span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createElement(type))</div><div class="line"></div><div class="line"><span class="built_in">Array</span>.from(<span class="built_in">Array</span>(<span class="number">5</span>)).forEach(appendElement(<span class="string">'li'</span>))</div></pre></td></tr></table></figure>
 <p>上面每次生成一个<code>li</code>就插入，这样是很慢的。正确的做法应该是先生成5个<code>li</code>，然后再一次性把这个5个<code>li</code>插入。这个过程，我们就可以使用Virtual DOM来实现。</p>
-<h2 id="How"><a href="#How" class="headerlink" title="How"></a>How</h2><p>总共分4个步骤，如下图所示：<br><img src="/2016/01/31/Virtual-DOM/vdom2.png" alt="vdom2.png" title=""></p>
-<h3 id="VNode"><a href="#VNode" class="headerlink" title="VNode"></a>VNode</h3><p><code>VNode</code>这个函数是用JavaScript对象来表示DOM元素，比如：</p>
+<h2 id="how"><a class="header-anchor" href="#how">#</a>How</h2>
+<p>总共分4个步骤，如下图所示：</p>
+
+<h3 id="vnode"><a class="header-anchor" href="#vnode">#</a>VNode</h3>
+<p><code>VNode</code>这个函数是用JavaScript对象来表示DOM元素，比如：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item1"</span>&gt;</span>Call Me Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>可以表示为:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type: <span class="string">'li'</span>,</div><div class="line">  props: &#123;</div><div class="line">    id: <span class="string">'item1'</span></div><div class="line">  &#125;,</div><div class="line">  children: [<span class="string">'item1'</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>当然，<code>props</code>可以是数组，<code>children</code> 也可以放在<code>props</code>里面。</p>
-<h3 id="toHTML"><a href="#toHTML" class="headerlink" title="toHTML"></a>toHTML</h3><p>这个就是把<code>VNode</code>转化成真正的DOM元素。</p>
+<h3 id="tohtml"><a class="header-anchor" href="#tohtml">#</a>toHTML</h3>
+<p>这个就是把<code>VNode</code>转化成真正的DOM元素。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// 大体分3步</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line"><span class="comment">// Step 1: createElement</span></div><div class="line"><span class="keyword">const</span> node = <span class="built_in">document</span>.createElement(type)</div><div class="line"></div><div class="line"><span class="comment">// Step 2: set props</span></div><div class="line"><span class="built_in">Object</span>.keys(props).forEach(prop =&gt; &#123;</div><div class="line">  node.setAttribute(prop, props[prop])</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// Step 3: set children</span></div><div class="line">children.forEach(VChild =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> childNode</div><div class="line"></div><div class="line">  <span class="comment">// if text</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> VChild === <span class="string">'string'</span>) &#123;  <span class="comment">// #0</span></div><div class="line">    childNode = <span class="built_in">document</span>.createTextNode(VChild)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    childNode = createNode(VChild)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  node.appendChild(childNode)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">return</span> node</div></pre></td></tr></table></figure>
 <p>在<code>#0</code>中，如果当前node是<code>string</code>的话，就表明是<code>text</code>。否则进行递归。</p>
-<h3 id="Diff"><a href="#Diff" class="headerlink" title="Diff"></a>Diff</h3><p><code>diff</code>需要把新的Virtual DOM和旧的进行比较，从而得到变化的地方。<br>这个过程最难的了。我没用实现React的diff算法，只是对同级元素进行了比较而已。</p>
-<p>主要有不同的4种情况:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> TEXT = <span class="string">'TEXT'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> PROPS = <span class="string">'PROPS'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> REPLACE = <span class="string">'REPLACE'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> ADD_CHILD = <span class="string">'ADD_CHILD'</span></div></pre></td></tr></table></figure></p>
+<h3 id="diff"><a class="header-anchor" href="#diff">#</a>Diff</h3>
+<p><code>diff</code>需要把新的Virtual DOM和旧的进行比较，从而得到变化的地方。<br>
+这个过程最难的了。我没用实现React的diff算法，只是对同级元素进行了比较而已。</p>
+<p>主要有不同的4种情况:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> TEXT = <span class="string">'TEXT'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> PROPS = <span class="string">'PROPS'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> REPLACE = <span class="string">'REPLACE'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> ADD_CHILD = <span class="string">'ADD_CHILD'</span></div></pre></td></tr></table></figure>
 <ul>
 <li><code>TEXT</code>: 替换旧的<code>text</code></li>
 <li><code>PROPS</code>: 表明<code>props</code>可能是增加，删除或修改</li>
@@ -60,16 +72,19 @@
 <li><code>ADD_CHILD</code>: 表示需要增加child</li>
 </ul>
 <p>实现过程不讲述，详细看源代码(<a href="https://github.com/DrakeLeung/little-virtual-DOM/blob/master/src%2Fdiff.js" target="_blank" rel="external">diff</a>)</p>
-<h3 id="Patch"><a href="#Patch" class="headerlink" title="Patch"></a>Patch</h3><p>这个过程把上个步骤得到的<code>diff</code>来给当前的DOM节点进行操作。这个过程就是我们优化DOM操作的地方。</p>
+<h3 id="patch"><a class="header-anchor" href="#patch">#</a>Patch</h3>
+<p>这个过程把上个步骤得到的<code>diff</code>来给当前的DOM节点进行操作。这个过程就是我们优化DOM操作的地方。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> applyPatch = (node, currentPatch) =&gt; &#123;</div><div class="line">  <span class="keyword">switch</span> (currentPatch.type) &#123;</div><div class="line">    <span class="keyword">case</span> patchType.TEXT:</div><div class="line">      node.nodeValue = currentPatch.content</div><div class="line">      <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> patchType.PROPS:</div><div class="line">      setProps(node, currentPatch.props)</div><div class="line">      <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> patchType.REPLACE:</div><div class="line">      <span class="keyword">if</span> (isExist(currentPatch.node)) &#123;</div><div class="line">        node.parentNode.replaceChild(toHTML(currentPatch.node), node)</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        node.parentNode.removeChild(node)</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="keyword">case</span> patchType.ADD_CHILD:</div><div class="line">      node.appendChild(toHTML(currentPatch.node))</div><div class="line">      <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="keyword">default</span>:</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap up"></a>Wrap up</h2><p>从实现这个简单的Virtual DOM，思路确实是打开了不少。</p>
+<h2 id="wrap-up"><a class="header-anchor" href="#wrap-up">#</a>Wrap up</h2>
+<p>从实现这个简单的Virtual DOM，思路确实是打开了不少。</p>
 <ul>
 <li>用JavaScript对象来表示DOM元素。之前只会直接操作DOM，没有想到可以这样玩。</li>
 <li>怎么比较2棵树的不同？只需要比较同级的元素。虽然还是不会比较children</li>
 <li>复习了DOM的一些知识。</li>
 </ul>
 <p>所以<strong>多尝试</strong>不同的东西，思路会扩展不少~</p>
-<h2 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h2><ul>
+<h2 id="resource"><a class="header-anchor" href="#resource">#</a>Resource</h2>
+<ul>
 <li><a href="https://gist.github.com/sebmarkbage/fcb1b6ab493b0c77d589" target="_blank" rel="external">React (Virtual) DOM Terminology</a></li>
 <li><a href="https://gcanti.github.io/2014/10/29/understanding-react-and-reimplementing-it-from-scratch-part-1.html" target="_blank" rel="external">Understanding-react-and-reimplementing-it-from-scratch-part-1</a></li>
 <li><a href="https://www.zhihu.com/question/29504639" target="_blank" rel="external">怎么更好地理解虚拟DOM</a></li>

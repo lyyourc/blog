@@ -23,6 +23,13 @@ a {
   text-decoration: none;
   color: inherit; }
 
+/* https://github.com/twitter/twemoji#inline-styles */
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.2em; }
+
 .grid {
   display: flex;
   align-items: center; }
@@ -156,12 +163,28 @@ main.post {
     padding-top: 45px;
     line-height: 1.7; }
   main.post .article-entry {
-    margin-top: 75px; }
-    main.post .article-entry > h1, main.post .article-entry > h2, main.post .article-entry > h3, main.post .article-entry > h4, main.post .article-entry > h5, main.post .article-entry > h6 {
-      margin-top: 3rem;
+    margin-top: 75px;
+    /* * markdown it -> anchors in config.yml */ }
+    main.post .article-entry > h2, main.post .article-entry > h3, main.post .article-entry > h4, main.post .article-entry > h5, main.post .article-entry > h6 {
       margin-bottom: 1rem; }
+    main.post .article-entry > h2 {
+      margin-top: 3rem; }
+    main.post .article-entry > h3 {
+      margin-top: 2rem; }
+    main.post .article-entry > h4 {
+      margin-top: 1.5rem; }
     main.post .article-entry a {
       color: #5badf0; }
+    main.post .article-entry a.header-anchor {
+      margin-right: .5rem;
+      display: none; }
+    main.post .article-entry > h2 a.header-anchor {
+      display: inline; }
+    main.post .article-entry > h3:hover .header-anchor,
+    main.post .article-entry > h4:hover .header-anchor,
+    main.post .article-entry > h5:hover .header-anchor,
+    main.post .article-entry > h6:hover .header-anchor {
+      display: inline; }
   main.post .article-title {
     margin: 0;
     text-align: center;

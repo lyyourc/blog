@@ -37,11 +37,13 @@
   </section>
 
   <section class="article-entry">
-    <h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p>首先，我们来看看 Medium 加载图片的效果是怎样子的：</p>
+    <h2 id="what"><a class="header-anchor" href="#what">#</a>What</h2>
+<p>首先，我们来看看 Medium 加载图片的效果是怎样子的：</p>
 <div class="video-container"><iframe src="//player.vimeo.com/video/157258221" frameborder="0" allowfullscreen></iframe></div>
 <p>我的<a href="http://drakeleung.github.io/blog/">博客首页</a>也实现了这种效果。下面我们就分析如何实现。</p>
-<h2 id="How"><a href="#How" class="headerlink" title="How"></a>How</h2><p>我们随便打开 Medium 中有图片的<a href="https://medium.com/tag/javascript" target="_blank" rel="external">页面</a>，然后 <em>审查元素</em>，就可以得到：</p>
-<img src="/2016/03/01/How-Medium-Load-Images/inspect.png" alt="inspect.png" title="">
+<h2 id="how"><a class="header-anchor" href="#how">#</a>How</h2>
+<p>我们随便打开 Medium 中有图片的<a href="https://medium.com/tag/javascript" target="_blank" rel="external">页面</a>，然后 <em>审查元素</em>，就可以得到：</p>
+
 <p>简化之后得到：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"placeholder"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prossiveMedia"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"img-samll"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">canvas</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"img-large"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>实现的过程大致如下：</p>
@@ -51,23 +53,27 @@
 <li>当这个小图片加载完毕之后，把他画在 <code>&lt;canvas&gt;</code> 里面，然后把图片弄模糊。</li>
 <li>当大图片加载完毕之后，显示他。</li>
 </ol>
-<h2 id="Do-it"><a href="#Do-it" class="headerlink" title="Do it"></a>Do it</h2><p>首先，HTML 结构如下：</p>
+<h2 id="do-it"><a class="header-anchor" href="#do-it">#</a>Do it</h2>
+<p>首先，HTML 结构如下：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"banner"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"placeholder"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span></span></div><div class="line">    <span class="attr">class</span>=<span class="string">"img-small"</span></div><div class="line">    <span class="attr">src</span>=<span class="string">"https://cdn-images-1.medium.com/freeze/max/27/1*sg-uLNm73whmdOgKlrQdZA.jpeg?q=20"</span></div><div class="line">    <span class="attr">data-large</span>=<span class="string">"https://cdn-images-1.medium.com/max/1800/1*sg-uLNm73whmdOgKlrQdZA.jpeg"</span></div><div class="line">   &gt;</div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
 <p><code>.placeholder</code> 是用来撑起 <code>.banner</code> 的高度。因为如果我们想要让两张图片重叠的话，会用到 <code>position: absolute</code>，定位元素会脱离文档流，那么 <code>.banner</code> 的高度就会为 <code>0</code>。</p>
 <p><code>.img-small</code> 首先加载的是小图片。大图片的 URL 放在了 <code>data-large</code> 属性里面。</p>
 <p>接下来是，CSS部分：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.banner</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.placeholder</span> &#123;</div><div class="line">  <span class="attribute">padding-bottom</span>: <span class="number">66.6%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">transition</span>: opacity <span class="number">1s</span> linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">img</span><span class="selector-class">.loaded</span> &#123;</div><div class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.img-small</span> &#123;</div><div class="line">  <span class="attribute">filter</span>: <span class="built_in">blur</span>(50px);</div><div class="line">  <span class="attribute">-webkit-filter</span>: <span class="built_in">blur</span>(50px);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><code>.banner</code> 设置了 <code>relative</code>，所以他成为了他 children (<code>.placeholder</code>, <code>img</code>) 的 <em>containning block</em> 了。</p>
-<p>注意到，<code>.placeholder</code> 设置了 <code>padding-bottom: 66.6%</code>。<code>66.6%</code> 是相对于他的 <em>containning block</em> 的宽度，也就是 <code>.banner</code> 的宽度。<br>这个值应该和 <code>img</code> 的高度一样，这样一来，<code>.banner</code> 的高度就是 <code>img</code> 的高度了。</p>
+<p>注意到，<code>.placeholder</code> 设置了 <code>padding-bottom: 66.6%</code>。<code>66.6%</code> 是相对于他的 <em>containning block</em> 的宽度，也就是 <code>.banner</code> 的宽度。<br>
+这个值应该和 <code>img</code> 的高度一样，这样一来，<code>.banner</code> 的高度就是 <code>img</code> 的高度了。</p>
 <p>利用 <code>transition</code> 让透明度变化有个渐变效果。</p>
 <p>实现模糊效果是使用了 <code>filter: blur()</code>，而没有使用 <code>&lt;canvas&gt;</code>。</p>
 <p>然后，JavaScript 代码部分比较简单：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> app = (() =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> imgSmall = <span class="built_in">document</span>.querySelector(<span class="string">'.img-small'</span>)</div><div class="line"></div><div class="line">  <span class="keyword">const</span> loadImage = () =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> img = <span class="keyword">new</span> Image()</div><div class="line"></div><div class="line">    img.src = imgSmall.src</div><div class="line">    img.addEventListener(<span class="string">'load'</span>, (e) =&gt; &#123;</div><div class="line">      imgSmall.classList.add(<span class="string">'loaded'</span>)</div><div class="line">    &#125;, <span class="literal">false</span>)</div><div class="line"></div><div class="line">    <span class="keyword">const</span> imgLarge = <span class="keyword">new</span> Image()</div><div class="line"></div><div class="line">    imgLarge.src = imgSmall.dataset.large</div><div class="line">    imgLarge.addEventListener(<span class="string">'load'</span>, (e) =&gt; &#123;</div><div class="line">      imgLarge.classList.add(<span class="string">'loaded'</span>)</div><div class="line">    &#125;, <span class="literal">false</span>)</div><div class="line"></div><div class="line">    imgSmall.parentNode.appendChild(imgLarge)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    loadImage</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;)()</div><div class="line"></div><div class="line">app.loadImage()</div></pre></td></tr></table></figure>
 <p>需要注意的是，我们不能直接监听 <code>.img-small</code> 的 <code>load</code> 事件，要 <code>new Image</code>，然后赋予其 <code>src</code>，然后我们就可以监听他的 <code>load</code> 事件了。</p>
 <p>最后，为了凸显效果，我们要禁止缓存和设置较差的网络环境。具体做法如图：</p>
-<img src="/2016/03/01/How-Medium-Load-Images/network.png" alt="network.png" title="">
-<p>实际效果如下：<br><iframe scrolling="no" width="100%" height="300" src="http://jsfiddle.net/5sLzjk99/embedded/js,resources,html,css,result/light" frameborder="0" allowfullscreen></iframe></p>
-<h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><ul>
+
+<p>实际效果如下：</p>
+<iframe scrolling="no" width="100%" height="300" src="http://jsfiddle.net/5sLzjk99/embedded/js,resources,html,css,result/light" frameborder="0" allowfullscreen></iframe>
+<h2 id="resources"><a class="header-anchor" href="#resources">#</a>Resources</h2>
+<ul>
 <li><a href="https://jmperezperez.com/medium-image-progressive-loading-placeholder/" target="_blank" rel="external">How Medium does progressive image loading</a></li>
 </ul>
 
@@ -89,7 +95,7 @@
   class="twitter-share-button"
   data-size="large"
   data-via="DrakeLeung"
-  href="https://twitter.com/intent/tweet?text= id="What"><a href=""
+  href="https://twitter.com/intent/tweet?text= id="what"><a class="
 >
   Tweet
 </a>

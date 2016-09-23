@@ -38,12 +38,14 @@
 
   <section class="article-entry">
     <p>更多信息可查看 <a href="http://drakeleung.github.io/demo/slides/calc">SLIDE</a> 。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>我们的问题是这样子的：</p>
+<h2 id="问题"><a class="header-anchor" href="#问题">#</a>问题</h2>
+<p>我们的问题是这样子的：</p>
 <blockquote>
 <p>写一个 <code>calculate</code> 函数，他的参数是一个四则运算表达式字符串，返回结果则是该参数的求值。</p>
 </blockquote>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">calculate(<span class="string">'1+2*3'</span>) <span class="comment">// 7</span></div><div class="line">calculate(<span class="string">'1*(2+3)*4)'</span>) <span class="comment">// 20</span></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * 规则：</div><div class="line"> * 1. 禁止 eval 及其类似物</div><div class="line"> * 2. 禁止第三方库</div><div class="line"> */</div></pre></td></tr></table></figure>
-<h2 id="最简单的思路"><a href="#最简单的思路" class="headerlink" title="最简单的思路"></a>最简单的思路</h2><p>假设字符串就是简单的 <code>1+2</code>，那么最简单的想法当然是：</p>
+<h2 id="最简单的思路"><a class="header-anchor" href="#最简单的思路">#</a>最简单的思路</h2>
+<p>假设字符串就是简单的 <code>1+2</code>，那么最简单的想法当然是：</p>
 <blockquote>
 <p>遍历该字符串，然后根据不同的操作符，计算其结果，重复之。</p>
 </blockquote>
@@ -52,7 +54,8 @@
 <blockquote>
 <p>能不能没有优先级，按顺序就好啦，这样就简单多了。</p>
 </blockquote>
-<h2 id="逆波兰"><a href="#逆波兰" class="headerlink" title="逆波兰"></a>逆波兰</h2><p>只要努力 google 一下，我们就可以找到解决方法：</p>
+<h2 id="逆波兰"><a class="header-anchor" href="#逆波兰">#</a>逆波兰</h2>
+<p>只要努力 google 一下，我们就可以找到解决方法：</p>
 <blockquote>
 <p>使用「逆波兰表达式」。</p>
 </blockquote>
@@ -61,15 +64,19 @@
 <blockquote>
 <p>怎样把「中缀表达式」转换成「逆波兰表达式」？</p>
 </blockquote>
-<h2 id="Tokenizer"><a href="#Tokenizer" class="headerlink" title="Tokenizer"></a>Tokenizer</h2><p>第一步，我们需要做的是：</p>
+<h2 id="tokenizer"><a class="header-anchor" href="#tokenizer">#</a>Tokenizer</h2>
+<p>第一步，我们需要做的是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 假设我们的字符串形如：`1+2*3-4`</div><div class="line">// 那么就要把他转换成这样的一个数组：</div><div class="line"></div><div class="line">[</div><div class="line">  &#123; <span class="built_in">type</span>: <span class="string">'number'</span>, value: 1 &#125;,</div><div class="line">  &#123; <span class="built_in">type</span>: <span class="string">'operator'</span>, value: <span class="string">'+'</span> &#125;,</div><div class="line">  &#123; <span class="built_in">type</span>: <span class="string">'number'</span>, value: 2 &#125;,</div><div class="line">  ....</div><div class="line">]</div></pre></td></tr></table></figure>
 <p><em>查看代码请点击 <a href="https://github.com/DrakeLeung/calc/blob/master/src/tokenizer.js" target="_blank" rel="external">tokenizer</a> 。</em></p>
-<h2 id="toRPN"><a href="#toRPN" class="headerlink" title="toRPN"></a>toRPN</h2><p>第二步，我们要把得到的 tokens 转换成 <em>逆波兰</em> 形式。这个时候需要用到 <a href="">shunting-yard</a> 算法。</p>
+<h2 id="torpn"><a class="header-anchor" href="#torpn">#</a>toRPN</h2>
+<p>第二步，我们要把得到的 tokens 转换成 <em>逆波兰</em> 形式。这个时候需要用到 <a href="">shunting-yard</a> 算法。</p>
 <p><em>查看代码请点击 <a href="https://github.com/DrakeLeung/calc/blob/master/src/toRPN.js" target="_blank" rel="external">toRPN</a> 。</em></p>
-<h2 id="Calculator"><a href="#Calculator" class="headerlink" title="Calculator"></a>Calculator</h2><p>第三步，也是我们最后一步。</p>
+<h2 id="calculator"><a class="header-anchor" href="#calculator">#</a>Calculator</h2>
+<p>第三步，也是我们最后一步。</p>
 <p>我们需要把创建一个 <strong>操作数栈</strong> ，如果是操作数的话，push 到栈里去；如果是操作符的话，把栈里的前两个操作数 pop 出来，计算他们和该操作符的结果。然后把结果 push 到栈里。重复之，直到遍历完所有的 tokens 。</p>
 <p><em>查看代码请点击 <a href="https://github.com/DrakeLeung/calc/blob/master/src/index.js" target="_blank" rel="external">calculator</a> 。</em></p>
-<h2 id="抽象语法树"><a href="#抽象语法树" class="headerlink" title="抽象语法树"></a>抽象语法树</h2><p>其实，我们还能做些更有趣的事情。比如，构建一棵 AST 。做法其实和第三步差不多。</p>
+<h2 id="抽象语法树"><a class="header-anchor" href="#抽象语法树">#</a>抽象语法树</h2>
+<p>其实，我们还能做些更有趣的事情。比如，构建一棵 AST 。做法其实和第三步差不多。</p>
 <ol>
 <li>创建一个 <strong>操作数栈</strong></li>
 <li>遍历 tokens</li>
@@ -79,7 +86,8 @@
 </ol>
 <p>有了 AST 之后，如果我们对其分别进行前序，中序，后序遍历的话，就可以得到 <strong>前缀表达式</strong> ，<strong>中缀表达式</strong> ，以及 <strong>后缀表达式</strong> 。</p>
 <p><em>查看代码请点击 <a href="https://github.com/DrakeLeung/calc/blob/master/src/parser.js" target="_blank" rel="external">parser</a> 。</em></p>
-<h2 id="项目源码"><a href="#项目源码" class="headerlink" title="项目源码"></a>项目源码</h2><p>所有代码可查看：<a href="https://github.com/DrakeLeung/calc" target="_blank" rel="external">https://github.com/DrakeLeung/calc</a></p>
+<h2 id="项目源码"><a class="header-anchor" href="#项目源码">#</a>项目源码</h2>
+<p>所有代码可查看：<a href="https://github.com/DrakeLeung/calc" target="_blank" rel="external">https://github.com/DrakeLeung/calc</a></p>
 
   </section>
 </article>

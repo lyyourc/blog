@@ -38,56 +38,83 @@
 
   <section class="article-entry">
     <p>官方文档: <a href="https://developer.chrome.com/devtools" target="_blank" rel="external">Chrome DevTools</a></p>
-<h2 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h2><h3 id="Basic-Operation"><a href="#Basic-Operation" class="headerlink" title="Basic Operation"></a>Basic Operation</h3><ul>
+<h2 id="console"><a class="header-anchor" href="#console">#</a>Console</h2>
+<h3 id="basic-operation"><a class="header-anchor" href="#basic-operation">#</a>Basic Operation</h3>
+<ul>
 <li>打开: <code>Ctrl + Shift + J</code></li>
 <li><code>Shift + Enter</code>可以换行，当你要写多行代码的时候。</li>
 <li>删除console history: <code>Ctrl + L</code></li>
-<li>drawer: 假设你在其他tab里面，想要看到<code>Console</code>tab的东西，就可以可以按<code>Esc</code>来显示drawer<br>  <img src="http://ww3.sinaimg.cn/large/7f85b91egw1eu3hckqtijj20rg0c8dj9.jpg" alt=""></li>
+<li>drawer: 假设你在其他tab里面，想要看到<code>Console</code>tab的东西，就可以可以按<code>Esc</code>来显示drawer<br>
+<img src="http://ww3.sinaimg.cn/large/7f85b91egw1eu3hckqtijj20rg0c8dj9.jpg" alt=""></li>
 </ul>
-<h3 id="Console-API"><a href="#Console-API" class="headerlink" title="Console API"></a>Console API</h3><p>在DevTools里面定义了一个全局对象<code>console</code>。他有许多有用的API</p>
+<h3 id="console-api"><a class="header-anchor" href="#console-api">#</a>Console API</h3>
+<p>在DevTools里面定义了一个全局对象<code>console</code>。他有许多有用的API</p>
 <ul>
-<li><p>打印日志: <code>console.log(arg1, arg2)</code>。<code>.log()</code>可以有多个参数，<code>console.log(&#39;loved?&#39;, true)</code></p>
+<li>
+<p>打印日志: <code>console.log(arg1, arg2)</code>。<code>.log()</code>可以有多个参数，<code>console.log('loved?', true)</code></p>
 </li>
-<li><p>打印错误日志: <code>console.error()</code>以及打印警告日志: <code>console.warn()</code></p>
+<li>
+<p>打印错误日志: <code>console.error()</code>以及打印警告日志: <code>console.warn()</code></p>
 </li>
-<li><p>用CSS来style你的日志: <code>%c</code>作为指示，第2个参数写CSS。</p>
+<li>
+<p>用CSS来style你的日志: <code>%c</code>作为指示，第2个参数写CSS。</p>
   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">"%cThis will be formatted with large, blue text"</span>, <span class="string">"color: blue; font-size: x-large"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'%cBlue! %cRed!'</span>, <span class="string">'color: blue;'</span>, <span class="string">'color: red;'</span>);</div></pre></td></tr></table></figure>
 <p>这样就可以在console里面写一些漂亮的彩蛋了。</p>
 </li>
-<li><p>把DOM元素格式化为JavaScript对象: <code>console.dir()</code>, 如<code>console.dir(document)</code></p>
+<li>
+<p>把DOM元素格式化为JavaScript对象: <code>console.dir()</code>, 如<code>console.dir(document)</code></p>
 </li>
-<li><p>测量时间: 传一个<code>string</code>作为给<code>.time()</code>作为开始，这个string就是time marker。结束<br>的话就<code>timeEnd(string)</code>。string和前面的一样。</p>
+<li>
+<p>测量时间: 传一个<code>string</code>作为给<code>.time()</code>作为开始，这个string就是time marker。结束<br>
+的话就<code>timeEnd(string)</code>。string和前面的一样。</p>
   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.time(<span class="string">"Array initialize"</span>);</div><div class="line">    <span class="keyword">var</span> array= <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1000000</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = array.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">        array[i] = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    &#125;;</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">"Array initialize"</span>);</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="Command-Line-API"><a href="#Command-Line-API" class="headerlink" title="Command Line API"></a>Command Line API</h3><ul>
-<li><p>自动补全: 比如输入<code>doc</code>就会有提示。如果是单个提示时，可以使用<code>tab</code>来补全。而多个时，按<code>↑</code><br>和<code>↓</code>进行选择，然后按<code>→</code>补全当前。</p>
+<h3 id="command-line-api"><a class="header-anchor" href="#command-line-api">#</a>Command Line API</h3>
+<ul>
+<li>
+<p>自动补全: 比如输入<code>doc</code>就会有提示。如果是单个提示时，可以使用<code>tab</code>来补全。而多个时，按<code>↑</code><br>
+和<code>↓</code>进行选择，然后按<code>→</code>补全当前。</p>
 </li>
-<li><p>选择元素: <code>$()</code>是<code>querySelector()</code>的简写，而<code>$$()</code>是<code>querySelectorAll()</code></p>
+<li>
+<p>选择元素: <code>$()</code>是<code>querySelector()</code>的简写，而<code>$$()</code>是<code>querySelectorAll()</code></p>
 </li>
-<li><p><code>$0~$4</code>保存了你在<strong>Element tab</strong>里面选择过的5个元素。</p>
+<li>
+<p><code>$0~$4</code>保存了你在<strong>Element tab</strong>里面选择过的5个元素。</p>
 </li>
 </ul>
-<h2 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h2><p><img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3ifwyikzj20ov08i77o.jpg" alt=""></p>
+<h2 id="network"><a class="header-anchor" href="#network">#</a>Network</h2>
+<p><img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3ifwyikzj20ov08i77o.jpg" alt=""></p>
 <ul>
 <li>可以检查你的文件路径有没有写对。</li>
 <li>直播下载网易云音乐的歌曲。</li>
 </ul>
-<h2 id="Elements"><a href="#Elements" class="headerlink" title="Elements"></a>Elements</h2><p>对着你想要审查的元素，鼠标右击 -&gt; Inspect Element。或者<code>Ctrl + Shift + C</code>.<br>可以随便修改删除一些标签啊，比如去掉广告浮窗，或者这样啊，<br><img src="http://ww1.sinaimg.cn/large/7f85b91egw1eu3g2gwgaij20dh0a4aaz.jpg" alt=""></p>
+<h2 id="elements"><a class="header-anchor" href="#elements">#</a>Elements</h2>
+<p>对着你想要审查的元素，鼠标右击 -&gt; Inspect Element。或者<code>Ctrl + Shift + C</code>.<br>
+可以随便修改删除一些标签啊，比如去掉广告浮窗，或者这样啊，<br>
+<img src="http://ww1.sinaimg.cn/large/7f85b91egw1eu3g2gwgaij20dh0a4aaz.jpg" alt=""></p>
 <ul>
 <li>color picker: 按<code>shift</code> + click可以切换颜色的表示方法。</li>
 <li>adding new CSS rules</li>
-<li>toggle element state<br>  <img src="http://ww4.sinaimg.cn/large/7f85b91egw1eu3gx9r0ppj20dc01r0sp.jpg" alt=""></li>
+<li>toggle element state<br>
+<img src="http://ww4.sinaimg.cn/large/7f85b91egw1eu3gx9r0ppj20dc01r0sp.jpg" alt=""></li>
 </ul>
-<h2 id="Sources"><a href="#Sources" class="headerlink" title="Sources"></a>Sources</h2><p>Sources tab可以查看你的文件。<br><img src="http://ww3.sinaimg.cn/large/7f85b91egw1eu392veow8j20uk0rm0vv.jpg" alt=""></p>
-<h3 id="debugging-JavaScript-with-breakpoints"><a href="#debugging-JavaScript-with-breakpoints" class="headerlink" title="debugging JavaScript with breakpoints"></a>debugging JavaScript with breakpoints</h3><ol>
-<li><p>按<code>Ctrl + P</code>就可以搜索我们的文件，此时会调到<strong>Sources tab</strong>。接着<code>Ctrl + Shift + O</code>搜索函数名, <code>Ctrl + G</code>可以跳到任意一行，或者<code>Ctrl + Shift + F</code>在所有文件中搜索文本。</p>
-<p> <img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3fzown0oj20lo08bwgi.jpg" alt=""></p>
+<h2 id="sources"><a class="header-anchor" href="#sources">#</a>Sources</h2>
+<p>Sources tab可以查看你的文件。<br>
+<img src="http://ww3.sinaimg.cn/large/7f85b91egw1eu392veow8j20uk0rm0vv.jpg" alt=""></p>
+<h3 id="debugging-javascript-with-breakpoints"><a class="header-anchor" href="#debugging-javascript-with-breakpoints">#</a>debugging JavaScript with breakpoints</h3>
+<ol>
+<li>
+<p>按<code>Ctrl + P</code>就可以搜索我们的文件，此时会调到<strong>Sources tab</strong>。接着<code>Ctrl + Shift + O</code>搜索函数名, <code>Ctrl + G</code>可以跳到任意一行，或者<code>Ctrl + Shift + F</code>在所有文件中搜索文本。</p>
+<p><img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3fzown0oj20lo08bwgi.jpg" alt=""></p>
 </li>
-<li><p>单击<strong>line gutter</strong>就可以在该行设置一个breakpoint。然后你可以在右边的面板的<strong>BreakPoints</strong><br>找到所有设置过的breakpoint</p>
-<p> <img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu39fv8s2gj20le0cd400.jpg" alt=""></p>
+<li>
+<p>单击<strong>line gutter</strong>就可以在该行设置一个breakpoint。然后你可以在右边的面板的<strong>BreakPoints</strong><br>
+找到所有设置过的breakpoint</p>
+<p><img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu39fv8s2gj20le0cd400.jpg" alt=""></p>
 </li>
-<li><p>Control</p>
+<li>
+<p>Control</p>
 <ul>
 <li><strong>Continue</strong>: 继续执行，直到下一个breakpoint</li>
 <li><strong>Step over</strong>: 下一行</li>
@@ -97,10 +124,15 @@
 </ul>
 </li>
 </ol>
-<ol>
-<li>查看<br>然后，我们就可以在<strong>Scope Vraibles</strong>那里查看你想要的变量。如果你有一直想看的变量，<br>可以把他添加到<strong>Watch Expressions</strong></li>
+<ol start="4">
+<li>查看<br>
+然后，我们就可以在<strong>Scope Vraibles</strong>那里查看你想要的变量。如果你有一直想看的变量，<br>
+可以把他添加到<strong>Watch Expressions</strong></li>
 </ol>
-<h3 id="Saving-changes-with-workspaces"><a href="#Saving-changes-with-workspaces" class="headerlink" title="Saving changes with workspaces"></a>Saving changes with workspaces</h3><p>把文件夹添加到workspace之后，你在DevTools上面修改的东西就会同步到实际的文件<br>当中去。<br><img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3d1b12tsj20ve0bl77g.jpg" alt=""></p>
+<h3 id="saving-changes-with-workspaces"><a class="header-anchor" href="#saving-changes-with-workspaces">#</a>Saving changes with workspaces</h3>
+<p>把文件夹添加到workspace之后，你在DevTools上面修改的东西就会同步到实际的文件<br>
+当中去。<br>
+<img src="http://ww2.sinaimg.cn/large/7f85b91egw1eu3d1b12tsj20ve0bl77g.jpg" alt=""></p>
 <p>这样一来，DevTools就相当于一个编辑器了。</p>
 
   </section>

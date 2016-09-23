@@ -41,7 +41,8 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="number">42</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">     <span class="built_in">console</span>.log(x);</div><div class="line">  &#125;</div><div class="line">  bar();</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
 <p>结果并没有出乎我们的意料，就是<code>42</code>。为什么呢？<code>bar</code>函数执行的时候，要引用到<code>baz</code>的值，那么去哪里找？首先在自己的作用域里面找。噢，一下就找到了，原来是<code>42</code>。</p>
 <p>上面这种就是<strong>lexical scope</strong>(或者<strong>static scope</strong>)。</p>
-<h2 id="What-is-Lexical-Scope"><a href="#What-is-Lexical-Scope" class="headerlink" title="What is Lexical Scope"></a>What is Lexical Scope</h2><p><strong>lexical scope取决于函数是在哪里被定义的</strong>.</p>
+<h2 id="what-is-lexical-scope"><a class="header-anchor" href="#what-is-lexical-scope">#</a>What is Lexical Scope</h2>
+<p><strong>lexical scope取决于函数是在哪里被定义的</strong>.</p>
 <p>在上面的例子中，<code>bar</code>被定义在<code>foo</code>里面，所以<code>foo</code>的作用域就是<code>bar</code>的lexical scope. 然后，<code>foo</code>是被定义在global里面的，所以他的lexical scope就是<em>global scope</em>.</p>
 <p>所以在lexical scope中，查找<code>x</code>的过程如下，</p>
 <ol>
@@ -50,7 +51,8 @@
 <li>接着去他的lexical scope找（也就是<code>foo</code>的作用域), 找到了，<code>x</code>是42.</li>
 </ol>
 <p>是不是有点是懂非懂的样子，我们再来看看dynamical scope，做一下比较就知道了。</p>
-<h2 id="What-is-Dynamical-Scope"><a href="#What-is-Dynamical-Scope" class="headerlink" title="What is Dynamical Scope"></a>What is Dynamical Scope</h2><p><strong>dynamical Scope是取决于函数是在哪里被调用的</strong>。</p>
+<h2 id="what-is-dynamical-scope"><a class="header-anchor" href="#what-is-dynamical-scope">#</a>What is Dynamical Scope</h2>
+<p><strong>dynamical Scope是取决于函数是在哪里被调用的</strong>。</p>
 <p>看一个例子:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="number">42</span>;</div><div class="line">  bar();</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
 <p>在上面的例子中，由于<code>bar</code>是在<code>foo</code>里面被调用的，所以<code>bar</code>的dynamical socpe就是<code>foo</code>的作用域。而<code>foo</code>是在global socpe里面被调用的，所以global scope是<code>foo</code>的dynamical scope.</p>
@@ -61,9 +63,11 @@
 <li>看看是谁调用<code>bar</code>的，就去那里找。OK, 是<code>foo</code>。那么，我们就去<code>foo</code>的作用域找。</li>
 <li>噢，找到了。<code>x</code>是<code>42</code>.</li>
 </ol>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>总的来说，lexical scope是取决于函数是在哪里被定义的。而dynamical scope是取决于函数是哪里被调用的。</p>
+<h2 id="summary"><a class="header-anchor" href="#summary">#</a>Summary</h2>
+<p>总的来说，lexical scope是取决于函数是在哪里被定义的。而dynamical scope是取决于函数是哪里被调用的。</p>
 <p>而JavaScript的<strong>name resolution</strong>(查找变量或者函数的过程)是采用lexical scope的。但是JavaScript的<code>this</code>的值却跟dynamical scope很像。我们以后会再讲<code>this</code>。</p>
-<h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><ul>
+<h2 id="resources"><a class="header-anchor" href="#resources">#</a>Resources</h2>
+<ul>
 <li><a href="http://c2.com/cgi/wiki?DynamicScoping" target="_blank" rel="external">Dynamical Scope</a>前面的解释部分。</li>
 </ul>
 

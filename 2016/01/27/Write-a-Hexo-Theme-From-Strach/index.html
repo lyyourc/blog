@@ -37,7 +37,8 @@
   </section>
 
   <section class="article-entry">
-    <p>之前我也不会写，但是当我了解以下东西的时候，就可以从零开始写一个Hexo主题了。<br></p>
+    <p>之前我也不会写，但是当我了解以下东西的时候，就可以从零开始写一个Hexo主题了。</p>
+
 <ul>
 <li>NodeJS / NPM</li>
 <li>模板引擎(Template Engine)，比如EJS, Jade，Handlebars等等都可以</li>
@@ -45,10 +46,13 @@
 <li>阅读Hexo的<a href="https://hexo.io/docs/" target="_blank" rel="external">文档</a></li>
 <li>阅读Hexo默认主题<a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">landscape</a>的源码</li>
 </ul>
-<p>以上正是一名Web前端人员需要了解和掌握的东西。<br><strong>不过，不会前端也不要紧，我告诉你以下的东西就足够了。</strong></p>
-<h2 id="NodeJS-NPM"><a href="#NodeJS-NPM" class="headerlink" title="NodeJS / NPM"></a>NodeJS / NPM</h2><p>首先，Hexo是由NodeJS来编写的。编写一个应用是需要第三方包(依赖/库)，这个就是我们的<code>package.json</code>文件的由来。这些package怎么下载的呢？答案就是通过<a href="https://www.npmjs.com/" target="_blank" rel="external">NPM</a>(Node Package Manager)，然后他们都会安装在<code>node_modules/</code>这个文件夹里面。</p>
+<p>以上正是一名Web前端人员需要了解和掌握的东西。<br>
+<strong>不过，不会前端也不要紧，我告诉你以下的东西就足够了。</strong></p>
+<h2 id="nodejs-npm"><a class="header-anchor" href="#nodejs-npm">#</a>NodeJS / NPM</h2>
+<p>首先，Hexo是由NodeJS来编写的。编写一个应用是需要第三方包(依赖/库)，这个就是我们的<code>package.json</code>文件的由来。这些package怎么下载的呢？答案就是通过<a href="https://www.npmjs.com/" target="_blank" rel="external">NPM</a>(Node Package Manager)，然后他们都会安装在<code>node_modules/</code>这个文件夹里面。</p>
 <p>OK，这就是我们需要知道的NodeJS和NPM的知识。</p>
-<h2 id="Hexo的Workflow"><a href="#Hexo的Workflow" class="headerlink" title="Hexo的Workflow"></a>Hexo的Workflow</h2><p><strong>下面是重点。</strong></p>
+<h2 id="hexo的workflow"><a class="header-anchor" href="#hexo的workflow">#</a>Hexo的Workflow</h2>
+<p><strong>下面是重点。</strong></p>
 <p>Hexo会读取根目录下的<code>_config.yml</code>里面的<code>theme</code>属性, 从而采用对应的主题。而主题都是放在<code>themes/</code>目录下面的，然后你会发现他里面有个<code>landscape</code>的目录，这个就是默认主题啦。</p>
 
 <p>接着，我们查看<code>themes/landscape/</code>目录，以及根据文档<a href="https://hexo.io/docs/themes.html" target="_blank" rel="external">docs-themes</a>，我们很容易得出：一个主题其实由4部分组成。</p>
@@ -87,14 +91,21 @@
 </tr>
 </tbody>
 </table>
-<p>如下图所示:<br></p>
+<p>如下图所示:</p>
+
 <p>或者，可以先尝试一下没有<code>layout.ejs</code>的情况，因为比较简单。也就是，访问<code>/</code>，Hexo就返回<code>index.ejs</code>里面的东西给你。访问<code>/archives</code>就返回<code>archive.ejs</code>。</p>
-<h2 id="模板文件"><a href="#模板文件" class="headerlink" title="模板文件"></a>模板文件</h2><p>那么，接下来就要编写我们的模板文件了。怎么写呢？<br>比如我的根目录想显示所有的文章？我们就要使用Hexo提供的<a href="https://hexo.io/docs/variables.html" target="_blank" rel="external">变量</a>了。通过文档，我们可以得出<code>page.posts</code>这个变量就包含了所有的文章。</p>
+<h2 id="模板文件"><a class="header-anchor" href="#模板文件">#</a>模板文件</h2>
+<p>那么，接下来就要编写我们的模板文件了。怎么写呢？<br>
+比如我的根目录想显示所有的文章？我们就要使用Hexo提供的<a href="https://hexo.io/docs/variables.html" target="_blank" rel="external">变量</a>了。通过文档，我们可以得出<code>page.posts</code>这个变量就包含了所有的文章。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">page.posts.each</span>(<span class="attr">function</span>(<span class="attr">post</span>)&#123; %&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">article</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span> post.title <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span> post.content <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">article</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span> &#125;) %&gt;</span></div></pre></td></tr></table></figure>
 <p>编写模板文件的时候，我们可能利用Hexo内置的一些<a href="https://hexo.io/docs/helpers.html" target="_blank" rel="external">helper</a>来方便开发，比如分页使用<a href="https://hexo.io/docs/helpers.html#paginator" target="_blank" rel="external">paginator</a>，路径处理使用<a href="https://hexo.io/docs/helpers.html#url_for" target="_blank" rel="external">url_for</a>等。</p>
-<h2 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h2><p>我们的CSS文件是放在<code>source</code>里面的，然后要怎么加载呢？这个时候，我们就需要在模板文件里面引入，比如我们的首页需要<code>app.css</code>，那么就在<code>index.ejs</code>里面引用就行了。如果每个页面都用到的话，就放在<code>layout.ejs</code>。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">%-</span> <span class="attr">css</span>('<span class="attr">path</span>/<span class="attr">to</span>/<span class="attr">app</span>') %&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="样式"><a class="header-anchor" href="#样式">#</a>样式</h2>
+<p>我们的CSS文件是放在<code>source</code>里面的，然后要怎么加载呢？这个时候，我们就需要在模板文件里面引入，比如我们的首页需要<code>app.css</code>，那么就在<code>index.ejs</code>里面引用就行了。如果每个页面都用到的话，就放在<code>layout.ejs</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">%-</span> <span class="attr">css</span>('<span class="attr">path</span>/<span class="attr">to</span>/<span class="attr">app</span>') %&gt;</span></div></pre></td></tr></table></figure>
 <p>当然，你也可以使用预处理器来写样式，比如Sass，Stylus等等。此时，你就要下载对应的package来解释成CSS。比如，我使用的是Sass，那么我就要<code>npm i --save hexo-renderer-sass</code>来把<code>.scss</code>文件解释成<code>.css</code>文件。</p>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>如果遇到问题的话，查看Hexo默认主题<a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">landscape</a>的源码以及<a href="https://hexo.io/docs/" target="_blank" rel="external">文档</a>就能解决了。<br>最后卖下广告，这是我写的主题：<a href="https://github.com/DrakeLeung/hexo-theme-again" target="_blank" rel="external">hexo-theme-again</a>。</p>
+<h2 id="总结一下"><a class="header-anchor" href="#总结一下">#</a>总结一下</h2>
+<p>如果遇到问题的话，查看Hexo默认主题<a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">landscape</a>的源码以及<a href="https://hexo.io/docs/" target="_blank" rel="external">文档</a>就能解决了。<br>
+最后卖下广告，这是我写的主题：<a href="https://github.com/DrakeLeung/hexo-theme-again" target="_blank" rel="external">hexo-theme-again</a>。</p>
 
   </section>
 </article>

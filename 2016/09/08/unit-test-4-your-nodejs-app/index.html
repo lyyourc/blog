@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Node.js 之单元测试 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+</head>
+
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2016/09/08/unit-test-4-your-nodejs-app/">Node.js 之单元测试</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">September 08 2016</p>
+  </section>
+
+  <section class="article-entry">
+    <h2 id="setup-node-js-app"><a class="header-anchor" href="#setup-node-js-app">#</a>Setup Node.js App</h2>
+<p>( <strong>如果已经建好了 Node.js 应用，可直接跳到 <a href="#start-unit-test">下一个部分 - Start Unit Test</a></strong> )</p>
+<p>下面，我们将使用 <a href="https://github.com/koajs/koa" target="_blank" rel="external">koa</a>, <a href="http://mongoosejs.com" target="_blank" rel="external">mongoose</a> , <a href="https://github.com/lorenwest/node-config/" target="_blank" rel="external">config</a> 初始化我们的项目。<br>
+完整代码可查看 <img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/72x72/1f449.png"> <a href="">这里</a>。</p>
+<p>首先是我们的入口文件: <code>src/app.js</code> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/app.js</span></div><div class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">'koa'</span>)()</div><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</div><div class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'config'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> router = <span class="built_in">require</span>(<span class="string">'./router'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> &#123; mongo &#125; = config</div><div class="line"><span class="keyword">const</span> url = <span class="string">`mongodb://<span class="subst">$&#123;mongo.host&#125;</span>:<span class="subst">$&#123;mongo.port&#125;</span>/<span class="subst">$&#123;mongo.db&#125;</span>`</span></div><div class="line">mongoose.Promise = global.Promise</div><div class="line">mongoose.connect(url)</div><div class="line"></div><div class="line">app.use(router.routes())</div><div class="line"></div><div class="line">app.on(<span class="string">'error'</span>, err =&gt; <span class="built_in">console</span>.error(<span class="string">'onError'</span>, err))</div><div class="line">app.listen(config.port, () =&gt; <span class="built_in">console</span>.log(<span class="string">`listening port <span class="subst">$&#123;config.port&#125;</span>`</span>))</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = app</div></pre></td></tr></table></figure>
+<p>接着是我们的路由文件：<code>src/router.js</code> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/router.js</span></div><div class="line"><span class="keyword">const</span> router = <span class="built_in">require</span>(<span class="string">'koa-router'</span>)()</div><div class="line"></div><div class="line"><span class="keyword">const</span> heroCtrl = <span class="built_in">require</span>(<span class="string">'./apis/hero/hero.ctrl'</span>)</div><div class="line"></div><div class="line">router.get(<span class="string">'/api/hero'</span>, heroCtrl.getHeroes)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router</div></pre></td></tr></table></figure>
+<p>然后呢是我们的接口文件：<code>src/api/hero/hero.model.js</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/api/hero/hero.model.js</span></div><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = mongoose.model(<span class="string">'hero'</span>, &#123;</div><div class="line">  name: <span class="built_in">String</span>,</div><div class="line">  skills: [<span class="built_in">String</span>],</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>以及其对应的 controller: <code>src/api/hero/hero.ctrl.js</code> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/api/hero/hero.ctrl.js</span></div><div class="line"><span class="keyword">const</span> heroModel = <span class="built_in">require</span>(<span class="string">'./hero.model'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> getHeroes = <span class="function"><span class="keyword">function</span> *(<span class="params">next</span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">const</span> hero = <span class="keyword">yield</span> heroModel.find(&#123;&#125;)</div><div class="line">    <span class="keyword">this</span>.body = hero</div><div class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">    <span class="keyword">this</span>.throw(<span class="number">404</span>, e)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  getHeroes,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了在不同的开发环境下使用不同的配置文件，我们使用了 <a href="https://github.com/lorenwest/node-config/" target="_blank" rel="external">config</a> 这个包。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// config/default.json</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"name"</span>: <span class="string">"hero-dev"</span>,</div><div class="line">  <span class="string">"port"</span>: <span class="number">3000</span>,</div><div class="line">  <span class="string">"mongo"</span>: &#123;</div><div class="line">    <span class="string">"host"</span>: <span class="string">"127.0.0.1"</span>,</div><div class="line">    <span class="string">"db"</span>: <span class="string">"hero-dev"</span>,</div><div class="line">    <span class="string">"port"</span>: <span class="number">27017</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后，我们整个 <code>package.json</code> 文件如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"name"</span>: <span class="string">"unit-test-for-nodejs-app"</span>,</div><div class="line">  <span class="string">"version"</span>: <span class="string">"0.0.1"</span>,</div><div class="line">  <span class="string">"description"</span>: <span class="string">"unit test for nodejs app"</span>,</div><div class="line">  <span class="string">"main"</span>: <span class="string">"app.js"</span>,</div><div class="line">  <span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"dev"</span>: <span class="string">"nodemon app.js"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"keywords"</span>: [</div><div class="line">    <span class="string">"unit-test"</span>,</div><div class="line">    <span class="string">"nodejs"</span></div><div class="line">  ],</div><div class="line">  <span class="string">"author"</span>: <span class="string">"Drake Leung"</span>,</div><div class="line">  <span class="string">"license"</span>: <span class="string">"MIT"</span>,</div><div class="line">  <span class="string">"dependencies"</span>: &#123;</div><div class="line">    <span class="string">"config"</span>: <span class="string">"^1.21.0"</span>,</div><div class="line">    <span class="string">"koa"</span>: <span class="string">"^1.2.4"</span>,</div><div class="line">    <span class="string">"koa-router"</span>: <span class="string">"^5.4.0"</span>,</div><div class="line">    <span class="string">"mongodb"</span>: <span class="string">"^2.2.9"</span>,</div><div class="line">    <span class="string">"mongoose"</span>: <span class="string">"^4.6.0"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>终端执行 <code>npm run dev</code> 便可以启动我们的应用。<br>
+然后访问接口：<code>localhost:3000/api/hero</code>，会返回 <code>[]</code> ，因为数据库里还没有数据。</p>
+<h2 id="start-unit-test"><a class="header-anchor" href="#start-unit-test">#</a>Start Unit Test</h2>
+<p>在开始写测试之前，我们也许会想到几个问题：</p>
+<ul>
+<li>如何模拟访问一个接口。</li>
+<li>接口返回的数据哪里来。</li>
+<li>接口访问有权限控制怎么办。</li>
+</ul>
+<p>下面，我们将用到 <a href="https://github.com/mochajs/mocha" target="_blank" rel="external">mocha</a>, <a href="https://github.com/chaijs/chai" target="_blank" rel="external">chai</a> 来写我们的单元测试。<br>
+( 在这里，我们只讨论如何写测试，而不讨论各种测试框架的优劣。)</p>
+<p>首先，安装依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -D mocha chai</div></pre></td></tr></table></figure>
+<p>接着，新建一个文件夹 <code>test</code> 。<br>
+新建一个文件 <code>index.js</code> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// test/index.js</span></div><div class="line"><span class="keyword">const</span> chai = <span class="built_in">require</span>(<span class="string">'chai'</span>)</div><div class="line"><span class="keyword">const</span> expect = chai.expect</div><div class="line"></div><div class="line">describe(<span class="string">'root app'</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">'should be ok'</span>, () =&gt; &#123;</div><div class="line">    expect(<span class="number">42</span>).to.be.exist</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然后给我们的 <code>package.json</code> 添加一个 <code>script</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"script"</span>: &#123;</div><div class="line">    <span class="string">"test"</span>: <span class="string">"mocha"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后我们执行 <code>npm test</code> ，就可以看到测试结果啦。</p>
+<p>接下来，我们需要做的是，解决掉上面讲到的问题。</p>
+<blockquote>
+<p>如何模拟访问一个接口，比如：<code>/api/hero</code>。</p>
+</blockquote>
+<p>这个时候，我们需要用到 <a href="https://github.com/visionmedia/supertest" target="_blank" rel="external">supertest</a> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -S supertest</div></pre></td></tr></table></figure>
+<p>现在，就让我们先新建一个文件：<code>test/apis/hero/hero.spec.js</code> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> expect = <span class="built_in">require</span>(<span class="string">'chai'</span>).expect</div><div class="line"><span class="keyword">const</span> supertest = <span class="built_in">require</span>(<span class="string">'supertest'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> heroModel = <span class="built_in">require</span>(<span class="string">'../../../src/apis/hero/hero.model'</span>)</div><div class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">'../../../src/app'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> req = supertest(app.listen())</div><div class="line"></div><div class="line">describe(<span class="string">'hero model'</span>, () =&gt; &#123;</div><div class="line">  describe(<span class="string">'GET /api/hero'</span>, () =&gt; &#123;</div><div class="line">    it(<span class="string">'should return all heros'</span>, done =&gt; &#123;</div><div class="line">      req.get(<span class="string">'/api/hero'</span>)</div><div class="line">        .expect(<span class="number">200</span>)</div><div class="line">        .expect(&#123; body &#125; =&gt; &#123;</div><div class="line">          expect(body).to.be([<span class="number">1</span>, <span class="number">2</span>])</div><div class="line">        &#125;, done)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>接着修改 <code>package.json</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"test"</span>: <span class="string">"mocha test/**/*.spec.js"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么接下来的是问题：</p>
+<blockquote>
+<p>接口返回的数据哪里来？</p>
+</blockquote>
+<p>另外，还有一个可能的问题是：</p>
+<blockquote>
+<p>我们的接口首先会通过「权限相关」的中间件，怎么绕过他们？</p>
+</blockquote>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text= id="setup-node-js-a"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://drakeleung.github.io/blog/2016/09/08/unit-test-4-your-nodejs-app/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

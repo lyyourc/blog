@@ -76,10 +76,10 @@
 <p>这时就有：</p>
 <ul>
 <li>前端域名为 <code>toon.test.lyyourc.net</code> 的时候</li>
-<li><code>apiHost</code> 返回空字符串 <code>&#39;&#39;</code> </li>
+<li><code>apiHost</code> 返回空字符串 <code>''</code></li>
 <li>访问后台接口的 URL 为 <code>toon.test.lyyourc.net/api/xx</code></li>
 <li>在 <code>/etc/hosts</code> 匹配了这个 URL ，转到 <code>127.0.0.1</code></li>
-<li>Nginx 接收，转发到 <code>http://toon-api.alpha.lyyourc.net</code> </li>
+<li>Nginx 接收，转发到 <code>http://toon-api.alpha.lyyourc.net</code></li>
 </ul>
 <p>为什么不直接在 <code>host.js</code> 里面返回 <code>http://toon-api.alpha.lyyourc.net</code> 呢？原因有2个我认为：1个是浏览器的同源策略而产生的<strong>跨域问题</strong>，另1个是当我们想要测试任何环境下的后台接口，我们只需要改 <code>nginx.conf</code> 里面的 <code>proxy_pass</code> 就好了。</p>
 <p>综上，<strong>不知道是否还有更好的解决办法呢？</strong></p>

@@ -37,18 +37,24 @@
   </section>
 
   <section class="article-entry">
-    <p>今天把 vue-resource 砍掉，换成了 <a href="http://devdocs.io/dom/globalfetch/fetch" target="_blank" rel="external">fetch</a> 。<br>然而，代码体积在 build 之后只是少了 2K =。=</p>
+    <p>今天把 vue-resource 砍掉，换成了 <a href="http://devdocs.io/dom/globalfetch/fetch" target="_blank" rel="external">fetch</a> 。<br>
+然而，代码体积在 build 之后只是少了 2K =。=</p>
 <p>为了兼容旧浏览器，我们将使用这个的 polyfill : <a href="https://github.com/github/fetch" target="_blank" rel="external">whatwg-fetch</a> ；如果还想兼容 node 的话：<a href="https://github.com/matthew-andrews/isomorphic-fetch" target="_blank" rel="external">isomorphic-fetch</a> 。安装请看对应的文档。</p>
-<h2 id="fetch-api"><a href="#fetch-api" class="headerlink" title="fetch api"></a>fetch api</h2><p>最简单的 <code>fetch</code> 接口是下面这样子的：</p>
+<h2 id="fetch-api"><a class="header-anchor" href="#fetch-api">#</a>fetch api</h2>
+<p>最简单的 <code>fetch</code> 接口是下面这样子的：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * fetch</div><div class="line"> *</div><div class="line"> * @param &#123;string&#125; url </div><div class="line"> * @param &#123;object&#125; config</div><div class="line"> * @return &#123;promise&#125;</div><div class="line">*/</div><div class="line">fetch('/api/heros/, &#123;</div><div class="line">  method: 'GET',</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>更详情的请看文档啦：<a href="http://devdocs.io/dom/globalfetch/fetch" target="_blank" rel="external">globalfetch.fetch</a> 。</p>
-<h2 id="常用例子"><a href="#常用例子" class="headerlink" title="常用例子"></a>常用例子</h2><p>看这个：<a href="https://github.com/github/fetch#usage" target="_blank" rel="external">fetch - usage</a> 。</p>
-<h2 id="可能遇到的坑"><a href="#可能遇到的坑" class="headerlink" title="可能遇到的坑"></a>可能遇到的坑</h2><ul>
+<h2 id="常用例子"><a class="header-anchor" href="#常用例子">#</a>常用例子</h2>
+<p>看这个：<a href="https://github.com/github/fetch#usage" target="_blank" rel="external">fetch - usage</a> 。</p>
+<h2 id="可能遇到的坑"><a class="header-anchor" href="#可能遇到的坑">#</a>可能遇到的坑</h2>
+<ul>
 <li>不发送 cookie</li>
 <li>不 catch 404 或者 500 等 HTTP 错误状态码。</li>
 </ul>
 <p>解决办法可以查看 <a href="https://github.com/github/fetch#caveats" target="_blank" rel="external">fetch - caveats</a> 。</p>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>如果我们想在每个请求之前或者之后进行某些操作的话，就需要用到拦截器啦。<br>下面我们用到的是拦截器是 <a href="https://github.com/werk85/fetch-intercept" target="_blank" rel="external">fetch-intercept</a> 。可以去看看源码，只有 80 行不到，超级优美的代码。</p>
+<h2 id="拦截器"><a class="header-anchor" href="#拦截器">#</a>拦截器</h2>
+<p>如果我们想在每个请求之前或者之后进行某些操作的话，就需要用到拦截器啦。<br>
+下面我们用到的是拦截器是 <a href="https://github.com/werk85/fetch-intercept" target="_blank" rel="external">fetch-intercept</a> 。可以去看看源码，只有 80 行不到，超级优美的代码。</p>
 <p>如果我们想每个请求都发送 cookie 的话，就必须要设置 <a href="https://github.com/github/fetch#sending-cookies" target="_blank" rel="external">credentials</a> 。但是我不想每个请求都设置一遍，这时我们就可以用到拦截器啦。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> fetchIntercept</div><div class="line"></div><div class="line">fetchIntercept.register(&#123;</div><div class="line">  request(url, config = &#123;&#125;) &#123;</div><div class="line">    <span class="keyword">const</span> myConf = &#123;</div><div class="line">      credentials: <span class="string">'include'</span>, <span class="comment">// send cookie</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> [</div><div class="line">      url,</div><div class="line">      defaults(config, myConf), <span class="comment">// merge 2 objects</span></div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>同样地，我们可以简化请求的 URL 。比如说，</p>
@@ -61,8 +67,9 @@
 <p>类似地，我们也可以用在 GET 请求时带的 query string 。</p>
 <p>另外，因为 fetch 不会 catch 404 等错误，所以需要我们手动设置。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fetchIntercept.register(&#123;</div><div class="line">  response(res) &#123;</div><div class="line">    <span class="keyword">if</span> (res.status &gt;= <span class="number">200</span> &amp;&amp; res.status &lt; <span class="number">300</span>) <span class="keyword">return</span> res</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(res.statusText)</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>可以看到使用了拦截器之后，我们的代码就变得优美多了 :)</p>
-<h2 id="See-Also"><a href="#See-Also" class="headerlink" title="See Also"></a>See Also</h2><ul>
+<p>可以看到使用了拦截器之后，我们的代码就变得优美多了 <img class="emoji" draggable="false" alt="😃" src="https://twemoji.maxcdn.com/2/72x72/1f603.png"></p>
+<h2 id="see-also"><a class="header-anchor" href="#see-also">#</a>See Also</h2>
+<ul>
 <li><a href="https://github.com/github/fetch" target="_blank" rel="external">whatwg-fetch</a></li>
 <li><a href="https://github.com/matthew-andrews/isomorphic-fetch" target="_blank" rel="external">isomorphic-fetch</a></li>
 <li><a href="https://github.com/werk85/fetch-intercept" target="_blank" rel="external">fetch-intercept</a></li>
