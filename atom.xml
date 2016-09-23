@@ -198,88 +198,6 @@ RxJS 到底是如何工作的？如何解决异步组合问题的？</p>
   </entry>
   
   <entry>
-    <title>Node.js 之单元测试</title>
-    <link href="http://drakeleung.github.io/blog/2016/09/08/unit-test-4-your-nodejs-app/"/>
-    <id>http://drakeleung.github.io/blog/2016/09/08/unit-test-4-your-nodejs-app/</id>
-    <published>2016-09-08T13:44:07.000Z</published>
-    <updated>2016-09-17T18:01:58.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="setup-node-js-app"><a class="header-anchor" href="#setup-node-js-app">#</a>Setup Node.js App</h2>
-<p>( <strong>如果已经建好了 Node.js 应用，可直接跳到 <a href="#start-unit-test">下一个部分 - Start Unit Test</a></strong> )</p>
-<p>下面，我们将使用 <a href="https://github.com/koajs/koa" target="_blank" rel="external">koa</a>, <a href="http://mongoosejs.com" target="_blank" rel="external">mongoose</a> , <a href="https://github.com/lorenwest/node-config/" target="_blank" rel="external">config</a> 初始化我们的项目。<br>
-完整代码可查看 <img class="emoji" draggable="false" alt="👉" src="https://twemoji.maxcdn.com/2/72x72/1f449.png"> <a href="">这里</a>。</p>
-<p>首先是我们的入口文件: <code>src/app.js</code> 。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/app.js</span></div><div class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">'koa'</span>)()</div><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</div><div class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'config'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> router = <span class="built_in">require</span>(<span class="string">'./router'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> &#123; mongo &#125; = config</div><div class="line"><span class="keyword">const</span> url = <span class="string">`mongodb://<span class="subst">$&#123;mongo.host&#125;</span>:<span class="subst">$&#123;mongo.port&#125;</span>/<span class="subst">$&#123;mongo.db&#125;</span>`</span></div><div class="line">mongoose.Promise = global.Promise</div><div class="line">mongoose.connect(url)</div><div class="line"></div><div class="line">app.use(router.routes())</div><div class="line"></div><div class="line">app.on(<span class="string">'error'</span>, err =&gt; <span class="built_in">console</span>.error(<span class="string">'onError'</span>, err))</div><div class="line">app.listen(config.port, () =&gt; <span class="built_in">console</span>.log(<span class="string">`listening port <span class="subst">$&#123;config.port&#125;</span>`</span>))</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = app</div></pre></td></tr></table></figure>
-<p>接着是我们的路由文件：<code>src/router.js</code> 。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/router.js</span></div><div class="line"><span class="keyword">const</span> router = <span class="built_in">require</span>(<span class="string">'koa-router'</span>)()</div><div class="line"></div><div class="line"><span class="keyword">const</span> heroCtrl = <span class="built_in">require</span>(<span class="string">'./apis/hero/hero.ctrl'</span>)</div><div class="line"></div><div class="line">router.get(<span class="string">'/api/hero'</span>, heroCtrl.getHeroes)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router</div></pre></td></tr></table></figure>
-<p>然后呢是我们的接口文件：<code>src/api/hero/hero.model.js</code>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/api/hero/hero.model.js</span></div><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = mongoose.model(<span class="string">'hero'</span>, &#123;</div><div class="line">  name: <span class="built_in">String</span>,</div><div class="line">  skills: [<span class="built_in">String</span>],</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>以及其对应的 controller: <code>src/api/hero/hero.ctrl.js</code> 。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// src/api/hero/hero.ctrl.js</span></div><div class="line"><span class="keyword">const</span> heroModel = <span class="built_in">require</span>(<span class="string">'./hero.model'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> getHeroes = <span class="function"><span class="keyword">function</span> *(<span class="params">next</span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">const</span> hero = <span class="keyword">yield</span> heroModel.find(&#123;&#125;)</div><div class="line">    <span class="keyword">this</span>.body = hero</div><div class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">    <span class="keyword">this</span>.throw(<span class="number">404</span>, e)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  getHeroes,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>为了在不同的开发环境下使用不同的配置文件，我们使用了 <a href="https://github.com/lorenwest/node-config/" target="_blank" rel="external">config</a> 这个包。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// config/default.json</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"name"</span>: <span class="string">"hero-dev"</span>,</div><div class="line">  <span class="string">"port"</span>: <span class="number">3000</span>,</div><div class="line">  <span class="string">"mongo"</span>: &#123;</div><div class="line">    <span class="string">"host"</span>: <span class="string">"127.0.0.1"</span>,</div><div class="line">    <span class="string">"db"</span>: <span class="string">"hero-dev"</span>,</div><div class="line">    <span class="string">"port"</span>: <span class="number">27017</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后，我们整个 <code>package.json</code> 文件如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"name"</span>: <span class="string">"unit-test-for-nodejs-app"</span>,</div><div class="line">  <span class="string">"version"</span>: <span class="string">"0.0.1"</span>,</div><div class="line">  <span class="string">"description"</span>: <span class="string">"unit test for nodejs app"</span>,</div><div class="line">  <span class="string">"main"</span>: <span class="string">"app.js"</span>,</div><div class="line">  <span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"dev"</span>: <span class="string">"nodemon app.js"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"keywords"</span>: [</div><div class="line">    <span class="string">"unit-test"</span>,</div><div class="line">    <span class="string">"nodejs"</span></div><div class="line">  ],</div><div class="line">  <span class="string">"author"</span>: <span class="string">"Drake Leung"</span>,</div><div class="line">  <span class="string">"license"</span>: <span class="string">"MIT"</span>,</div><div class="line">  <span class="string">"dependencies"</span>: &#123;</div><div class="line">    <span class="string">"config"</span>: <span class="string">"^1.21.0"</span>,</div><div class="line">    <span class="string">"koa"</span>: <span class="string">"^1.2.4"</span>,</div><div class="line">    <span class="string">"koa-router"</span>: <span class="string">"^5.4.0"</span>,</div><div class="line">    <span class="string">"mongodb"</span>: <span class="string">"^2.2.9"</span>,</div><div class="line">    <span class="string">"mongoose"</span>: <span class="string">"^4.6.0"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>终端执行 <code>npm run dev</code> 便可以启动我们的应用。<br>
-然后访问接口：<code>localhost:3000/api/hero</code>，会返回 <code>[]</code> ，因为数据库里还没有数据。</p>
-<h2 id="start-unit-test"><a class="header-anchor" href="#start-unit-test">#</a>Start Unit Test</h2>
-<p>在开始写测试之前，我们也许会想到几个问题：</p>
-<ul>
-<li>如何模拟访问一个接口。</li>
-<li>接口返回的数据哪里来。</li>
-<li>接口访问有权限控制怎么办。</li>
-</ul>
-<p>下面，我们将用到 <a href="https://github.com/mochajs/mocha" target="_blank" rel="external">mocha</a>, <a href="https://github.com/chaijs/chai" target="_blank" rel="external">chai</a> 来写我们的单元测试。<br>
-( 在这里，我们只讨论如何写测试，而不讨论各种测试框架的优劣。)</p>
-<p>首先，安装依赖：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -D mocha chai</div></pre></td></tr></table></figure>
-<p>接着，新建一个文件夹 <code>test</code> 。<br>
-新建一个文件 <code>index.js</code> 。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// test/index.js</span></div><div class="line"><span class="keyword">const</span> chai = <span class="built_in">require</span>(<span class="string">'chai'</span>)</div><div class="line"><span class="keyword">const</span> expect = chai.expect</div><div class="line"></div><div class="line">describe(<span class="string">'root app'</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">'should be ok'</span>, () =&gt; &#123;</div><div class="line">    expect(<span class="number">42</span>).to.be.exist</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>然后给我们的 <code>package.json</code> 添加一个 <code>script</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"script"</span>: &#123;</div><div class="line">    <span class="string">"test"</span>: <span class="string">"mocha"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后我们执行 <code>npm test</code> ，就可以看到测试结果啦。</p>
-<p>接下来，我们需要做的是，解决掉上面讲到的问题。</p>
-<blockquote>
-<p>如何模拟访问一个接口，比如：<code>/api/hero</code>。</p>
-</blockquote>
-<p>这个时候，我们需要用到 <a href="https://github.com/visionmedia/supertest" target="_blank" rel="external">supertest</a> ：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -S supertest</div></pre></td></tr></table></figure>
-<p>现在，就让我们先新建一个文件：<code>test/apis/hero/hero.spec.js</code> 。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> expect = <span class="built_in">require</span>(<span class="string">'chai'</span>).expect</div><div class="line"><span class="keyword">const</span> supertest = <span class="built_in">require</span>(<span class="string">'supertest'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> heroModel = <span class="built_in">require</span>(<span class="string">'../../../src/apis/hero/hero.model'</span>)</div><div class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">'../../../src/app'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> req = supertest(app.listen())</div><div class="line"></div><div class="line">describe(<span class="string">'hero model'</span>, () =&gt; &#123;</div><div class="line">  describe(<span class="string">'GET /api/hero'</span>, () =&gt; &#123;</div><div class="line">    it(<span class="string">'should return all heros'</span>, done =&gt; &#123;</div><div class="line">      req.get(<span class="string">'/api/hero'</span>)</div><div class="line">        .expect(<span class="number">200</span>)</div><div class="line">        .expect(&#123; body &#125; =&gt; &#123;</div><div class="line">          expect(body).to.be([<span class="number">1</span>, <span class="number">2</span>])</div><div class="line">        &#125;, done)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>接着修改 <code>package.json</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"test"</span>: <span class="string">"mocha test/**/*.spec.js"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么接下来的是问题：</p>
-<blockquote>
-<p>接口返回的数据哪里来？</p>
-</blockquote>
-<p>另外，还有一个可能的问题是：</p>
-<blockquote>
-<p>我们的接口首先会通过「权限相关」的中间件，怎么绕过他们？</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;setup-node-js-app&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#setup-node-js-app&quot;&gt;#&lt;/a&gt;Setup Node.js App&lt;/h2&gt;
-&lt;p&gt;( &lt;strong&gt;如果已经建好了 Node.js 应用，可直
-    
-    </summary>
-    
-    
-      <category term="nodejs" scheme="http://drakeleung.github.io/blog/tags/nodejs/"/>
-    
-      <category term="testing" scheme="http://drakeleung.github.io/blog/tags/testing/"/>
-    
-      <category term="koa" scheme="http://drakeleung.github.io/blog/tags/koa/"/>
-    
-      <category term="mocha" scheme="http://drakeleung.github.io/blog/tags/mocha/"/>
-    
-      <category term="supertest" scheme="http://drakeleung.github.io/blog/tags/supertest/"/>
-    
-  </entry>
-  
-  <entry>
     <title>fetch api 用起来！</title>
     <link href="http://drakeleung.github.io/blog/2016/08/15/fetch-api-now/"/>
     <id>http://drakeleung.github.io/blog/2016/08/15/fetch-api-now/</id>
@@ -1655,6 +1573,62 @@ RxJS 到底是如何工作的？如何解决异步组合问题的？</p>
       <category term="scope" scheme="http://drakeleung.github.io/blog/tags/scope/"/>
     
       <category term="closure" scheme="http://drakeleung.github.io/blog/tags/closure/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Scope(2)-Lexical Scope &amp; Dynamical Scope</title>
+    <link href="http://drakeleung.github.io/blog/2015/07/18/Scope-2-Lexical-Scope-Dynamical-Scope/"/>
+    <id>http://drakeleung.github.io/blog/2015/07/18/Scope-2-Lexical-Scope-Dynamical-Scope/</id>
+    <published>2015-07-18T15:52:57.000Z</published>
+    <updated>2016-09-08T05:01:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们先来看一个例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="number">42</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">     <span class="built_in">console</span>.log(x);</div><div class="line">  &#125;</div><div class="line">  bar();</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
+<p>结果并没有出乎我们的意料，就是<code>42</code>。为什么呢？<code>bar</code>函数执行的时候，要引用到<code>baz</code>的值，那么去哪里找？首先在自己的作用域里面找。噢，一下就找到了，原来是<code>42</code>。</p>
+<p>上面这种就是<strong>lexical scope</strong>(或者<strong>static scope</strong>)。</p>
+<h2 id="what-is-lexical-scope"><a class="header-anchor" href="#what-is-lexical-scope">#</a>What is Lexical Scope</h2>
+<p><strong>lexical scope取决于函数是在哪里被定义的</strong>.</p>
+<p>在上面的例子中，<code>bar</code>被定义在<code>foo</code>里面，所以<code>foo</code>的作用域就是<code>bar</code>的lexical scope. 然后，<code>foo</code>是被定义在global里面的，所以他的lexical scope就是<em>global scope</em>.</p>
+<p>所以在lexical scope中，查找<code>x</code>的过程如下，</p>
+<ol>
+<li>我们要执行<code>bar</code>函数，他要引用<code>x</code>的值。</li>
+<li>那么去哪里找<code>x</code>呢？肯定是先去自己(<code>bar</code>)的作用域找。但找不到:(</li>
+<li>接着去他的lexical scope找（也就是<code>foo</code>的作用域), 找到了，<code>x</code>是42.</li>
+</ol>
+<p>是不是有点是懂非懂的样子，我们再来看看dynamical scope，做一下比较就知道了。</p>
+<h2 id="what-is-dynamical-scope"><a class="header-anchor" href="#what-is-dynamical-scope">#</a>What is Dynamical Scope</h2>
+<p><strong>dynamical Scope是取决于函数是在哪里被调用的</strong>。</p>
+<p>看一个例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="number">42</span>;</div><div class="line">  bar();</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(); <span class="comment">// 42</span></div></pre></td></tr></table></figure>
+<p>在上面的例子中，由于<code>bar</code>是在<code>foo</code>里面被调用的，所以<code>bar</code>的dynamical socpe就是<code>foo</code>的作用域。而<code>foo</code>是在global socpe里面被调用的，所以global scope是<code>foo</code>的dynamical scope.</p>
+<p>所以在dynamical scope中，<code>x</code>的查找过程是:</p>
+<ol>
+<li><code>bar</code>被调用，他要引用<code>x</code>的值。</li>
+<li>那么去哪里找<code>x</code>呢？首先，肯定是在自己的作用域里面找，但是找不到:(</li>
+<li>看看是谁调用<code>bar</code>的，就去那里找。OK, 是<code>foo</code>。那么，我们就去<code>foo</code>的作用域找。</li>
+<li>噢，找到了。<code>x</code>是<code>42</code>.</li>
+</ol>
+<h2 id="summary"><a class="header-anchor" href="#summary">#</a>Summary</h2>
+<p>总的来说，lexical scope是取决于函数是在哪里被定义的。而dynamical scope是取决于函数是哪里被调用的。</p>
+<p>而JavaScript的<strong>name resolution</strong>(查找变量或者函数的过程)是采用lexical scope的。但是JavaScript的<code>this</code>的值却跟dynamical scope很像。我们以后会再讲<code>this</code>。</p>
+<h2 id="resources"><a class="header-anchor" href="#resources">#</a>Resources</h2>
+<ul>
+<li><a href="http://c2.com/cgi/wiki?DynamicScoping" target="_blank" rel="external">Dynamical Scope</a>前面的解释部分。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们先来看一个例子:&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://drakeleung.github.io/blog/categories/JavaScript/"/>
+    
+    
+      <category term="scope" scheme="http://drakeleung.github.io/blog/tags/scope/"/>
     
   </entry>
   
