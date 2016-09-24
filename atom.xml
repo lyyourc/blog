@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://drakeleung.github.io/blog/"/>
-  <updated>2016-09-24T18:27:49.000Z</updated>
+  <updated>2016-09-24T18:40:21.000Z</updated>
   <id>http://drakeleung.github.io/blog/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://drakeleung.github.io/blog/2016/09/21/Let-Us-Learn-RxJS/"/>
     <id>http://drakeleung.github.io/blog/2016/09/21/Let-Us-Learn-RxJS/</id>
     <published>2016-09-20T16:02:04.000Z</published>
-    <updated>2016-09-24T18:27:49.000Z</updated>
+    <updated>2016-09-24T18:40:21.000Z</updated>
     
     <content type="html"><![CDATA[<p>这是一篇 RxJS 初学者教程。</p>
 <h2 id="what-is-rxjs"><a class="header-anchor" href="#what-is-rxjs">#</a>What Is RxJS</h2>
@@ -96,10 +96,10 @@ RxJS 到底是如何工作的？如何解决异步组合问题的？</p>
 <h3 id="step-2"><a class="header-anchor" href="#step-2">#</a>Step 2</h3>
 <p><em>( 先让我要看看 <a href="https://jsfiddle.net/DrakeLeung/vj368qy7/1/" target="_blank" rel="external">DEMO</a> )</em></p>
 <p>换了一种思路，并没有<strong>变换</strong> stream ，而是把两个 stream <strong>组合</strong>在一起。<br>
-查看文档  <a href="http://reactivex.io/rxjs/manual/overview.html#combination-operators" target="_blank" rel="external">Combination Operators</a> ===&gt; <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-zip" target="_blank" rel="external">zip</a> 。</p>
+查看文档  <a href="http://reactivex.io/rxjs/manual/overview.html#combination-operators" target="_blank" rel="external">Combination Operators</a> ===&gt; <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-zip" target="_blank" rel="external">zip</a> 以及 <a href="http://reactivex.io/rxjs/manual/overview.html#filtering-operators" target="_blank" rel="external">Filtering Operators</a> ===&gt; <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-skip" target="_blank" rel="external">skip</a></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> move$ = Rx.Observable.fromEvent(canvas, <span class="string">'mousemove'</span>)</div><div class="line">  .map(e =&gt; (&#123; x: e.offsetX, y: e.offsetY &#125;))</div><div class="line"></div><div class="line"><span class="keyword">const</span> diff$ = move$</div><div class="line">  .zip(move$.skip(<span class="number">1</span>), (first, sec) =&gt; ([ first, sec ]))</div></pre></td></tr></table></figure>
 <p>此时的 marble 图：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">--x1---x2-x3--x4----x5---|--&gt;  (move$)</div><div class="line">        skip(1)</div><div class="line">-------x2-x3--x4----x5---|--&gt;  </div><div class="line"></div><div class="line"></div><div class="line">--x1---x2-x3--x4----x5---|--&gt;  (move$)</div><div class="line">-------x2-x3--x4----x5---|--&gt;  </div><div class="line">        zip</div><div class="line"></div><div class="line">-------x1-x2--x3----x4---|--&gt;  (diff$)</div><div class="line">       x2 x3  x4    x5</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">--x1---x2-x3--x4----x5---|--&gt;  (move$)</div><div class="line">        skip(1)</div><div class="line">-------x2-x3--x4----x5---|--&gt;  </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">--x1---x2-x3--x4----x5---|--&gt;  (move$)</div><div class="line">-------x2-x3--x4----x5---|--&gt;  </div><div class="line">        zip</div><div class="line"></div><div class="line">-------x1-x2--x3----x4---|--&gt;  (diff$)</div><div class="line">       x2 x3  x4    x5</div></pre></td></tr></table></figure>
 <p>这样一来，<code>diff$</code> emit 的值就依次为 <code>(x1, x2)</code>, <code>(x2, x3)</code>，<code>(x3, x4)</code> ……<br>
 现在，鼠标移动的时候，就可以<a href="https://jsfiddle.net/DrakeLeung/vj368qy7/1/" target="_blank" rel="external">画出美丽的线条</a>。</p>
 <h3 id="step-3"><a class="header-anchor" href="#step-3">#</a>Step 3</h3>
@@ -1455,7 +1455,7 @@ RxJS 到底是如何工作的？如何解决异步组合问题的？</p>
 垂直方向的距离是由<code>margin</code>来决定的，但此时的2个盒子的<code>margin</code>是会<strong>collapse</strong>(坍塌？折叠？)</p>
 <p>那到底是怎么collapse法，我们要怎样才能解决。</p>
 <h2 id="bfc引起的collapse-margins"><a class="header-anchor" href="#bfc引起的collapse-margins">#</a>BFC引起的Collapse Margins</h2>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">  <span class="selector-tag">p</span> &#123;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background-color</span>: lightgreen;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> Sibling 1 <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> Sibling 2 <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">  p &#123;</div><div class="line">    margin: 10px;</div><div class="line">    background-color: lightgreen;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> Sibling 1 <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> Sibling 2 <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>上面的例子中，2个<code>p</code>的之间的<code>margin</code>只有<code>10px</code>而不是<code>20px(10 + 10)</code>。为什么？因为前面说过，</p>
 <p>2个<code>p</code>都是在<em>normal flow</em>中，并且，他们是块级元素，所以他们会参与block formatting contexts。</p>
 <p>又因为在BFC中，2个sibling element的垂直方面的<code>margin</code>会collapse！于是，结果取2者较大的那个。</p>
