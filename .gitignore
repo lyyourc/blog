@@ -1,16 +1,11 @@
-.DS_Store
-Thumbs.db
-db.json
-*.log
-public/
-.deploy*/
-.deploy_git
-
-bower_components
+# dependencies
 node_modules
 
-.tmp
-.idea/
-.vscode
-db.json
-themes/
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
