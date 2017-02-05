@@ -1,28 +1,42 @@
 <template>
-  <div>
-    <nuxt/>
+  <div class="container">
+    <my-nav/>
+    <main>
+      <nuxt/>
+    </main>
     <my-footer/>
   </div>
 </template>
 
 <script>
+import MyNav from '~components/Nav.vue'
 import MyFooter from '~components/Footer.vue'
 
 export default {
   components: {
-    MyFooter
-  }
+    MyNav,
+    MyFooter,
+  },
 }
 </script>
 
-<style>
+<style scoped>
 .container {
-  margin: 0;
-  width: 100%;
-  padding: 100px 0;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+main {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+<style>
 .button,
 .button:visited {
   display: inline-block;

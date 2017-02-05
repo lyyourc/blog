@@ -1,12 +1,26 @@
 :root {
+  --blue-color: #5badf0;
+  --gray-color: #aaa;
+  --pink-color: #EB298C;
+
+  /*没有衬线，在屏幕上更容易识别*/
+  --font-sans: "PingFang SC", Verdana, "Helvetica Neue",
+    "Microsoft Yahei", "Hiragino Sans GB",
+    "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+
+  /*有衬线，即是字母末尾有小细线，通常用于新闻报纸*/
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /*等宽的字符，也就是水平方向的宽度是相同的，常用于代码实例*/
+  --font-mono: "Source Code Pro", Consolas, Monaco, Menlo, monospace;
+
   font-size: responsive;
   line-height: responsive;
 }
 
 body {
   background-color: #fff;
-  color: #2e2f30;
-  font-family: "Source Sans Pro", Arial, sans-serif;
+  font-family: var(--font-sans);
   margin: 0;
 }
 
@@ -14,7 +28,7 @@ a,
 a:hover,
 a:focus,
 a:visited {
-  color: #41B883;
+  color: var(--blue-color);
 }
 
 .page-enter-active,

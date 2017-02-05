@@ -1,6 +1,7 @@
 module.exports = {
   build: {
     postcss: [
+      require('postcss-cssnext')(),
       require('postcss-responsive-type')(),
     ],
   },
@@ -8,7 +9,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: 'lyyourc',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
