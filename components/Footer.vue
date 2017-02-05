@@ -1,13 +1,15 @@
 <template>
   <footer>
-    Visit our website for more documentation : <a href="https://nuxtjs.org" target="_blank">nuxtjs.org</a>
+    Powered by
+    <a href="https://nuxtjs.org" target="_blank"> Nuxt.js </a> &
+    <a href="https://github.com" target="_blank"> GitHub </a>.
   </footer>
 </template>
 
 <style scoped>
 footer {
-  padding: 20px;
+  padding: 1rem;
   text-align: center;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #eee;
 }
 </style>
