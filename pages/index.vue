@@ -11,8 +11,14 @@
 </template>
 
 <style scoped>
-.title
-{
+.logo {
+  width: 243px;
+  height: 218px;
+}
+
+.title {
   margin: 50px 0;
+  color: #505153;
+  font-weight: 300;
 }
 </style>

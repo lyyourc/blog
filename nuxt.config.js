@@ -1,4 +1,9 @@
 module.exports = {
+  build: {
+    postcss: [
+      require('postcss-responsive-type')(),
+    ],
+  },
   /*
   ** Headers of the page
   */
@@ -7,7 +12,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', content: "Nuxt.js project" }
+      { hid: 'description', content: 'lyyourc\'s blog' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
