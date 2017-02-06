@@ -1268,6 +1268,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+date-fns@^1.27.2:
+  version "1.27.2"
+  resolved "http://registry.npm.taobao.org/date-fns/download/date-fns-1.27.2.tgz#ce82f420bc028356cc661fc55c0494a56a990c9c"
+
 date-now@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
@@ -1599,6 +1603,12 @@ forwarded@~0.1.0:
 fresh@0.3.0:
   version "0.3.0"
   resolved "http://registry.npm.taobao.org/fresh/download/fresh-0.3.0.tgz#651f838e22424e7566de161d8358caa199f83d4f"
+
+front-matter@^2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/front-matter/download/front-matter-2.1.2.tgz#f75983b9f2f413be658c93dfd7bd8ce4078f5cdb"
+  dependencies:
+    js-yaml "^3.4.6"
 
 fs-extra@^2.0.0:
   version "2.0.0"
@@ -2026,7 +2036,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/js-tokens/download/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@~3.7.0:
+js-yaml@^3.4.6, js-yaml@~3.7.0:
   version "3.7.0"
   resolved "http://registry.npm.taobao.org/js-yaml/download/js-yaml-3.7.0.tgz#5c967ddd837a9bfdca5f2de84253abe8a1c03b80"
   dependencies:

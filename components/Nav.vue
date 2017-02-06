@@ -14,7 +14,7 @@ export default {
     return {
       navs: [
         { name: 'RSS', path: '/about' },
-        { name: 'Post', path: '/post', },
+        { name: 'Post', path: '/posts', },
         { name: 'Home', path: '/' },
       ],
     }
