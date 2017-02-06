@@ -13,7 +13,9 @@
         <small>{{ formatDate(post.created_at, 'MMM') }}</small>
       </div>
 
-      <h3 class="post-title">{{ post.title }}</h3>
+      <h3 class="post-title">
+        <nuxt-link :to="`/posts/${post.id}`">{{ post.title }}</nuxt-link>
+      </h3>
     </div>
   </section>
 </div>
