@@ -5,6 +5,8 @@
   "author": "Drake Leung <drakeleung42@gmail.com>",
   "private": true,
   "dependencies": {
+    "date-fns": "^1.27.2",
+    "front-matter": "^2.1.2",
     "nuxt": "latest"
   },
   "scripts": {
