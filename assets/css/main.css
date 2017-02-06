@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --blue-color: #5badf0;
   --gray-color: #f5f5f5;
@@ -15,7 +21,6 @@
   --font-mono: "Source Code Pro", Consolas, Monaco, Menlo, monospace;
 
   font-size: responsive;
-  line-height: responsive;
 }
 
 body {
