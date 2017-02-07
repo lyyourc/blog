@@ -23,6 +23,10 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  background: #f5f5f5;
+}
+
 .nav-list {
   list-style: none;
   display: flex;
@@ -31,17 +35,18 @@ export default {
 }
 
 .nav-item {
-  padding: .5rem;
+  padding: .1rem .8rem;
 
-  /*& .nuxt-link-active {
-    color: #fff;
-    background-color: #5badf0;
-  }*/
+  &:last-child {
+    padding-right: 0;
+  }
 }
 
 .nav-item a {
   text-decoration: none;
   text-transform: capitalize;
   font-size: 1.2rem;
+  color: #000;
+  font-weight: bold;
 }
 </style>
