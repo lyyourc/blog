@@ -13,6 +13,8 @@ import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import frontMatter from 'front-matter'
 import dateFns from 'date-fns'
+import axios from 'axios'
+import { setFrontMatterForPost } from '~/utils/post'
 
 const markdownIt = new MarkdownIt({
   highlight(str, lang) {
@@ -31,15 +33,16 @@ const markdownIt = new MarkdownIt({
 })
 
 export default {
-  data() {
-    return {
-      post: {
-        "id": 1,
-        "date": "2017-08-12",
-        "title": "让我们一起来学习 RxJS",
-        "body": "Most [custom elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Custom_Elements) have a hyphen in their name, so the highlighting for them is broken.\r\n\r\nExample:\r\n```html\r\n<tab-view>Hello world</tab-view>\r\n```\r\n\r\nCustom elements are quite common now, as they are used in Polymer and Angular 2, so I think support for them is important.",
-        "created_at": "2017-10-23T13:33:48Z",
-      },
+  async data({ params, error } = {}) {
+    const postId = params.id
+    const url = `https://api.github.com/repos/DrakeLeung/blog/issues/${postId}`
+
+    try {
+      const res = await axios.get(url)
+      return { post: setFrontMatterForPost(res.data) }
+    } catch (e) {
+      error({ statusCode: 500, message: 'GitHub Api Request Failed' })
+      console.error(e)
     }
   },
   methods: {
