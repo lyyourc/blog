@@ -125,7 +125,12 @@ export default {
   flex: 1;
   margin: 0;
   padding: .4rem;
-  background: #eee;
+  background: #f5f5f5;
   text-transform: capitalize;
+
+  & a {
+    color: #000;
+    text-decoration: none;
+  }
 }
 </style>
