@@ -4,6 +4,7 @@ module.exports = {
       require('postcss-cssnext')(),
       require('postcss-responsive-type')(),
     ],
+    vendor: ['axios'],
   },
   /*
   ** Headers of the page
@@ -16,7 +17,7 @@ module.exports = {
       { hid: 'description', content: 'lyyourc\'s blog' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   /*

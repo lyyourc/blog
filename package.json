@@ -5,6 +5,7 @@
   "author": "Drake Leung <drakeleung42@gmail.com>",
   "private": true,
   "dependencies": {
+    "axios": "^0.15.3",
     "date-fns": "^1.27.2",
     "front-matter": "^2.1.2",
     "highlight.js": "^9.9.0",
