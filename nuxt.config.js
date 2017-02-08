@@ -5,6 +5,19 @@ module.exports = {
       require('postcss-responsive-type')(),
     ],
     vendor: ['axios'],
+    extend(config, { dev, isClient }) {
+      // config is the webpack config
+      // dev is a boolean, equals false when `nuxt build`
+      // isClient is a boolean, let you know when you extend
+      // the config for the client bundle or the server bundle
+      const mdLoader = {
+        rules: [
+          { test: /\.md$/, loader: './utils/md-front-matter-loader.js' },
+        ]
+      }
+
+      config.module.rules.push(mdLoader)
+    },
   },
   /*
   ** Headers of the page
