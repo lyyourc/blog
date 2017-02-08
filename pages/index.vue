@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { fetchPosts } from '~/utils/post'
+
 export default {
   data() {
     return {
@@ -28,6 +30,9 @@ export default {
       ],
     }
   },
+  created() {
+    console.log(fetchPosts())
+  }
 }
 </script>
 

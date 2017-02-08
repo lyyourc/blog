@@ -17,7 +17,20 @@ function setFrontMatterForPost(post = {}) {
   return Object.assign({}, post, frontMatter(post.body).attributes || {})
 }
 
+function fetchPosts(path) {
+  const files = require.context('../static', true, /\.md$/)
+  return files.keys().map(key => {
+    const { attributes, body, frontmatter } = files(key)
+    return {
+      ...attributes,
+      body,
+      frontmatter,
+    }
+  })
+}
+
 export {
   sortPostsBySameYear,
   setFrontMatterForPost,
+  fetchPosts,
 }
