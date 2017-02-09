@@ -4,7 +4,7 @@
     <h1>{{ post.title }}</h1>
     <small class="post-date">{{ formatDate(post.date) }}</small>
   </header>
-  <section v-html="parseMd(post.body)"></section>
+  <section v-html="post.body"></section>
 </article>
 </template>
 
@@ -14,7 +14,7 @@ import hljs from 'highlight.js'
 import frontMatter from 'front-matter'
 import dateFns from 'date-fns'
 import axios from 'axios'
-import { setFrontMatterForPost } from '~/utils/post'
+import { fetchPosts } from '~/utils/post'
 
 const markdownIt = new MarkdownIt({
   highlight(str, lang) {
@@ -35,20 +35,26 @@ const markdownIt = new MarkdownIt({
 export default {
   async data({ params, error } = {}) {
     const postId = params.id
-    const url = `https://api.github.com/repos/DrakeLeung/blog/issues/${postId}`
+    // const url = `https://api.github.com/repos/DrakeLeung/blog/issues/${postId}`
 
-    try {
-      const res = await axios.get(url)
-      return { post: setFrontMatterForPost(res.data) }
-    } catch (e) {
-      error({ statusCode: 500, message: 'GitHub Api Request Failed' })
-      console.error(e)
-    }
+    // try {
+    //   const res = await axios.get(url)
+    //   return { post: setFrontMatterForPost(res.data) }
+    // } catch (e) {
+    //   error({ statusCode: 500, message: 'GitHub Api Request Failed' })
+    //   console.error(e)
+    // }
+  },
+  created() {
+    const { id } = this.$route.params
+    const posts = this.$root.posts || (this.$root.posts = fetchPosts())
+    
+    this.post = posts.find(p => p.key === id)
   },
   methods: {
-    parseMd(md) {
-      return markdownIt.render(frontMatter(md).body)
-    },
+    // parseMd(md) {
+    //   return markdownIt.render(frontMatter(md).body)
+    // },
     formatDate(date) {
       return dateFns.format(date, 'MMM DD YYYY')
     },
