@@ -1,13 +1,13 @@
 <template>
 <div class="post-list">
   <section class="post-entity"
-    v-for="(postss, key) in posts">
+    v-for="yearPosts in posts">
     <p class="post-year"
-      v-if="key !== formatDate(new Date(), 'YYYY')">
-      {{ key }} year
+      v-if="yearPosts.year !== formatDate(new Date(), 'YYYY')">
+      {{ yearPosts.year }} year
     </p>
 
-    <div class="post-entry" v-for="post in postss">
+    <div class="post-entry" v-for="post in yearPosts.posts">
       <div class="post-date">
         <span class="post-day">
           {{ formatDate(post.date, 'DD') }}
@@ -78,19 +78,19 @@ export default {
 }
 
 .post-date {
-  margin-right: 1.4rem;
+  flex: 1;
+  text-align: center;
   letter-spacing: .5px;
-  width: 14%;
-  text-align: right;
+  margin-right: .4rem;
 }
 .post-day {
+  text-align: right;
   font-size: 1.2rem;
   font-weight: 900;
-  margin-right: .4rem;
 }
 
 .post-title {
-  flex: 1;
+  flex: 5;
   margin: 0;
   padding: .4rem;
   background: #f5f5f5;

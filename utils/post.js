@@ -5,9 +5,14 @@ function sortPostsBySameYear(posts = []) {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .reduce((prev, post) => {
       const year = dateFns.format(post.date, 'YYYY')
-      prev[year] = [...(prev[year] || []), post]
+      const yearPosts = prev.find(p => p.year === year)
+      
+      !yearPosts
+        ? prev.push({ year, posts: [post] })
+        : yearPosts.posts.push(post)
+
       return prev
-    }, {})
+    }, [])
 }
 
 function fetchPosts(path) {
