@@ -1,4 +1,3 @@
-import frontMatter from 'front-matter'
 import dateFns from 'date-fns'
 
 function sortPostsBySameYear(posts = []) {
@@ -13,10 +12,16 @@ function sortPostsBySameYear(posts = []) {
 
 function fetchPosts(path) {
   const files = require.context('../contents', true, /\.md$/)
-  return files.keys().map(key => {
-    const { attributes, body, frontmatter } = files(key)
+
+  return files.keys().map(name => {
+    const { attributes, body, frontmatter } = files(name)
+    // get post's title
+    const key = name
+      .split('/').slice(-1)[0]
+      .split('.').slice(0, -1).join('.') 
+
     return {
-      key: key.split('/').slice(-1)[0],
+      key,
       ...attributes,
       body,
       frontmatter,
@@ -26,6 +31,5 @@ function fetchPosts(path) {
 
 export {
   sortPostsBySameYear,
-  setFrontMatterForPost,
   fetchPosts,
 }
