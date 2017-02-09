@@ -3,22 +3,22 @@
   <section class="post-entity"
     v-for="(postss, key) in posts">
     <p class="post-year"
-      v-if="normalizePostYear(key) !== formatDate(new Date(), 'YYYY')">
-      {{ normalizePostYear(key) }} year
+      v-if="key !== formatDate(new Date(), 'YYYY')">
+      {{ key }} year
     </p>
 
     <div class="post-entry" v-for="post in postss">
       <div class="post-date">
         <span class="post-day">
-          {{ formatDate(post.date || post.created_at, 'DD') }}
+          {{ formatDate(post.date, 'DD') }}
         </span>
         <small>
-          {{ formatDate(post.date || post.created_at, 'MMM') }}
+          {{ formatDate(post.date, 'MMM') }}
         </small>
       </div>
 
       <h3 class="post-title">
-        <nuxt-link :to="`/posts/${post.number}`">{{ post.title }}</nuxt-link>
+        <nuxt-link :to="`/posts/${post.key}`">{{ post.title }}</nuxt-link>
       </h3>
     </div>
   </section>
@@ -28,26 +28,18 @@
 <script>
 import dateFns from 'date-fns'
 import axios from 'axios'
-import { sortPostsBySameYear } from '~/utils/post'
+import { fetchPosts, sortPostsBySameYear } from '~/utils/post'
 
 export default {
-  async data ({ params, error }) {
-    const url = 'https://api.github.com/repos/DrakeLeung/blog/issues'
-    try {
-      const res = await axios.get(url)
-      return { posts: sortPostsBySameYear(res.data) }
-    } catch (e) {
-      error({ statusCode: 500, message: 'GitHub Api Request Failed' })
-      console.error(e)
-    }
+  created() {
+    const posts = this.$root.posts || (this.$root.posts = fetchPosts())
+
+    this.posts = sortPostsBySameYear(posts)
   },
 
   methods: {
-    formatDate(date, format = "YYYY-MM-DD") {
+    formatDate(date, format = 'YYYY-MM-DD') {
       return dateFns.format(date, format)
-    },
-    normalizePostYear(key) {
-      return dateFns.format(key.replace('post', ''), 'YYYY')
     },
   },
 }
@@ -79,10 +71,17 @@ export default {
 .post-entry {
   display: flex;
   align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: .5rem;
+  }
 }
 
 .post-date {
   margin-right: 1.4rem;
+  letter-spacing: .5px;
+  width: 14%;
+  text-align: right;
 }
 .post-day {
   font-size: 1.2rem;
@@ -93,6 +92,7 @@ export default {
 .post-title {
   flex: 1;
   margin: 0;
+  margin-left: auto;
   padding: .4rem;
   background: #f5f5f5;
   text-transform: capitalize;

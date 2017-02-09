@@ -1,7 +1,7 @@
 <template>
   <section class="content">
     <figure>
-      <img src="../assets/img/avatar.png" alt="Nuxt.js Logo" class="avatar" />
+      <img src="../assets/img/avatar.png" alt="avatar" class="avatar" />
     </figure>
 
     <h1 class="title"> {{ title }} </h1>
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { fetchPosts } from '~/utils/post'
-
 export default {
   data() {
     return {
@@ -30,9 +28,6 @@ export default {
       ],
     }
   },
-  created() {
-    console.log(fetchPosts())
-  }
 }
 </script>
 
