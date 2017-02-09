@@ -92,12 +92,12 @@ export default {
 .post-title {
   flex: 1;
   margin: 0;
-  margin-left: auto;
   padding: .4rem;
   background: #f5f5f5;
   text-transform: capitalize;
 
   & a {
+    display: block;
     color: #000;
     text-decoration: none;
   }

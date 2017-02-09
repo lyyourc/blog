@@ -4,7 +4,7 @@
     <h1>{{ post.title }}</h1>
     <small class="post-date">{{ formatDate(post.date) }}</small>
   </header>
-  <section v-html="post.body"></section>
+  <section class="post-body" v-html="post.body"></section>
 </article>
 </template>
 
@@ -33,7 +33,7 @@ export default {
 article {
   max-width: 980px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 4rem 2rem;
 }
 
 header {
@@ -46,5 +46,50 @@ header {
   text-transform: uppercase;
   letter-spacing: 2px;
   display: block;
+}
+</style>
+
+<style>
+.post-body {
+  /* inline code */
+  & p > code {
+    background-color: #f8f8f8;
+    padding: .1rem .2rem;
+    border-radius: 2px;
+  }
+
+  /* blockquote */
+  & blockquote {
+    color: #777;
+    margin: 1rem;
+    padding: 0 0 0 1rem;
+    border-left: .2rem solid #ddd;
+  }
+
+  /* table */
+  & table {
+    border-collapse: collapse;
+
+    & tr {
+      background-color: #fff;
+
+      &:nth-child(2n) {
+        background: #f8f8f8;
+      }
+    }
+
+    & th,
+    & td {
+      border: 1px solid #ddd;
+      padding: .4rem .6rem;
+    }
+  }
+
+  /* responsive image */
+  & img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 }
 </style>
