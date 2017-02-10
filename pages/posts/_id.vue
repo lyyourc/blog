@@ -1,7 +1,7 @@
 <template>
 <article>
   <header>
-    <h1>{{ post.title }}</h1>
+    <h1 class="post-title">{{ post.title }}</h1>
     <small class="post-date">{{ formatDate(post.date) }}</small>
   </header>
   <section class="post-body" v-html="post.body"></section>
@@ -21,17 +21,17 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return dateFns.format(date, 'MMM DD YYYY')
+      return dateFns.format(date, 'MMMM DD YYYY')
     },
   },
 }
 </script>
 
 <style scoped>
-@import '~assets/css/github-md.css';
+@import '~assets/css/github-highlight.css';
 
 article {
-  max-width: 980px;
+  max-width: 780px;
   margin: 0 auto;
   padding: 1rem 2rem 4rem 2rem;
 }
@@ -39,6 +39,10 @@ article {
 header {
   text-align: center;
   margin-bottom: 4rem;
+}
+
+.post-title {
+  text-transform: capitalize;
 }
 
 .post-date {
