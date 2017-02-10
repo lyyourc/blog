@@ -1,8 +1,7 @@
 <template>
   <footer>
     Powered by
-    <a href="https://nuxtjs.org" target="_blank"> Nuxt.js </a> &
-    <a href="https://github.com" target="_blank"> GitHub </a>.
+    <a href="https://nuxtjs.org" target="_blank"> Nuxt.js </a> .
   </footer>
 </template>
 

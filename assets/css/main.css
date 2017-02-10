@@ -20,7 +20,7 @@
   /*等宽的字符，也就是水平方向的宽度是相同的，常用于代码实例*/
   --font-mono: "Source Code Pro", Consolas, Monaco, Menlo, monospace;
 
-  font-size: responsive;
+  font-size: responsive 12px 16px;
 }
 
 body {
