@@ -18,7 +18,13 @@ module.exports = {
       // the config for the client bundle or the server bundle
       const mdLoader = {
         rules: [
-          { test: /\.md$/, loader: './utils/md-front-matter-loader.js' },
+          {
+            test: /\.md$/,
+            loader: './utils/md-front-matter-loader.js',
+            options: {
+              breaks: true
+            },
+          },
         ]
       }
 

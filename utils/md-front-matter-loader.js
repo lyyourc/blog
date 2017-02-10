@@ -5,22 +5,25 @@ const loaderUtils = require("loader-utils")
 
 module.exports = function(source) {
   this.cacheable()
-  // const options = loaderUtils.parseQuery(this.query)
-  const options = {
-    highlight(str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return '<pre class="hljs"><code>' +
-            hljs.highlight(lang, str, true).value +
-            '</code></pre>'
-        } catch (__) {}
-      }
 
-      return '<pre class="hljs"><code>' +
-        md.utils.escapeHtml(str) +
-        '</code></pre>'
-    },
-  }
+  const options = Object.assign(
+    loaderUtils.parseQuery(this.query),
+    {
+      highlight(str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return '<pre class="hljs"><code>' +
+              hljs.highlight(lang, str, true).value +
+              '</code></pre>'
+          } catch (__) {}
+        }
+
+        return '<pre class="hljs"><code>' +
+          (new MarkdownIt()).utils.escapeHtml(str) +
+          '</code></pre>'
+      }
+    }
+  )
 
   const markdownIt = new MarkdownIt(options)
   const content = frontMatter(source)
