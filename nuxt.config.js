@@ -1,3 +1,9 @@
+const fs = require('fs')
+const files = fs.readdirSync('contents')
+const fileNames = files.map(file => ({
+  id: file.split('.').slice(0, -1).join('.')
+}))
+
 module.exports = {
   build: {
     postcss: [
@@ -19,6 +25,12 @@ module.exports = {
       config.module.rules.push(mdLoader)
     },
   },
+  generate: {
+    routeParams: {
+      '/posts/:id': fileNames,
+    },
+  },
+  
   /*
   ** Headers of the page
   */
