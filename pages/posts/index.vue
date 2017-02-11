@@ -7,7 +7,8 @@
       {{ yearPosts.year }} year
     </p>
 
-    <div class="post-entry" v-for="post in yearPosts.posts">
+    <div class="post-entry" :class="{ gutter: (index + 1) % 5 === 0 }"
+      v-for="(post, index) in yearPosts.posts">
       <div class="post-date">
         <span class="post-day">
           {{ formatDate(post.date, 'DD') }}
@@ -74,6 +75,9 @@ export default {
 
   &:not(:last-child) {
     margin-bottom: .5rem;
+  }
+  &.gutter:not(:last-child) {
+    margin-bottom: 1.6rem;
   }
 }
 
