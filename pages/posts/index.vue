@@ -91,6 +91,7 @@ export default {
 
 .post-title {
   flex: 5;
+  min-width: 0;
   margin: 0;
   padding: .4rem;
   background: #f5f5f5;
@@ -100,6 +101,10 @@ export default {
     display: block;
     color: #000;
     text-decoration: none;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>
