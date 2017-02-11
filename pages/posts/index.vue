@@ -28,7 +28,6 @@
 
 <script>
 import dateFns from 'date-fns'
-import axios from 'axios'
 import { fetchPosts, sortPostsBySameYear } from '~/utils/post'
 
 export default {

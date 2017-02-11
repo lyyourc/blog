@@ -10,7 +10,7 @@ module.exports = {
       require('postcss-cssnext')(),
       require('postcss-responsive-type')(),
     ],
-    vendor: ['axios'],
+    vendor: ['date-fns'],
     extend(config, { dev, isClient }) {
       // config is the webpack config
       // dev is a boolean, equals false when `nuxt build`
