@@ -95,5 +95,22 @@ header {
     height: auto;
     display: block;
   }
+
+  /* markdown-it-anchor */
+  & .header-anchor {
+    text-decoration: none;
+  }
+
+  & h3 {
+    &:hover .header-anchor,
+    &:active .header-anchor,
+    &:focus .header-anchor {
+      display: inline;
+    }
+
+    & .header-anchor {
+      display: none;
+    }
+  }
 }
 </style>
