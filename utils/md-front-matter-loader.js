@@ -1,5 +1,6 @@
 const MarkdownIt = require("markdown-it")
 const hljs = require('highlight.js')
+const markdownItAnchor = require('markdown-it-anchor')
 const frontMatter = require('front-matter')
 const loaderUtils = require("loader-utils")
 
@@ -25,7 +26,14 @@ module.exports = function(source) {
     }
   )
 
-  const markdownIt = new MarkdownIt(options)
+    const markdownIt = new MarkdownIt(options)
+      .use(markdownItAnchor, {
+        level: 2,
+        permalink: true,
+        permalinkClass: 'header-anchor',
+        permalinkSymbol: '#',
+        permalinkBefore: true
+      })
   const content = frontMatter(source)
 
   const output = Object.assign(
