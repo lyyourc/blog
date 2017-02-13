@@ -1,6 +1,13 @@
 # blog
 
-> Nuxt.js project
+A hackable blog built by Nuxt.js
+
+
+## Feature
+
+* Customize modern Frontend workflow: webpack, postcss...
+* Static or SPA
+* Write Page by Vue.js
 
 ## Build Setup
 
