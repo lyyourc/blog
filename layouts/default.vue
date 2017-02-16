@@ -25,6 +25,9 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  max-width: 780px;
+  margin: 0 auto;
 }
 
 main {

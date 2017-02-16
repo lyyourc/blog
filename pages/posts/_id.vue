@@ -31,8 +31,6 @@ export default {
 @import '~assets/css/github-highlight.css';
 
 article {
-  max-width: 780px;
-  margin: 0 auto;
   padding: 1rem 2rem 4rem 2rem;
 }
 
