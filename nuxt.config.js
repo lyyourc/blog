@@ -16,19 +16,24 @@ module.exports = {
       // dev is a boolean, equals false when `nuxt build`
       // isClient is a boolean, let you know when you extend
       // the config for the client bundle or the server bundle
-      const mdLoader = {
-        rules: [
-          {
-            test: /\.md$/,
-            loader: './utils/md-front-matter-loader.js',
-            options: {
-              breaks: true
+      const loaders = [
+        {
+          rules: [{ test: /\.yml$/, loader: 'json-loader!yaml-loader' }]
+        },
+        {
+          rules: [
+            {
+              test: /\.md$/,
+              loader: './utils/md-front-matter-loader.js',
+              options: {
+                breaks: true
+              },
             },
-          },
-        ]
-      }
+          ]
+        },
+      ]
 
-      config.module.rules.push(mdLoader)
+      config.module.rules = [...config.module.rules, ...loaders]
     },
   },
   generate: {

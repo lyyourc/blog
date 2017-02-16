@@ -16,17 +16,11 @@
 </template>
 
 <script>
+import config from '../config.yml'
+
 export default {
   data() {
-    return {
-      title: 'lyyourc',
-      bio: 'Web / Google-oriented programming',
-      socials: [
-        { name: 'GitHub', link: 'https://github.com/DrakeLeung' },
-        { name: 'Weibo', link: 'http://weibo.com/cha12chalyc/' },
-        { name: 'Twitter', link: 'https://twitter.com/DrakeLeung' },
-      ],
-    }
+    return { ...config }
   },
 }
 </script>
@@ -46,16 +40,21 @@ export default {
 .social-list {
   list-style: none;
   padding: 0;
+  margin: 2rem;
 
   display: flex;
   justify-content: center;
 }
 
 .social-item {
-  margin: 0 1rem;
+  padding: .5rem 1rem;
 
   & a {
     text-decoration: none;
+  }
+
+  &:hover {
+    background: #f5f5f5;
   }
 }
 </style>
