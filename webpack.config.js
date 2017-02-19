@@ -18,6 +18,17 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          // name: '[name].[ext]?[hash]'
+        }
+      },
+      {
+        test: /\.yml$/,
+        loader: 'json-loader!yaml-loader',
       }
     ],
   },
