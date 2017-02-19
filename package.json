@@ -1,0 +1,27 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:DrakeLeung/blog.git",
+  "author": "Drake Leung <drakeleung42@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server --open --hot --port=3000",
+    "build": "cross-env NODE_ENV=production webpack --progress"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-env": "^1.1.8",
+    "cross-env": "^3.1.4",
+    "html-webpack-plugin": "^2.28.0",
+    "vue-loader": "^11.1.0",
+    "vue-template-compiler": "^2.1.10",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.0"
+  },
+  "dependencies": {
+    "vue": "^2.1.10",
+    "vue-router": "^2.2.1"
+  }
+}
