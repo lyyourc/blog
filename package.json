@@ -7,14 +7,17 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot --port=3000",
-    "build": "cross-env NODE_ENV=production webpack --progress"
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "analyze": "cross-env NODE_ENV=production webpack --progress"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
     "babel-preset-env": "^1.1.8",
+    "clean-webpack-plugin": "^0.1.15",
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "beta",
     "file-loader": "^0.10.0",
     "front-matter": "^2.1.2",
     "highlight.js": "^9.9.0",
@@ -27,7 +30,9 @@
     "vue-loader": "^11.1.0",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.3.0",
     "webpack-dev-server": "^2.4.0",
+    "webpack-merge": "^3.0.0",
     "yaml-loader": "^0.4.0"
   },
   "dependencies": {

@@ -1,11 +1,19 @@
 const path = require('path')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-module.exports = {
-  entry: './src/app.js',
+const TARGET = process.env.npm_lifecycle_event
+
+const common = {
+  entry: {
+    app: './src/app.js',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -58,23 +66,73 @@ module.exports = {
   },
 }
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+const production = {
+  entry: {
+    vendor: ['vue', 'vue-router', 'date-fns'],
+  },
+  output: {
+    filename: '[name].[chunkhash].js',
+  },
+  devtool: '#source-map',
+
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            css: ExtractTextPlugin.extract({
+              use: 'css-loader',
+              fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
+            })
+          },
+        },
+      },
+    ],
+  },
   // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
+  plugins: [
+    new ExtractTextPlugin("style.css"),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor', 'manifest'] // Specify the common bundle's name.
+    }),
+
+    // short-circuits all Vue.js warning code
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
       }
     }),
+
+    // minify with dead-code elimination
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {
-        warnings: false
+        warnings: false,
+        // drop_console: true,
       }
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
-  ])
+    }),
+    new CleanWebpackPlugin(['dist']),
+  ],
+}
+
+if (TARGET === 'start') {
+  module.exports = merge(common, {
+    devtool: '#eval-source-map'
+  })
+}
+
+if (TARGET === 'build') {
+  module.exports = merge.smart(common, production)
+}
+
+if (TARGET === 'analyze') {
+  module.exports = merge.smart(common, production, {
+    plugins: [ new BundleAnalyzerPlugin() ],
+  })
 }
