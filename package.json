@@ -8,13 +8,15 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot --port=3000",
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "analyze": "cross-env NODE_ENV=production webpack --progress"
+    "analyze": "cross-env NODE_ENV=production webpack --progress",
+    "generate": "cross-env NODE_ENV=production webpack --progress"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
     "babel-preset-env": "^1.1.8",
     "clean-webpack-plugin": "^0.1.15",
+    "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "beta",
@@ -27,6 +29,7 @@
     "markdown-it-anchor": "^3.0.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-responsive-type": "^0.5.1",
+    "prerender-spa-plugin": "^2.0.1",
     "vue-loader": "^11.1.0",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.1",

@@ -4,7 +4,9 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const PrerenderSpaPlugin = require('prerender-spa-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -93,7 +95,7 @@ const production = {
   },
   // http://vue-loader.vuejs.org/en/workflow/production.html
   plugins: [
-    new ExtractTextPlugin("style.css"),
+    new ExtractTextPlugin("[name].[contenthash].css"),
 
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'manifest'] // Specify the common bundle's name.
@@ -117,6 +119,12 @@ const production = {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'src/static'),
+        to: path.resolve(__dirname, 'dist')
+      }
+    ]),
     new CleanWebpackPlugin(['dist']),
   ],
 }
@@ -134,5 +142,25 @@ if (TARGET === 'build') {
 if (TARGET === 'analyze') {
   module.exports = merge.smart(common, production, {
     plugins: [ new BundleAnalyzerPlugin() ],
+  })
+}
+
+if (TARGET === 'generate') {
+  const fs = require('fs')
+  const fileNames = fs
+    .readdirSync(path.resolve(__dirname, 'src/contents'))
+    .map(file => (
+      '/posts/' + file.split('.').slice(0, -1).join('.')
+    ))
+
+  module.exports = merge.smart(common, production, {
+    plugins: [
+      new PrerenderSpaPlugin(
+        // Absolute path to compiled SPA
+        path.resolve(__dirname, 'dist'),
+        // List of routes to prerender
+        [ '/', '/posts', ...fileNames ]
+      )
+    ]
   })
 }
