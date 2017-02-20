@@ -7,6 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -29,7 +30,14 @@ module.exports = {
       {
         test: /\.yml$/,
         loader: 'json-loader!yaml-loader',
-      }
+      },
+      {
+        test: /\.md$/,
+        loader: './src/utils/md-fm-loader.js',
+        options: {
+          breaks: true,
+        },
+      },
     ],
   },
   plugins: [

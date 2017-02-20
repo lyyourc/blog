@@ -6,7 +6,7 @@
   "author": "Drake Leung <drakeleung42@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --open --hot --port=3000",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --port=3000",
     "build": "cross-env NODE_ENV=production webpack --progress"
   },
   "devDependencies": {
@@ -16,7 +16,12 @@
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
     "file-loader": "^0.10.0",
+    "front-matter": "^2.1.2",
+    "highlight.js": "^9.9.0",
     "html-webpack-plugin": "^2.28.0",
+    "loader-utils": "^0.2.16",
+    "markdown-it": "^8.3.0",
+    "markdown-it-anchor": "^3.0.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-responsive-type": "^0.5.1",
     "vue-loader": "^11.1.0",
@@ -26,6 +31,7 @@
     "yaml-loader": "^0.4.0"
   },
   "dependencies": {
+    "date-fns": "^1.27.2",
     "vue": "^2.1.10",
     "vue-router": "^2.2.1"
   }
