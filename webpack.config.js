@@ -121,8 +121,8 @@ const production = {
     }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, 'src/static/**/*'),
-        to: path.resolve(__dirname, 'dist')
+        from: path.resolve(__dirname, 'src/static'),
+        toType: 'dir',
       }
     ]),
     new CleanWebpackPlugin(['dist']),
