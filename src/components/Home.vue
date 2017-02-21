@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <section class="home">
     <figure>
       <img src="../assets/img/avatar.png" alt="avatar" class="avatar" />
     </figure>
@@ -26,10 +26,14 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  margin: 4rem 0;
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
+
 .avatar {
   width: 15rem;
   height: 15rem;

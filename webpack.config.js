@@ -53,7 +53,7 @@ const common = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      title: 'zzz',
+      title: 'lyyourc',
     }),
   ],
   resolve: {
@@ -121,7 +121,7 @@ const production = {
     }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, 'src/static'),
+        from: path.resolve(__dirname, 'src/static/**/*'),
         to: path.resolve(__dirname, 'dist')
       }
     ]),

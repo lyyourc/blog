@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <my-nav></my-nav>
-    <main>
-      <router-view></router-view>
-    </main>
+    <router-view class="content"></router-view>
     <my-footer></my-footer>
   </div>
 </template>
@@ -25,9 +23,9 @@ export default {
   max-width: 780px;
   margin: 0 auto;
 }
-main {
+
+.content {
   flex: 1;
-  position: relative;
 }
 </style>
 

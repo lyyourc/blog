@@ -1,7 +1,7 @@
 <template>
   <footer>
-    Powered by
-    <a href="https://nuxtjs.org" target="_blank"> Nuxt.js </a> .
+    © 2017 lyyourc.
+    <a href="https://github.com/DrakeLeung/blog" target="_blank"> Fork it </a> .
   </footer>
 </template>
 
