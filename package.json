@@ -1,6 +1,6 @@
 {
   "name": "blog",
-  "version": "0.0.1",
+  "version": "3.0.0",
   "main": "index.js",
   "repository": "git@github.com:DrakeLeung/blog.git",
   "author": "Drake Leung <drakeleung42@gmail.com>",
@@ -10,7 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress",
     "analyze": "cross-env NODE_ENV=production webpack --progress",
     "generate": "cross-env NODE_ENV=production webpack --progress",
-    "deploy": "cross-env NODE_ENV=production gh-pages -d dist"
+    "deploy": "cross-env NODE_ENV=production gh-pages -d dist",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
