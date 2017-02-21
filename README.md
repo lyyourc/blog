@@ -1,6 +1,6 @@
 # blog
 
-A [hackable blog](lyyourc.com) 4 practicing modern front-end techs.
+A [hackable blog](http://lyyourc.com) 4 practicing modern front-end techs.
 
 
 ## Features
