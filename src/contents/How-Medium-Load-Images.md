@@ -19,7 +19,7 @@ foreword: 分析及实现 Medium 加载图片的效果。
 ## How
 我们随便打开 Medium 中有图片的[页面](https://medium.com/tag/javascript)，然后 *审查元素*，就可以得到：
 
-![](/inspect.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigccyyyj20ep0673zk)
 
 简化之后得到：
 
@@ -138,7 +138,7 @@ app.loadImage()
 
 最后，为了凸显效果，我们要禁止缓存和设置较差的网络环境。具体做法如图：
 
-![](/network.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigcgel8j20aa04sdg2)
 
 实际效果如下：
 {% jsfiddle 5sLzjk99 %}

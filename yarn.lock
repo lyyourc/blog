@@ -135,6 +135,10 @@ arrify@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/arrify/download/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
+asap@~2.0.3:
+  version "2.0.5"
+  resolved "http://registry.npm.taobao.org/asap/download/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
+
 asn1.js@^4.0.0:
   version "4.9.1"
   resolved "http://registry.npm.taobao.org/asn1.js/download/asn1.js-4.9.1.tgz#48ba240b45a9280e94748990ba597d216617fd40"
@@ -834,6 +838,10 @@ browserslist@^1.0.0, browserslist@^1.0.1, browserslist@^1.4.0, browserslist@^1.5
     caniuse-db "^1.0.30000624"
     electron-to-chromium "^1.2.2"
 
+buffer-concat@0.0.1:
+  version "0.0.1"
+  resolved "http://registry.npm.taobao.org/buffer-concat/download/buffer-concat-0.0.1.tgz#43e1e3c77f3d22fb55bea6890a92d03778c4c10a"
+
 buffer-shims@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/buffer-shims/download/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
@@ -1095,7 +1103,7 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "http://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-concat-stream@1.5.0:
+concat-stream@1.5.0, concat-stream@^1.4.6, concat-stream@^1.4.7:
   version "1.5.0"
   resolved "http://registry.npm.taobao.org/concat-stream/download/concat-stream-1.5.0.tgz#53f7d43c51c5e43f81c8fdd03321c631be68d611"
   dependencies:
@@ -1191,6 +1199,10 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     os-homedir "^1.0.1"
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
+
+crc32@0.2.2:
+  version "0.2.2"
+  resolved "http://registry.npm.taobao.org/crc32/download/crc32-0.2.2.tgz#7ad220d6ffdcd119f9fc127a7772cacea390a4ba"
 
 create-ecdh@^4.0.0:
   version "4.0.0"
@@ -1379,6 +1391,10 @@ date-now@^0.1.4:
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/de-indent/download/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
+
+debug@0.7.2:
+  version "0.7.2"
+  resolved "http://registry.npm.taobao.org/debug/download/debug-0.7.2.tgz#056692c86670977f115de82917918b8e8b9a10f0"
 
 debug@0.7.4, debug@~0.7.4:
   version "0.7.4"
@@ -1780,6 +1796,14 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
+formstream@0.0.7:
+  version "0.0.7"
+  resolved "http://registry.npm.taobao.org/formstream/download/formstream-0.0.7.tgz#981d0036743596c54820ee3dfb44baca18349788"
+  dependencies:
+    buffer-concat "0.0.1"
+    mime "1.2.9"
+    pause-stream ">=0.0.10"
+
 forwarded@~0.1.0:
   version "0.1.0"
   resolved "http://registry.npm.taobao.org/forwarded/download/forwarded-0.1.0.tgz#19ef9874c4ae1c297bcf078fde63a09b66a84363"
@@ -1929,13 +1953,9 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-graceful-fs@4.1.10:
+graceful-fs@4.1.10, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.10"
   resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.1.10.tgz#f2d720c22092f743228775c75e3612632501f131"
-
-graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
-  version "4.1.11"
-  resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
@@ -2119,6 +2139,14 @@ htmlparser2@~3.3.0:
     domutils "1.1"
     readable-stream "1.0"
 
+http-basic@^2.5.1:
+  version "2.5.1"
+  resolved "http://registry.npm.taobao.org/http-basic/download/http-basic-2.5.1.tgz#8ce447bdb5b6c577f8a63e3fa78056ec4bb4dbfb"
+  dependencies:
+    caseless "~0.11.0"
+    concat-stream "^1.4.6"
+    http-response-object "^1.0.0"
+
 http-deceiver@^1.2.4:
   version "1.2.7"
   resolved "http://registry.npm.taobao.org/http-deceiver/download/http-deceiver-1.2.7.tgz#fa7168944ab9a519d337cb0bec7284dc3e723d87"
@@ -2146,6 +2174,10 @@ http-proxy@^1.16.2:
   dependencies:
     eventemitter3 "1.x.x"
     requires-port "1.x.x"
+
+http-response-object@^1.0.0, http-response-object@^1.0.1, http-response-object@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/http-response-object/download/http-response-object-1.1.0.tgz#a7c4e75aae82f3bb4904e4f43f615673b4d518c3"
 
 http-signature@~1.1.0:
   version "1.1.1"
@@ -2733,6 +2765,10 @@ mime-types@^2.1.11, mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.13, 
   dependencies:
     mime-db "~1.26.0"
 
+mime@1.2.9:
+  version "1.2.9"
+  resolved "http://registry.npm.taobao.org/mime/download/mime-1.2.9.tgz#009cd40867bd35de521b3b966f04e2f8d4d13d09"
+
 mime@1.3.4, mime@^1.2.11, mime@^1.3.4:
   version "1.3.4"
   resolved "http://registry.npm.taobao.org/mime/download/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
@@ -3062,6 +3098,12 @@ path-type@^1.0.0:
     graceful-fs "^4.1.2"
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
+
+pause-stream@>=0.0.10:
+  version "0.0.11"
+  resolved "http://registry.npm.taobao.org/pause-stream/download/pause-stream-0.0.11.tgz#fe5a34b0cbce12b5aa6a2b403ee2e73b602f1445"
+  dependencies:
+    through "~2.3"
 
 pbkdf2@^3.0.3:
   version "3.0.9"
@@ -3660,6 +3702,12 @@ progress@~1.1.8:
   version "1.1.8"
   resolved "http://registry.npm.taobao.org/progress/download/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
+promise@^7.1.1:
+  version "7.1.1"
+  resolved "http://registry.npm.taobao.org/promise/download/promise-7.1.1.tgz#489654c692616b8aa55b0724fa809bb7db49c5bf"
+  dependencies:
+    asap "~2.0.3"
+
 proto-list@~1.2.1:
   version "1.2.4"
   resolved "http://registry.npm.taobao.org/proto-list/download/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
@@ -3712,6 +3760,24 @@ q@1.4.1, q@^1.0.1, q@^1.1.2:
   version "1.4.1"
   resolved "http://registry.npm.taobao.org/q/download/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
+qiniu-webpack-plugin@^0.4.2:
+  version "0.4.2"
+  resolved "http://registry.npm.taobao.org/qiniu-webpack-plugin/download/qiniu-webpack-plugin-0.4.2.tgz#79e4b30f7284acdb0e58ff28b3e3d869841bfedb"
+  dependencies:
+    promise "^7.1.1"
+    qiniu "^6.1.9"
+    slash "^1.0.0"
+
+qiniu@^6.1.9:
+  version "6.1.13"
+  resolved "http://registry.npm.taobao.org/qiniu/download/qiniu-6.1.13.tgz#57f5d60974c64d8871d80f27df7d43211ae34f03"
+  dependencies:
+    crc32 "0.2.2"
+    formstream "0.0.7"
+    mime "1.2.9"
+    sync-request "3.0.1"
+    urllib "0.5.1"
+
 qs@6.2.0:
   version "6.2.0"
   resolved "http://registry.npm.taobao.org/qs/download/qs-6.2.0.tgz#3b7848c03c2dece69a9522b0fae8c4126d745f3b"
@@ -3720,13 +3786,13 @@ qs@^1.2.1:
   version "1.2.2"
   resolved "http://registry.npm.taobao.org/qs/download/qs-1.2.2.tgz#19b57ff24dc2a99ce1f8bdf6afcda59f8ef61f88"
 
+qs@^6.1.0, qs@~6.3.0:
+  version "6.3.1"
+  resolved "http://registry.npm.taobao.org/qs/download/qs-6.3.1.tgz#918c0b3bcd36679772baf135b1acb4c1651ed79d"
+
 qs@~5.2.0:
   version "5.2.1"
   resolved "http://registry.npm.taobao.org/qs/download/qs-5.2.1.tgz#801fee030e0b9450d6385adc48a4cc55b44aedfc"
-
-qs@~6.3.0:
-  version "6.3.1"
-  resolved "http://registry.npm.taobao.org/qs/download/qs-6.3.1.tgz#918c0b3bcd36679772baf135b1acb4c1651ed79d"
 
 query-string@^4.1.0:
   version "4.3.2"
@@ -4319,6 +4385,14 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
+sync-request@3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/sync-request/download/sync-request-3.0.1.tgz#caa1235aaf889ba501076a1834c436830a82fb73"
+  dependencies:
+    concat-stream "^1.4.7"
+    http-response-object "^1.0.1"
+    then-request "^2.0.1"
+
 tapable@^0.2.5, tapable@~0.2.5:
   version "0.2.6"
   resolved "http://registry.npm.taobao.org/tapable/download/tapable-0.2.6.tgz#206be8e188860b514425375e6f1ae89bfb01fd8d"
@@ -4344,9 +4418,24 @@ tar@~2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
+then-request@^2.0.1:
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/then-request/download/then-request-2.2.0.tgz#6678b32fa0ca218fe569981bbd8871b594060d81"
+  dependencies:
+    caseless "~0.11.0"
+    concat-stream "^1.4.7"
+    http-basic "^2.5.1"
+    http-response-object "^1.1.0"
+    promise "^7.1.1"
+    qs "^6.1.0"
+
 throttleit@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/throttleit/download/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
+
+through@~2.3:
+  version "2.3.8"
+  resolved "http://registry.npm.taobao.org/through/download/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
 timers-browserify@^2.0.2:
   version "2.0.2"
@@ -4489,6 +4578,13 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+urllib@0.5.1:
+  version "0.5.1"
+  resolved "http://registry.npm.taobao.org/urllib/download/urllib-0.5.1.tgz#9e256b2b703dfe0a59637cb0dbb4308ed571971b"
+  dependencies:
+    buffer-concat "0.0.1"
+    debug "0.7.2"
 
 util-deprecate@~1.0.1:
   version "1.0.2"

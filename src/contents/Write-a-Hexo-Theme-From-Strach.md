@@ -8,7 +8,7 @@ foreword: 从零开始写一个主题的话，就意味着我们要了解Hexo的
 ---
 
 之前我也不会写，但是当我了解以下东西的时候，就可以从零开始写一个Hexo主题了。
-![](/hexo2.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigcftb4j209j05lq2t)
 
 - NodeJS / NPM
 - 模板引擎(Template Engine)，比如EJS, Jade，Handlebars等等都可以
@@ -29,7 +29,7 @@ OK，这就是我们需要知道的NodeJS和NPM的知识。
 
 Hexo会读取根目录下的`_config.yml`里面的`theme`属性, 从而采用对应的主题。而主题都是放在`themes/`目录下面的，然后你会发现他里面有个`landscape`的目录，这个就是默认主题啦。
 
-2[](/hexo1.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigc2329j20bj06qdg3)
 
 接着，我们查看`themes/landscape/`目录，以及根据文档[docs-themes](https://hexo.io/docs/themes.html)，我们很容易得出：一个主题其实由4部分组成。
 
@@ -53,7 +53,7 @@ URL   | Template  | Fallback
 
 如下图所示:
 
-2[](/hexo.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigcbx4zj20az070mxi)
 
 或者，可以先尝试一下没有`layout.ejs`的情况，因为比较简单。也就是，访问`/`，Hexo就返回`index.ejs`里面的东西给你。访问`/archives`就返回`archive.ejs`。
 

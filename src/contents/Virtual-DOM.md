@@ -12,8 +12,7 @@ foreword: 然而我并没有实现React Diff算法，因为不会= =
 
 ## What
 *Virtual DOM* 其实就是用JS对象去表示DOM元素。
-{% asset_img vdom0.png %}
-![](/vdom0.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigca4qoj20bj04ywed)
 
 ## Why
 
@@ -30,7 +29,7 @@ Array.from(Array(5)).forEach(appendElement('li'))
 
 ## How
 总共分4个步骤，如下图所示：
-![](/vdom2.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigc53sij20b3041gli)
 
 ### VNode
 `VNode`这个函数是用JavaScript对象来表示DOM元素，比如：
@@ -90,6 +89,8 @@ return node
 ### Diff
 `diff`需要把新的Virtual DOM和旧的进行比较，从而得到变化的地方。
 这个过程最难的了。我没用实现React的diff算法，只是对同级元素进行了比较而已。
+
+![diff](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigcblnij20ea06xgm1)
 
 主要有不同的4种情况:
 ```javascript

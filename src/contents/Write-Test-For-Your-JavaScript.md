@@ -21,7 +21,7 @@ foreword: 我会把测试JavaScript代码的功力一一传授给你。
 
 看了问题回答，很纠结，太多了不知道选择哪个！最后，我决定选择 [Karma](https://karma-runner.github.io/0.13/index.html), [Jasmine](https://github.com/jasmine/jasmine) 和 [Mocha](http://mochajs.org/) 这三者之一，根据 Star 数量以及维护团队。
 
-![](/mocha-jasmine-karma.png)
+![](https://ws1.sinaimg.cn/large/7f85b91egy1fcyigcf3e5j20fe0b53zi)
 
 > 那么，*Karma*, *Jasmine* 以及 *Mocha* 这三者之间哪个好，有什么不同？
 

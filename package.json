@@ -32,6 +32,7 @@
     "postcss-cssnext": "^2.9.0",
     "postcss-responsive-type": "^0.5.1",
     "prerender-spa-plugin": "^2.0.1",
+    "qiniu-webpack-plugin": "^0.4.2",
     "vue-loader": "^11.1.0",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.1",

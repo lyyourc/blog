@@ -6,7 +6,9 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const QiniuPlugin = require('qiniu-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const qiniuCfg = require('./qiniu.config')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -74,6 +76,7 @@ const production = {
   },
   output: {
     filename: '[name].[chunkhash].js',
+    publicPath: qiniuCfg.domain,
   },
   devtool: '#source-map',
 
@@ -95,6 +98,13 @@ const production = {
   },
   // http://vue-loader.vuejs.org/en/workflow/production.html
   plugins: [
+     new QiniuPlugin({
+      ACCESS_KEY: qiniuCfg.ACCESS_KEY,
+      SECRET_KEY: qiniuCfg.SECRET_KEY,
+      bucket: qiniuCfg.bucket,
+      path: '',
+      // include: [/\.js$/],
+    }),
     new ExtractTextPlugin("[name].[contenthash].css"),
 
     new webpack.optimize.CommonsChunkPlugin({
