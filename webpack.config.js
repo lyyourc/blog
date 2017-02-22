@@ -76,7 +76,7 @@ const production = {
   },
   output: {
     filename: '[name].[chunkhash].js',
-    publicPath: qiniuCfg.domain,
+    publicPath: `//${qiniuCfg.domain}`,
   },
   devtool: '#source-map',
 
