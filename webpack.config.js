@@ -76,7 +76,6 @@ const production = {
   },
   output: {
     filename: '[name].[chunkhash].js',
-    publicPath: `//${qiniuCfg.domain}`,
   },
   devtool: '#source-map',
 
@@ -98,13 +97,6 @@ const production = {
   },
   // http://vue-loader.vuejs.org/en/workflow/production.html
   plugins: [
-     new QiniuPlugin({
-      ACCESS_KEY: qiniuCfg.ACCESS_KEY,
-      SECRET_KEY: qiniuCfg.SECRET_KEY,
-      bucket: qiniuCfg.bucket,
-      path: '',
-      // include: [/\.js$/],
-    }),
     new ExtractTextPlugin("[name].[contenthash].css"),
 
     new webpack.optimize.CommonsChunkPlugin({
@@ -164,13 +156,25 @@ if (TARGET === 'generate') {
     ))
 
   module.exports = merge.smart(common, production, {
+    output: {
+      publicPath: `//${qiniuCfg.domain}`,
+    },
+
     plugins: [
       new PrerenderSpaPlugin(
         // Absolute path to compiled SPA
         path.resolve(__dirname, 'dist'),
         // List of routes to prerender
         [ '/', '/posts', ...fileNames ]
-      )
+      ),
+
+      new QiniuPlugin({
+        ACCESS_KEY: qiniuCfg.ACCESS_KEY,
+        SECRET_KEY: qiniuCfg.SECRET_KEY,
+        bucket: qiniuCfg.bucket,
+        path: '',
+        // include: [/\.js$/],
+      }),
     ]
   })
 }
