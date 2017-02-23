@@ -19,7 +19,12 @@
       </div>
 
       <h3 class="post-title">
-        <router-link :to="`/posts/${post.key}`">{{ post.title }}</router-link>
+        <router-link :to="{
+          name: 'post',
+          params: { id: post.number, post }
+        }">
+          {{ post.title }}
+        </router-link>
       </h3>
     </div>
   </section>
@@ -28,16 +33,31 @@
 
 <script>
 import dateFns from 'date-fns'
-import { fetchPosts, sortPostsBySameYear } from '../utils/post'
+
+import { sortPostsBySameYear } from '../utils/post'
+import { fetchPosts } from '../services/post'
 
 export default {
+  data() {
+    return {
+      posts: [],
+    }
+  },
   created() {
-    const posts = this.$root.posts || (this.$root.posts = fetchPosts())
-    this.posts = sortPostsBySameYear(posts)
+    this.getPosts()
   },
   methods: {
     formatDate(date, format = 'YYYY-MM-DD') {
       return dateFns.format(date, format)
+    },
+    async getPosts() {
+      if (this.$root.posts) {
+        this.posts = this.$root.posts
+        return
+      }
+
+      const posts = await fetchPosts()
+      this.$root.posts = this.posts = sortPostsBySameYear(posts)
     },
   },
 }

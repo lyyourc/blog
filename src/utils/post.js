@@ -15,22 +15,22 @@ function sortPostsBySameYear(posts = []) {
     }, [])
 }
 
-function fetchPosts(path) {
-  const files = require.context('../contents', true, /\.md$/)
+// function fetchPosts(path) {
+//   const files = require.context('../contents', true, /\.md$/)
 
-  return files.keys().map(name => {
-    const { attributes, body, frontmatter } = files(name)
-    // get post's title
-    const key = name
-      .split('/').slice(-1)[0]
-      .split('.').slice(0, -1).join('.') 
+//   return files.keys().map(name => {
+//     const { attributes, body, frontmatter } = files(name)
+//     // get post's title
+//     const key = name
+//       .split('/').slice(-1)[0]
+//       .split('.').slice(0, -1).join('.') 
 
-    return Object.assign({}, attributes,
-      { key, body, frontmatter, })
-  })
-}
+//     return Object.assign({}, attributes,
+//       { key, body, frontmatter, })
+//   })
+// }
 
 export {
   sortPostsBySameYear,
-  fetchPosts,
+  // fetchPosts,
 }

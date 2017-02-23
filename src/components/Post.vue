@@ -1,5 +1,5 @@
 <template>
-<article>
+<article v-if="post">
   <header>
     <h1 class="post-title">{{ post.title }}</h1>
     <small class="post-date">{{ formatDate(post.date) }}</small>
@@ -10,19 +10,25 @@
 
 <script>
 import dateFns from 'date-fns'
-import { fetchPosts } from '../utils/post'
+import { fetchPost } from '../services/post'
 
 export default {
+  data() {
+    return {
+      post: null,
+    }
+  },
   created() {
-    const { id } = this.$route.params
-    const posts = this.$root.posts || (this.$root.posts = fetchPosts())
-    
-    this.post = posts.find(p => p.key === id)
+    this.getPost()
   },
   methods: {
     formatDate(date) {
       return dateFns.format(date, 'MMMM DD YYYY')
     },
+    async getPost() {
+      const { id, post } = this.$route.params
+      this.post = this.post || post || await fetchPost(id)
+    }
   },
 }
 </script>

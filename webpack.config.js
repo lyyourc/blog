@@ -8,7 +8,9 @@ const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const QiniuPlugin = require('qiniu-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
 const qiniuCfg = require('./qiniu.config')
+const { HIGHLIGHT_LANGUAGE } = require('./src/utils/highlight-trim')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -97,6 +99,11 @@ const production = {
   },
   // http://vue-loader.vuejs.org/en/workflow/production.html
   plugins: [
+    new webpack.ContextReplacementPlugin(
+      /highlight\.js\/lib\/languages$/,
+      new RegExp(`^./(${HIGHLIGHT_LANGUAGE.join('|')})$`)
+    ),
+
     new ExtractTextPlugin("[name].[contenthash].css"),
 
     new webpack.optimize.CommonsChunkPlugin({
@@ -143,17 +150,18 @@ if (TARGET === 'build') {
 
 if (TARGET === 'analyze') {
   module.exports = merge.smart(common, production, {
+    devtool: '',
     plugins: [ new BundleAnalyzerPlugin() ],
   })
 }
 
 if (TARGET === 'generate') {
-  const fs = require('fs')
-  const fileNames = fs
-    .readdirSync(path.resolve(__dirname, 'src/contents'))
-    .map(file => (
-      '/posts/' + file.split('.').slice(0, -1).join('.')
-    ))
+  // const fs = require('fs')
+  // const fileNames = fs
+  //   .readdirSync(path.resolve(__dirname, 'src/contents'))
+  //   .map(file => (
+  //     '/posts/' + file.split('.').slice(0, -1).join('.')
+  //   ))
 
   module.exports = merge.smart(common, production, {
     output: {
@@ -161,12 +169,12 @@ if (TARGET === 'generate') {
     },
 
     plugins: [
-      new PrerenderSpaPlugin(
-        // Absolute path to compiled SPA
-        path.resolve(__dirname, 'dist'),
-        // List of routes to prerender
-        [ '/', '/posts', ...fileNames ]
-      ),
+      // new PrerenderSpaPlugin(
+      //   // Absolute path to compiled SPA
+      //   path.resolve(__dirname, 'dist'),
+      //   // List of routes to prerender
+      //   [ '/', '/posts', ...fileNames ]
+      // ),
 
       new QiniuPlugin({
         ACCESS_KEY: qiniuCfg.ACCESS_KEY,
