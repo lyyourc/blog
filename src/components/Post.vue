@@ -27,7 +27,22 @@ export default {
     },
     async getPost() {
       const { id, post } = this.$route.params
-      this.post = this.post || post || await fetchPost(id)
+
+      if (this.post || post) {
+        this.post = this.post || post
+        return
+      }
+
+      this.$Progress.start()
+
+      try {
+        this.post = await fetchPost(id)
+        this.$Progress.finish()
+      } catch ({ response, message }) {
+        this.$OHNO.show({ code: response.status, msg: response.data })
+      }
+
+      this.$Progress.finish()
     }
   },
 }
@@ -103,6 +118,16 @@ header {
     & .header-anchor {
       display: none;
     }
+  }
+
+  /* heading margin-top */
+  & h2 { margin-top: 3rem; }
+  & h3 { margin-top: 2rem; }
+  & h4 { margin-top: 1.5rem; }
+
+  /* <ul> padding start */
+  & ul {
+    padding-left: 2rem;
   }
 }
 </style>

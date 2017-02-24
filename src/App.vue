@@ -1,7 +1,9 @@
 <template>
   <div class="container">
+    <vue-progress-bar></vue-progress-bar>
     <my-nav></my-nav>
     <router-view class="content"></router-view>
+    <oh-no></oh-no>
     <my-footer></my-footer>
   </div>
 </template>

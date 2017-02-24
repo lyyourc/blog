@@ -4696,6 +4696,10 @@ vue-loader@^11.1.0:
     vue-style-loader "^2.0.0"
     vue-template-es2015-compiler "^1.2.2"
 
+vue-progressbar@^0.7.1:
+  version "0.7.1"
+  resolved "http://registry.npm.taobao.org/vue-progressbar/download/vue-progressbar-0.7.1.tgz#ae88e4e840803a9a8fe7307bee44d1da99e2ae69"
+
 vue-router@^2.2.1:
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-2.2.1.tgz#b027f9fac2cf13462725e843d6dc631b6aa077f6"

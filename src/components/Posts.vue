@@ -1,5 +1,5 @@
 <template>
-<div class="post-list">
+<div class="post-list" v-if="posts && posts.length > 0">
   <section class="post-entity"
     v-for="yearPosts in posts">
     <p class="post-year"
@@ -56,8 +56,16 @@ export default {
         return
       }
 
-      const posts = await fetchPosts()
-      this.$root.posts = this.posts = sortPostsBySameYear(posts)
+      this.$Progress.start()
+
+      try {
+        const posts = await fetchPosts()
+        this.$root.posts = this.posts = sortPostsBySameYear(posts)
+      } catch ({ response }) {
+        this.$OHNO.show({ code: response.status, msg: response.data })
+      }
+
+      this.$Progress.finish()
     },
   },
 }
