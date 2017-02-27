@@ -6,6 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const OfflinePlugin = require('offline-plugin')
 const QiniuPlugin = require('qiniu-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
@@ -183,6 +184,9 @@ if (TARGET === 'generate') {
         path: '',
         // include: [/\.js$/],
       }),
+
+      // it always better if OfflinePlugin is the last plugin added
+      new OfflinePlugin(),
     ]
   })
 }
