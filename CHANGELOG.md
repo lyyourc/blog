@@ -1,3 +1,14 @@
+<a name="3.1.1"></a>
+## 3.1.1 (2017-02-28)
+
+
+### Bug Fixes
+
+* Error when GitHub api no response 🐛 ([c97d75c](https://github.com/DrakeLeung/blog/commit/c97d75c))
+* Incorrct path of sw.js 🐛 ([21d8ca7](https://github.com/DrakeLeung/blog/commit/21d8ca7))
+
+
+
 <a name="3.1.0"></a>
 # 3.1.0 (2017-02-27)
 
@@ -17,7 +28,6 @@
 ### Performance Improvements
 
 * Dynamically loading component in router ([cb6fd62](https://github.com/DrakeLeung/blog/commit/cb6fd62))
-* Move assets 2 qiniu CDN ([230de41](https://github.com/DrakeLeung/blog/commit/230de41))
 
 
 

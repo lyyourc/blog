@@ -1,14 +1,15 @@
 # blog
 
-A [hackable blog](http://lyyourc.com) 4 practicing modern front-end techs.
-
+A Hackable Blog for the 21st Century -> https://lyyourc.com/
 
 ## Features
 
+- [x] Modern Front-End workflow
 - [x] Mobile First
-- [x] Pre-render
-- [ ] PWA
-- [ ] Code Splitting
+- [x] Code Splitting
+- [x] Offline
+- [ ] PWAs
+- [ ] Pre-render
 - [ ] Static or SPA
 
 
@@ -18,6 +19,7 @@ A [hackable blog](http://lyyourc.com) 4 practicing modern front-end techs.
     - [prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin)
     - [extract-text-webpack-plugin](https://github.com/webpack-contrib/extract-text-webpack-plugin)
     - [webpack-bundle-analyzer](https://github.com/th0r/webpack-bundle-analyzer)
+    - [Offline-plugin](https://github.com/NekR/offline-plugin)
 
 - PostCSS
     - [postcss-cssnext](https://github.com/MoOx/postcss-cssnext)
