@@ -136,6 +136,11 @@ const production = {
       }
     ]),
     new CleanWebpackPlugin(['dist']),
+
+    // it always better if OfflinePlugin is the last plugin added
+    new OfflinePlugin({
+      publicPath: '/',
+    }),
   ],
 }
 
@@ -182,11 +187,8 @@ if (TARGET === 'generate') {
         SECRET_KEY: qiniuCfg.SECRET_KEY,
         bucket: qiniuCfg.bucket,
         path: '',
-        // include: [/\.js$/],
+        include: [ /[^sw.js]/ ],
       }),
-
-      // it always better if OfflinePlugin is the last plugin added
-      new OfflinePlugin(),
     ]
   })
 }
