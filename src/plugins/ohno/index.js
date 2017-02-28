@@ -14,8 +14,11 @@ module.exports.install = function(Vue, options) {
       }
     },
     methods: {
-      show({ code, msg }) {
-        this.error = { code: code || 404, msg: msg || 'Page Not Found' }
+      show({ response, message } = {}) {
+        this.error = response
+          ? { code: response.status, msg: response.data }
+          : { code: 404, msg: message || 'Page Not Found' }
+
         this.isShow = true
       },
       hide() {

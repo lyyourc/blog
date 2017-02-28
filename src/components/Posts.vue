@@ -61,8 +61,8 @@ export default {
       try {
         const posts = await fetchPosts()
         this.$root.posts = this.posts = sortPostsBySameYear(posts)
-      } catch ({ response }) {
-        this.$OHNO.show({ code: response.status, msg: response.data })
+      } catch (err) {
+        this.$OHNO.show(err)
       }
 
       this.$Progress.finish()

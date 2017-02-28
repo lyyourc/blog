@@ -38,8 +38,8 @@ export default {
       try {
         this.post = await fetchPost(id)
         this.$Progress.finish()
-      } catch ({ response, message }) {
-        this.$OHNO.show({ code: response.status, msg: response.data })
+      } catch (err) {
+        this.$OHNO.show(err)
       }
 
       this.$Progress.finish()
