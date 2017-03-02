@@ -1,5 +1,7 @@
 <template>
 <nav>
+  <github-corner repo="https://github.com/DrakeLeung/blog"></github-corner>
+
   <ul class="nav-list">
     <li class="nav-item" v-for="nav in navs">
       <router-link :to="nav.path">{{ nav.name }}</router-link>
@@ -9,6 +11,8 @@
 </template>
 
 <script>
+import GitHubCorner from './GitHubCorner.vue'
+
 export default {
   data() {
     return {
@@ -19,6 +23,9 @@ export default {
       ],
     }
   },
+  components: {
+    'github-corner': GitHubCorner,
+  },
 }
 </script>
 
@@ -26,6 +33,7 @@ export default {
 nav {
   /*background: #f5f5f5;*/
   border-bottom: 1px solid #f5f5f5;
+  position: relative;
 }
 .nav-list {
   list-style: none;
