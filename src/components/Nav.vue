@@ -4,7 +4,9 @@
 
   <ul class="nav-list">
     <li class="nav-item" v-for="nav in navs">
-      <router-link :to="nav.path">{{ nav.name }}</router-link>
+      <router-link :to="nav.path" :exact="nav.path === '/'">
+        {{ nav.name }}
+      </router-link>
     </li>
   </ul>
 </nav>
@@ -53,5 +55,9 @@ nav {
   font-size: 1.2rem;
   color: #000;
   font-weight: bold;
+}
+
+.router-link-active {
+  border-bottom: 1px solid #ddd;
 }
 </style>

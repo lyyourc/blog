@@ -1,7 +1,8 @@
 <template>
   <footer>
-    © 2017 lyyourc.
-    <a href="https://github.com/DrakeLeung/blog" target="_blank"> Fork it </a> .
+    © 2017 lyyourc,
+    Powered by
+    <a href="https://developer.github.com/v3/" target="_blank"> GitHub </a>
   </footer>
 </template>
 

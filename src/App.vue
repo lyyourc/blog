@@ -13,7 +13,10 @@ import MyNav from './components/Nav.vue'
 import MyFooter from './components/Footer.vue'
 
 export default {
-  components: { MyNav, MyFooter },
+  components: {
+    MyNav,
+    MyFooter,
+  },
 }
 </script>
 
