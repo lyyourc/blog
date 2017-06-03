@@ -17,7 +17,7 @@ export const fetchPost = async (
 }
 
 export const fetchPosts = async () => {
-  const url = '//api.github.com/repos/DrakeLeung/blog/issues?labels=blog'
+  const url = '//api.github.com/repos/DrakeLeung/blog/issues?labels=post'
   const { data } = await axios.get(url)
 
   return data.map(post => Object.assign({}, post, parseMarkdown(post.body)))
