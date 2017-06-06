@@ -1,6 +1,6 @@
 <template>
 <nav>
-  <github-corner repo="https://github.com/DrakeLeung/blog"></github-corner>
+  <github-corner :repo="repo"></github-corner>
 
   <ul class="nav-list">
     <li class="nav-item" v-for="nav in navs">
@@ -14,10 +14,12 @@
 
 <script>
 import GitHubCorner from './GitHubCorner.vue'
+import { gh_username } from '../../config.yml'
 
 export default {
   data() {
     return {
+      repo: `https://github.com/${gh_username}/blog`,
       navs: [
         { name: 'RSS', path: '/about' },
         { name: 'Post', path: '/posts', },

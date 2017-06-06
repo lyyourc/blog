@@ -4,6 +4,7 @@ import markdownItAnchor from 'markdown-it-anchor'
 import frontMatter from 'front-matter'
 
 import { hljs } from '../utils/highlight-trim'
+import { gh_username } from '../../config.yml'
 
 /**
  * 
@@ -11,13 +12,13 @@ import { hljs } from '../utils/highlight-trim'
 export const fetchPost = async (
   id
 ) => {
-  const url = '//api.github.com/repos/DrakeLeung/blog/issues/'
+  const url = `//api.github.com/repos/${gh_username}/blog/issues/`
   const { data } = await axios.get(url + id)
   return Object.assign({}, data, parseMarkdown(data.body))
 }
 
 export const fetchPosts = async () => {
-  const url = '//api.github.com/repos/DrakeLeung/blog/issues?labels=post'
+  const url = `//api.github.com/repos/${gh_username}/blog/issues?labels=post`
   const { data } = await axios.get(url)
 
   return data.map(post => Object.assign({}, post, parseMarkdown(post.body)))
