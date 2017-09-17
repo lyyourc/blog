@@ -1,6 +1,8 @@
 {
   "name": "lyyourc",
   "description": "Zone of lyyourc",
+  "repository": "https://github.com/lyyourc/blog",
+  "author": "drakeleung42@gmail.com",
   "license": "MIT",
   "scripts": {
     "dev": "gatsby develop",
