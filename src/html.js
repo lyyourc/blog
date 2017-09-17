@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Favicon from '/static/favicon.ico'
 
 let stylesStr
 if (process.env.NODE_ENV === 'production') {
@@ -30,8 +31,9 @@ class Html extends Component {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>大前端金融组</title>
+          <title>lyyourc</title>
           {this.props.headComponents}
+          <link rel="shortcut icon" href={Favicon} type="image/x-icon" />
           {css}
           <link
             href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
