@@ -1,0 +1,32 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-class-properties",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": { "@": "src" }
+      }
+    ]
+  ],
+
+  "env": {
+    "development": {
+      "plugins": []
+    },
+    "test": {
+      "presets": ["env", "react"]
+    }
+  }
+}

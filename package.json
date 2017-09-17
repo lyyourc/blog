@@ -1,0 +1,51 @@
+{
+  "name": "lyyourc",
+  "description": "Zone of lyyourc",
+  "license": "MIT",
+  "scripts": {
+    "dev": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "gatsby": "^1.8.11",
+    "gatsby-link": "^1.4.1",
+    "gatsby-plugin-nprogress": "^1.0.7",
+    "gatsby-plugin-styled-components": "^1.0.5",
+    "gatsby-remark-autolink-headers": "^1.4.7",
+    "gatsby-remark-images": "^1.5.10",
+    "gatsby-remark-prismjs": "^1.2.7",
+    "gatsby-source-filesystem": "^1.4.12",
+    "gatsby-transformer-remark": "^1.7.7",
+    "gatsby-transformer-yaml": "^1.5.7",
+    "github-markdown-css": "^2.8.0",
+    "grid-styled": "^2.0.0-10",
+    "polished": "^1.7.0",
+    "prop-types": "^15.5.10",
+    "react-draggable": "^3.0.3",
+    "react-icons": "^2.2.5",
+    "styled-media-query": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^4.6.1",
+    "eslint-config-prettier": "^2.4.0",
+    "eslint-plugin-prettier": "^2.2.0",
+    "eslint-plugin-react": "^7.3.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.1.0",
+    "prettier": "^1.6.1"
+  }
+}
