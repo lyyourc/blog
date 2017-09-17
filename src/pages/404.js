@@ -1,16 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Flex } from 'grid-styled'
-
-const Container = styled(Flex)`
-  width: 100%;
-  height: 100%;
-`
+import { StyledContainer } from '@/styled/mixins'
 
 export default function NotFound() {
   return (
-    <Container align="center" justify="center">
+    <StyledContainer align="center" justify="center">
       <p>找不到页面 :(</p>
-    </Container>
+    </StyledContainer>
   )
 }

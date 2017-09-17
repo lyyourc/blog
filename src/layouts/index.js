@@ -117,6 +117,7 @@ export const query = graphql`
         title
         navs {
           title
+          subTitle
           to
           exact
         }

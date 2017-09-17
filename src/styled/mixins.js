@@ -1,4 +1,10 @@
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
+import { Flex } from 'grid-styled'
+
+export const StyledContainer = styled(Flex)`
+  width: 100%;
+  height: 100%;
+`
 
 export const styledScrollbar = function styledScrollbar(theme) {
   if (theme) {

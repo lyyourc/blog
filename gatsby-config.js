@@ -2,9 +2,24 @@ module.exports = {
   siteMetadata: {
     title: 'ly你个c',
     navs: [
-      { title: '注意了!不要忘记放到收藏夹(^D)', to: '/', exact: true },
-      { title: '写博客的时候不要发出啪啪啪的键盘声', to: '/posts', exact: false },
-      { title: '所谓学习就是智商不够用', to: '/learning', exact: false },
+      {
+        title: '首页',
+        subTitle: '注意了!不要忘记放到收藏夹(^D)',
+        to: '/',
+        exact: true,
+      },
+      {
+        title: '博客',
+        subTitle: '写博客的时候不要发出啪啪啪的键盘声',
+        to: '/posts',
+        exact: false,
+      },
+      {
+        title: '学习',
+        subTitle: '所谓学习就是智商不够用',
+        to: '/learning',
+        exact: false,
+      },
     ],
     socials: [
       { type: 'github', username: 'lyyourc' },
