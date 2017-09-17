@@ -44,7 +44,13 @@ export default function Learning({ data }) {
 
 export const query = graphql`
   query LearningQuery {
-    allMarkdownRemark(filter: { fields: { slug: { regex: "/post/" } } }) {
+    allMarkdownRemark(
+      sort: { order: DESC, fields: [frontmatter___date] }
+      filter: {
+        fields: { slug: { regex: "/post/" } }
+        frontmatter: { draft: { ne: true } }
+      }
+    ) {
       edges {
         node {
           excerpt
