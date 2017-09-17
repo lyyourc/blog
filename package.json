@@ -1,0 +1,78 @@
+{
+  "name": "lyyourc",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/lyyourc/blog",
+  "author": "drakeleung42@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server",
+    "prebuild": "rm -rf dist",
+    "build": "NODE_ENV=production webpack",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "precommit": "lint-staged",
+    "deploy": "npm i && npm run build"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js"
+    ]
+  },
+  "devDependencies": {
+    "add": "^2.0.6",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-preval": "^1.4.3",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.5",
+    "eslint": "^4.4.1",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-react": "^7.2.0",
+    "html-webpack-plugin": "^2.30.1",
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "lint-staged": "^4.0.3",
+    "prettier": "^1.5.3",
+    "raw-loader": "^0.5.1",
+    "react-hot-loader": "next",
+    "react-test-renderer": "^15.6.1",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.5.3",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
+  },
+  "dependencies": {
+    "front-matter": "^2.1.2",
+    "github-markdown-css": "^2.8.0",
+    "grid-styled": "^2.0.0-10",
+    "highlight.js": "^9.12.0",
+    "marksy": "^5.0.0",
+    "polished": "^1.4.0",
+    "prop-types": "^15.5.10",
+    "query-string": "^5.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-loadable": "^4.0.4",
+    "react-router-dom": "^4.1.2",
+    "styled-components": "^2.1.2",
+    "styled-media-query": "^2.0.1"
+  }
+}

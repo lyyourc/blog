@@ -1,0 +1,25 @@
+{
+  "presets": [
+    ["env", {
+      "modules": false
+    }],
+    "react"
+  ],
+  "plugins": [
+    "preval",
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-class-properties"
+  ],
+
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "test": {
+      "presets": ["env", "react"]
+    }
+  }
+}
