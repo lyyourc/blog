@@ -10,15 +10,7 @@ const Nav = styled(({ position, ...rest }) => <Flex {...rest} />).attrs({
   is: 'nav',
   justify: 'space-around',
   align: 'center',
-  position: 'bottom',
 })`
-  ${media.lessThan('tablet')`
-    ${fixedNav};
-
-    > * {
-      padding: 0;
-    }
-  `};
 `
 
 export default function AppNavs({ navs }) {

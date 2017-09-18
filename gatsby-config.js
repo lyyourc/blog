@@ -14,12 +14,6 @@ module.exports = {
         to: '/posts',
         exact: false,
       },
-      {
-        title: '学习',
-        subTitle: '所谓学习就是智商不够用',
-        to: '/learning',
-        exact: false,
-      },
     ],
     socials: [
       { type: 'github', username: 'lyyourc' },

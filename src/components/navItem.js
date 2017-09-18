@@ -19,6 +19,8 @@ const StyledLink = styled(Link)`
   &:last-of-type {
     padding-right: 0;
   }
+
+  ${media.lessThan('mobile')`padding: 0 .5em;`};
 `
 const Title = styled.span`
   display: none;
