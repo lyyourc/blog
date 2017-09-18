@@ -16,6 +16,7 @@ export default {
 
     border: '#eaecef',
     bg: '#fbfbfb',
+    bgDark: '#f5f5f5',
     primary: '#E5637C',
   },
   font: {
