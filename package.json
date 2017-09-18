@@ -20,6 +20,7 @@
   "dependencies": {
     "gatsby": "^1.8.11",
     "gatsby-link": "^1.4.1",
+    "gatsby-plugin-google-analytics": "^1.0.7",
     "gatsby-plugin-nprogress": "^1.0.7",
     "gatsby-plugin-styled-components": "^1.0.5",
     "gatsby-remark-autolink-headers": "^1.4.7",

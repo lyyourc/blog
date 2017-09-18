@@ -3687,6 +3687,12 @@ gatsby-module-loader@^1.0.5:
     babel-runtime "^6.26.0"
     loader-utils "^0.2.16"
 
+gatsby-plugin-google-analytics@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/gatsby-plugin-google-analytics/download/gatsby-plugin-google-analytics-1.0.7.tgz#4d83f6fba7c884552c94f54c202661855c31a59d"
+  dependencies:
+    babel-runtime "^6.26.0"
+
 gatsby-plugin-nprogress@^1.0.7:
   version "1.0.7"
   resolved "http://registry.npm.taobao.org/gatsby-plugin-nprogress/download/gatsby-plugin-nprogress-1.0.7.tgz#36cf18776d22c282d3355d32b8c212afdf1a2907"
