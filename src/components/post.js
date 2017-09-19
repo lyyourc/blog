@@ -6,6 +6,7 @@ import 'github-markdown-css'
 import '@/styled/highlight.css'
 import media from '@/styled/media'
 import Avatar from '@/components/avatar'
+import Disqus from '@/components/disqus'
 
 const AvatarBox = styled(Flex)`
   &:not(:last-child) {
@@ -13,10 +14,12 @@ const AvatarBox = styled(Flex)`
   }
 `
 
+const Article = styled.article`padding: 0 0.5em;`
+
 const MarkdownBody = styled.div.attrs({
   className: 'markdown-body',
 })`
-  padding: 0 0.5em;
+  margin-bottom: 2em;
   font-family: inherit;
 
   pre,
@@ -41,9 +44,8 @@ const MarkdownBody = styled.div.attrs({
   // `};
 `
 
-export default function Post({ data }) {
-  const post = data.markdownRemark
-  const { title, contributors } = data.markdownRemark.frontmatter
+export default function Post({ post, disqus }) {
+  const { title, contributors } = post.frontmatter
 
   const Contributors =
     contributors &&
@@ -61,16 +63,19 @@ export default function Post({ data }) {
     ))
 
   return (
-    <MarkdownBody>
-      {title && <h1>{title}</h1>}
-      <div dangerouslySetInnerHTML={{ __html: post.html }} />
-      {contributors && (
-        <div>
-          <hr />
-          <h3>Contributors</h3>
-          <Flex align="center">{Contributors}</Flex>
-        </div>
-      )}
-    </MarkdownBody>
+    <Article>
+      <MarkdownBody>
+        {title && <h1>{title}</h1>}
+        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        {contributors && (
+          <div>
+            <hr />
+            <h3>Contributors</h3>
+            <Flex align="center">{Contributors}</Flex>
+          </div>
+        )}
+      </MarkdownBody>
+      <Disqus shortname={disqus} />
+    </Article>
   )
 }

@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'ly你个c',
+    disqus: 'lyyourc',
     navs: [
       {
         title: '首页',
