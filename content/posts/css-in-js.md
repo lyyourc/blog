@@ -1,6 +1,6 @@
 ---
 title: 喜欢 CSS in JS 的人，我都喜欢！
-date: 2017-07-22
+date: '2017-07-22'
 draft: false
 ---
 

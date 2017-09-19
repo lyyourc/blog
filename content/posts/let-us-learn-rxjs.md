@@ -1,6 +1,6 @@
 ---
 title: 学不会 Rxjs 是一件很丢脸的事情
-date: 2016-09-21
+date: '2016-09-21'
 draft: false
 ---
 

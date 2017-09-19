@@ -1,6 +1,6 @@
 ---
 title: 乱糟糟的全局 CSS 根本不是 CSS 你这个笨蛋
-date: 2017-06-24
+date: '2017-06-24'
 draft: false
 ---
 

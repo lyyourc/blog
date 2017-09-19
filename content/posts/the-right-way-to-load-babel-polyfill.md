@@ -1,6 +1,6 @@
 ---
 title: 不好好地引入 Babel Polyfill 怎么行
-date: 2017-09-18
+date: '2017-09-18'
 draft: false
 ---
 

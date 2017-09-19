@@ -1,6 +1,6 @@
 ---
 title: 不必害羞，写一个数学表达式 parser 就是了
-date: 2016-07-14
+date: '2016-07-14'
 draft: false
 ---
 
