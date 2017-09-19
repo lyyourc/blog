@@ -57,10 +57,6 @@ const Main = styled(Flex).attrs({
   margin-top: ${props => props.theme.headerHeight};
   min-height: calc(100vh - ${props => props.theme.headerHeight});
 
-  ${media.lessThan('tablet')`
-    padding-bottom: ${props => props.theme.headerHeight};
-  `};
-
   ${media.lessThan('mobile')`
     margin-top: 0;
   `};
