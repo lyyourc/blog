@@ -6,13 +6,7 @@ import PostEntry from '@/components/postEntry'
 import { sortPostsBySameYear } from '@/utils/post'
 import media from '@/styled/media'
 
-const LearningPage = styled.div`
-  min-height: 100%;
-  padding: 1em 2em;
-  ${media.lessThan('mobile')`
-    padding: 0;
-  `};
-`
+const PostsIndexPage = styled.div`padding: 1em;`
 
 const PostEntity = styled(Flex).attrs({
   is: 'section',
@@ -26,7 +20,6 @@ const PostYear = styled.h3`
   letter-spacing: 1px;
   text-transform: capitalize;
   margin-top: 2em;
-  ${media.greaterThan('desktop')`margin-left: 2em;`};
 `
 
 export default function Learning({ data }) {
@@ -38,7 +31,7 @@ export default function Learning({ data }) {
   const thisYear = new Date().getFullYear()
 
   return (
-    <LearningPage>
+    <PostsIndexPage>
       {sortPostsBySameYear(posts).map((yearPost, i) => (
         <PostEntity key={i}>
           {thisYear !== yearPost.year && <PostYear>{yearPost.year} 年</PostYear>}
@@ -47,7 +40,7 @@ export default function Learning({ data }) {
           ))}
         </PostEntity>
       ))}
-    </LearningPage>
+    </PostsIndexPage>
   )
 }
 

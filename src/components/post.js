@@ -14,7 +14,7 @@ const AvatarBox = styled(Flex)`
   }
 `
 
-const Article = styled.article`padding: 0 0.5em;`
+const Article = styled.article`padding: 2em 0.5em;`
 
 const MarkdownBody = styled.div.attrs({
   className: 'markdown-body',

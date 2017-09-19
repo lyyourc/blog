@@ -1,19 +1,24 @@
 import React from 'react'
 import styled, { injectGlobal, ThemeProvider } from 'styled-components'
-import { Flex, Box } from 'grid-styled'
-import { normalize, animation } from 'polished'
+import { Flex } from 'grid-styled'
+import { normalize } from 'polished'
 
 import Logo from '@/assets/avatar.png'
 import theme from '@/styled/theme'
 import media from '@/styled/media'
-import { styledScrollbar, fixedNav } from '@/styled/mixins'
-import { rotate360 } from '@/styled/animations'
+import { styledScrollbar } from '@/styled/mixins'
 import Navs from '@/layouts/navs'
 import Socials from '@/components/socials'
 
-const Container = styled.div`
+const Container = styled(Flex).attrs({
+  direction: 'column',
+})`
   color: ${props => props.theme.color.base};
   font-family: ${props => props.theme.font.sans};
+
+  max-width: 980px;
+  margin: 0 auto;
+  min-height: 100vh;
 `
 
 const Header = styled(Flex).attrs({
@@ -21,17 +26,8 @@ const Header = styled(Flex).attrs({
   justify: 'space-between',
   align: 'center',
 })`
-  ${fixedNav};
-
-  padding: 0 3em;
-
-  ${media.lessThan('desktop')`
-    padding: 0 1em;
-  `};
-
-  ${media.lessThan('mobile')`
-    position: static;
-  `}；
+  height: ${props => props.theme.headerHeight};
+  padding: 0 1em;
 `
 
 const SiteAvatar = styled.div`
@@ -41,7 +37,6 @@ const SiteAvatar = styled.div`
   height: 2em;
   border-radius: 50%;
   margin-right: 0.5em;
-  ${animation([rotate360, '5s', 'linear', 1])};
 `
 const SiteTitle = styled.h1`
   font-size: 1.1em;
@@ -54,18 +49,11 @@ const Main = styled(Flex).attrs({
   is: 'main',
   align: 'stretch',
 })`
-  margin-top: ${props => props.theme.headerHeight};
-  min-height: calc(100vh - ${props => props.theme.headerHeight});
+  flex: 1;
 
-  ${media.lessThan('mobile')`
-    margin-top: 0;
-  `};
-`
-
-const Page = styled(Box).attrs({
-  flex: 1,
-})`
-  padding: 1em;
+  > * {
+    flex: 1;
+  }
 `
 
 injectGlobal`${normalize()}`
@@ -98,9 +86,7 @@ export default function Layout({ children, location, data }) {
           </Flex>
           <Socials socials={socials} />
         </Header>
-        <Main>
-          <Page>{children()}</Page>
-        </Main>
+        <Main>{children()}</Main>
       </Container>
     </ThemeProvider>
   )
