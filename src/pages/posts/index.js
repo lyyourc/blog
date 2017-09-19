@@ -4,7 +4,6 @@ import { Flex } from 'grid-styled'
 
 import PostEntry from '@/components/postEntry'
 import { sortPostsBySameYear } from '@/utils/post'
-import media from '@/styled/media'
 
 const PostsIndexPage = styled.div`padding: 1em;`
 
@@ -55,7 +54,6 @@ export const query = graphql`
     ) {
       edges {
         node {
-          excerpt
           fields {
             slug
           }

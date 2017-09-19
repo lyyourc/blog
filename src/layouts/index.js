@@ -5,7 +5,6 @@ import { normalize } from 'polished'
 
 import Logo from '@/assets/avatar.png'
 import theme from '@/styled/theme'
-import media from '@/styled/media'
 import { styledScrollbar } from '@/styled/mixins'
 import Navs from '@/layouts/navs'
 import Socials from '@/components/socials'

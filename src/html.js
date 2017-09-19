@@ -35,10 +35,6 @@ class Html extends Component {
           {this.props.headComponents}
           <link rel="shortcut icon" href={Favicon} type="image/x-icon" />
           {css}
-          <link
-            href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
-            rel="stylesheet"
-          />
         </head>
         <body>
           <div
