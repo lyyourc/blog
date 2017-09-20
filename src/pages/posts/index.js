@@ -15,10 +15,9 @@ const PostEntity = styled(Flex).attrs({
     margin-bottom: 1em;
   }
 `
-const PostYear = styled.h3`
+const PostYear = styled.h2`
   letter-spacing: 1px;
   text-transform: capitalize;
-  margin-top: 2em;
 `
 
 export default function Learning({ data }) {
