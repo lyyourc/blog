@@ -63,6 +63,28 @@ module.exports = {
             },
           },
           'gatsby-remark-prismjs',
+          {
+            resolve: 'gatsby-plugin-manifest',
+            options: {
+              name: 'lyyourc',
+              short_name: 'lyyourc',
+              start_url: '/',
+              theme_color: '#fff',
+              background_color: '#fff',
+              display: 'standalone',
+              icons: [
+                // {
+                //   // Everything in /static will be copied to an equivalent
+                //   // directory in /public during development and build, so
+                //   // assuming your favicons are in /static/favicons,
+                //   // you can reference them here
+                //   src: '/favicons/android-chrome-144x144.png',
+                //   sizes: '144x144',
+                //   type: 'image/png',
+                // },
+              ],
+            },
+          },
         ],
       },
     },
