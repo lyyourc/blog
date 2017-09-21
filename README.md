@@ -1,5 +1,5 @@
 # blog
-https://lyyourc.com
+https://www.lyyourc.com
 
 ## 🚧 Development
 Built with [Gateby.js](https://www.gatsbyjs.org/) 👍
