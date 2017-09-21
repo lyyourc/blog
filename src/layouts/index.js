@@ -52,6 +52,7 @@ const Main = styled(Flex).attrs({
 
   > * {
     flex: 1;
+    min-width: 0;
   }
 `
 
