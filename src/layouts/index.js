@@ -106,6 +106,7 @@ export const query = graphql`
         socials {
           type
           username
+          href
         }
       }
     }

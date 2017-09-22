@@ -1,5 +1,7 @@
 module.exports = {
   siteMetadata: {
+    siteUrl: 'https://www.lyyourc.com',
+    description: '这里是 ly你个c 的博客',
     title: 'ly你个c',
     disqus: 'lyyourc',
     navs: [
@@ -19,6 +21,7 @@ module.exports = {
     socials: [
       { type: 'github', username: 'lyyourc' },
       { type: 'twitter', username: 'lyyourc' },
+      { type: 'rss', href: '/rss.xml' },
     ],
   },
   plugins: [
@@ -87,6 +90,61 @@ module.exports = {
             },
           },
           'gatsby-remark-prismjs',
+        ],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        feeds: [
+          {
+            query: `
+              {
+                allMarkdownRemark(
+                  sort: { order: DESC, fields: [frontmatter___date] }
+                  filter: {
+                    frontmatter: { draft: { ne: true } }
+                    fileAbsolutePath: { regex: "/post/" }
+                  }
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      frontmatter {
+                        title
+                        date
+                        excerpt
+                      }
+                      fields {
+                        slug
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            setup: ({ query: { site: { siteMetadata } } }) => {
+              return {
+                title: siteMetadata.title,
+                description: siteMetadata.description,
+                feed_url: siteMetadata.siteUrl + '/rss.xml',
+                site_url: siteMetadata.siteUrl,
+                generator: 'GatsbyJS',
+              }
+            },
+            serialize: ({ query: { site, allMarkdownRemark } }) =>
+              allMarkdownRemark.edges.map(({ node }) => {
+                return {
+                  title: node.frontmatter.title,
+                  description: node.frontmatter.excerpt || node.excerpt,
+                  url: site.siteMetadata.siteUrl + node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + node.fields.slug,
+                  custom_elements: [{ 'content:encoded': node.html }],
+                }
+              }),
+          },
         ],
       },
     },
