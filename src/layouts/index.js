@@ -2,8 +2,8 @@ import React from 'react'
 import styled, { injectGlobal, ThemeProvider } from 'styled-components'
 import { Flex } from 'grid-styled'
 import { normalize } from 'polished'
+import Link from 'gatsby-link'
 
-import Logo from '@/assets/avatar.png'
 import theme from '@/styled/theme'
 import { styledScrollbar } from '@/styled/mixins'
 import Navs from '@/layouts/navs'
@@ -30,7 +30,7 @@ const Header = styled(Flex).attrs({
 `
 
 const SiteAvatar = styled.div`
-  background: url(${Logo});
+  background: url(/avatar.png);
   background-size: cover;
   width: 2em;
   height: 2em;
