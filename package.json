@@ -38,6 +38,7 @@
     "polished": "^1.7.0",
     "prop-types": "^15.5.10",
     "react-draggable": "^3.0.3",
+    "react-headroom": "^2.1.6",
     "react-icons": "^2.2.5",
     "react-visibility-sensor": "^3.10.1",
     "styled-media-query": "^2.0.1"
