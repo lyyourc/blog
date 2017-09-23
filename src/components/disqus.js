@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import VisibilitySensor from 'react-visibility-sensor'
 
 let disqusLoaded = false
 
@@ -17,30 +18,24 @@ export default class Disqus extends Component {
 
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    this.loadDiscus()
-  }
-
-  componentDidUpdate() {
-    this.loadDisqus()
+    this.state = { onceInView: false }
   }
 
   render() {
     return (
-      <div>
+      <VisibilitySensor
+        active={!this.state.onceInView}
+        onChange={this.handleVisibilityChange}>
         <div id="disqus_thread" />
-        <noscript>
-          <span>
-            Please enable JavaScript to view the
-            <a href="http://disqus.com/?ref_noscript">
-              comments powered by Disqus.
-            </a>
-          </span>
-        </noscript>
-      </div>
+      </VisibilitySensor>
     )
+  }
+
+  handleVisibilityChange = isVisible => {
+    if (isVisible) {
+      this.loadDiscus()
+      this.setState({ onceInView: true })
+    }
   }
 
   loadDiscus = () => {
