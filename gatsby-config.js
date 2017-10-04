@@ -6,7 +6,7 @@ module.exports = {
     disqus: 'lyyourc',
     navs: [
       {
-        title: '首页',
+        title: '博客',
         subTitle: '注意了！不要忘记放到收藏夹(^D)',
         to: '/',
         exact: true,

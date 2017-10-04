@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex } from 'grid-styled'
+import { Helmet } from 'react-helmet'
 
 import PostEntry from '@/components/postEntry'
 import { sortPostsBySameYear } from '@/utils/post'
@@ -29,9 +30,13 @@ export default function Learning({ data }) {
     return { ...frontmatter, ...node.fields, excerpt }
   })
   const thisYear = new Date().getFullYear()
+  const siteTitle = data.site.siteMetadata.title
 
   return (
     <PostsIndexPage>
+      <Helmet>
+        <title>{siteTitle}</title>
+      </Helmet>
       {sortPostsBySameYear(posts).map((yearPost, i) => (
         <PostEntity key={i}>
           {thisYear !== yearPost.year && <PostYear>{yearPost.year} 年</PostYear>}
@@ -45,7 +50,12 @@ export default function Learning({ data }) {
 }
 
 export const query = graphql`
-  query LearningQuery {
+  query IndexPageQuery {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___date] }
       filter: {
