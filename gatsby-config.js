@@ -7,15 +7,9 @@ module.exports = {
     navs: [
       {
         title: '首页',
-        subTitle: '注意了!不要忘记放到收藏夹(^D)',
+        subTitle: '注意了！不要忘记放到收藏夹(^D)',
         to: '/',
         exact: true,
-      },
-      {
-        title: '博客',
-        subTitle: '写博客的时候不要发出啪啪啪的键盘声',
-        to: '/posts',
-        exact: false,
       },
     ],
     socials: [
