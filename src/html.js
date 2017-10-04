@@ -23,7 +23,7 @@ class Html extends Component {
     }
 
     return (
-      <html lang="en">
+      <html lang="cmn-Hans">
         <head>
           <meta charSet="utf-8" />
           <meta
