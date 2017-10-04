@@ -22,6 +22,8 @@ module.exports = {
     'gatsby-plugin-netlify',
     'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -148,6 +150,13 @@ module.exports = {
       options: {
         name: 'content',
         path: `${__dirname}/content/`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'static',
+        path: `${__dirname}/static`,
       },
     },
   ],

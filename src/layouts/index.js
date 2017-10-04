@@ -48,11 +48,17 @@ injectGlobal`
 
 export default function Layout({ children, location, data }) {
   const { navs, title, socials } = data.site.siteMetadata
+  const { avatarImage } = data
 
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Header title={title} navs={navs} socials={socials} />
+        <Header
+          title={title}
+          navs={navs}
+          socials={socials}
+          avatarImage={avatarImage}
+        />
         <Main>{children()}</Main>
       </Container>
     </ThemeProvider>
@@ -75,6 +81,16 @@ export const query = graphql`
           username
           href
         }
+      }
+    }
+    avatarImage: imageSharp(id: { regex: "/avatar/" }) {
+      responsiveResolution(width: 32) {
+        base64
+        aspectRatio
+        width
+        height
+        src
+        srcSet
       }
     }
   }

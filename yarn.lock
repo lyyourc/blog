@@ -3756,6 +3756,13 @@ gatsby-1-config-css-modules@^1.0.4:
   dependencies:
     babel-runtime "^6.26.0"
 
+gatsby-image@^1.0.4:
+  version "1.0.4"
+  resolved "http://registry.npm.taobao.org/gatsby-image/download/gatsby-image-1.0.4.tgz#e76882a5d6e9461bec76f924fbe0c4026bf3c128"
+  dependencies:
+    babel-runtime "^6.26.0"
+    prop-types "^15.6.0"
+
 gatsby-link@^1.4.1:
   version "1.6.20"
   resolved "http://registry.npm.taobao.org/gatsby-link/download/gatsby-link-1.6.20.tgz#3cf26bda238fc906a2957f701fe4cb6c6854c030"
@@ -3913,6 +3920,15 @@ gatsby-transformer-remark@^1.7.7:
     underscore.string "^3.3.4"
     unist-util-select "^1.5.0"
     unist-util-visit "^1.1.1"
+
+gatsby-transformer-sharp@^1.6.8:
+  version "1.6.8"
+  resolved "http://registry.npm.taobao.org/gatsby-transformer-sharp/download/gatsby-transformer-sharp-1.6.8.tgz#705bb9b7ec20c9f580cde2fd10b135654fcfa13b"
+  dependencies:
+    babel-runtime "^6.26.0"
+    bluebird "^3.5.0"
+    fs-extra "^4.0.1"
+    image-size "^0.6.0"
 
 gatsby-transformer-yaml@^1.5.7:
   version "1.5.8"
@@ -4734,6 +4750,10 @@ ignore@^3.3.3:
 image-size@^0.5.1:
   version "0.5.5"
   resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
+
+image-size@^0.6.0:
+  version "0.6.1"
+  resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.6.1.tgz#98122a562d59dcc097ef1b2c8191866eb8f5d663"
 
 imagemin-pngquant@^5.0.0:
   version "5.0.1"
