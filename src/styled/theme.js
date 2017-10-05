@@ -17,7 +17,9 @@ export default {
     border: '#eaecef',
     bg: '#fbfbfb',
     bgDark: '#f5f5f5',
-    primary: '#E5637C',
+
+    pink: '#E5637C',
+    blue: '#5badf0',
   },
   font: {
     sans:
@@ -27,6 +29,7 @@ export default {
 
   headerHeight: '4em',
   sidebarWidth: '18em',
+  mainContentWidth: '700px',
 
   breakpoints,
   breakpointsObject,

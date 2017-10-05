@@ -1,27 +1,48 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import 'github-markdown-css'
 
-import '@/styled/highlight.css'
 import Disqus from '@/components/disqus'
+import styledPost from '@/styled/post'
+import media from '@/styled/media'
 
-const Article = styled.article`padding: 2em 1em;`
+const Article = styled.article`
+  padding: 2em 1em;
+  line-height: 1.7;
+`
 
-const MarkdownBody = styled.div.attrs({
-  className: 'markdown-body',
-})`
-  margin-bottom: 2em;
+const PostHeader = styled.header`
+  text-align: center;
+`
+
+const PostTitle = styled.h1`
+  margin: 0;
+  text-transform: capitalize;
+  padding-top: 1em;
+  font-size: 1.8em;
+`
+
+const PostDate = styled.p`
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #aaa;
+`
+
+const MarkdownBody = styled.div`
+  margin: 4.2em 0;
   font-family: inherit;
 
-  pre,
-  code {
-    font-family: ${props => props.theme.font.mono} !important;
-  }
+  ${styledPost};
+
+  ${media.lessThan('mobile')`
+    pre {
+      padding: 0.8em;
+    }
+  `};
 `
 
 export default function Post({ post, disqus }) {
-  const { title } = post.frontmatter
+  const { title, date } = post.frontmatter
 
   return (
     <Article>
@@ -34,10 +55,11 @@ export default function Post({ post, disqus }) {
           onLoad="this.rel='stylesheet'"
         />
       </Helmet>
-      <MarkdownBody>
-        {title && <h1>{title}</h1>}
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
-      </MarkdownBody>
+      <PostHeader>
+        {title && <PostTitle>{title}</PostTitle>}
+        {date && <PostDate>{date}</PostDate>}
+      </PostHeader>
+      <MarkdownBody dangerouslySetInnerHTML={{ __html: post.html }} />
       <Disqus shortname={disqus} />
     </Article>
   )

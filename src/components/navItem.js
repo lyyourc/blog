@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   color: inherit;
 
   &.${activeClassName} {
-    color: ${props => props.theme.color.primary};
+    color: ${props => props.theme.color.pink};
   }
 
   &:last-of-type {
@@ -26,7 +26,9 @@ const Title = styled.span`
   display: none;
   ${media.lessThan('desktop')`display: inline-block;`};
 `
-const SubTitle = styled.span`${media.lessThan('desktop')`display: none`};`
+const SubTitle = styled.span`
+  ${media.lessThan('desktop')`display: none`};
+`
 
 export default function NavItem({ to, title, subTitle, exact, handleClick }) {
   return (

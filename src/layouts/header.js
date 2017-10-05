@@ -27,6 +27,8 @@ const Header = styled(Flex).attrs({
   align: 'center',
 })`
   height: ${props => props.theme.headerHeight};
+  max-width: ${props => props.theme.mainContentWidth};
+  margin: 0 auto;
   padding: 0 1em;
   background: #fff;
 `

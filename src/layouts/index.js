@@ -13,7 +13,7 @@ const Container = styled(Flex).attrs({
   color: ${props => props.theme.color.base};
   font-family: ${props => props.theme.font.sans};
 
-  max-width: 900px;
+  max-width: ${props => props.theme.mainContentWidth};
   margin: 0 auto;
   min-height: 100vh;
 `

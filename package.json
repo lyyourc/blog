@@ -37,7 +37,6 @@
     "gatsby-transformer-remark": "^1.7.7",
     "gatsby-transformer-sharp": "^1.6.8",
     "gatsby-transformer-yaml": "^1.5.7",
-    "github-markdown-css": "^2.8.0",
     "grid-styled": "^2.0.0-10",
     "polished": "^1.7.0",
     "prop-types": "^15.5.10",
