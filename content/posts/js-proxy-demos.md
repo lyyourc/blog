@@ -1,4 +1,8 @@
-# Sorry，学会 Proxy 真的可以为所欲为
+---
+title: Sorry，学会 Proxy 真的可以为所欲为
+date: '2018-03-29'
+draft: false
+---
 
 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 是 JavaScript 2015 的一个新特性，下面让我们看看他实现哪些有趣的东西。
 
@@ -11,18 +15,18 @@
 * 不允许动态设置，否则报错。
 * 不允许删除，否则报错。
 
-我们下面会写一个 `erum` 的函数，不过先让我们来看看他在 redux 的 action types 的应用。
+我们下面会写一个 `enum` 的函数，不过先让我们来看看他在 redux 的 action types 的应用。
 
 ```js
-// erum.test.js
-test('erum', () => {
+// enum.test.js
+test('enum', () => {
   // 我们定义了俩个 action type
   const actionTypes = {
     ADD_TODO: 'add_todo',
     UPDATE_TODO: 'update_todo'
   }
 
-  const safeActionTypes = erum(actionTypes)
+  const safeActionTypes = enum(actionTypes)
 
   // 当读取一个不存在的枚举值时会报错
   // 因为 'DELETE_TODO' 并没有定义，所以此时会报错
@@ -37,12 +41,12 @@ test('erum', () => {
 })
 ```
 
-那么，`erum` 函数怎么写呢？
+那么，`enum` 函数怎么写呢？
 很简单，只要用 Proxy 的 `get` , `set` 和 `deleteProperty` 钩子就好了。
 
 ```js
-// erum.js
-export default function erum(object) {
+// enum.js
+export default function enum(object) {
   return new Proxy(object, {
     get(target, prop) {
       if (target[prop]) {
@@ -110,19 +114,19 @@ export function produce(base, producer) {
   const state = {
     base, // 原来的数据
     copy: null, // 新的，复制的数据
-    modifyied: false, // 是否修改过
+    modified: false, // 是否修改过
   }
 
   const proxy = new Proxy(state, {
     get(target, prop) {
       // 如果修改过，则返回副本数据，或者返回原来的数据
-      return target.modifyied ? target.copy[prop] : target.base[prop]
+      return target.modified ? target.copy[prop] : target.base[prop]
     },
 
     set(target, prop, value) {
-      // set 钩子的时候，设置 modifyied 为 true
-      if (!target.modifyied) {
-        target.modifyied = true
+      // set 钩子的时候，设置 modified 为 true
+      if (!target.modified) {
+        target.modified = true
         target.copy = shallowCopy(target.base)
       }
 
