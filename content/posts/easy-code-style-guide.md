@@ -1,5 +1,5 @@
 ---
-title: 没有规范的代码就像蘸了酱油的虾
+title: 码似主人形
 date: 2017-12-01
 draft: false
 excerpt: 快速建立代码规范与流程
