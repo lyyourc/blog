@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
             padding: 25px;
             flex: 1;
             box-shadow: 0 1px 6px #e5e5e5;
-            -webkit-overflow-scrolling: 'touch',
+            -webkit-overflow-scrolling: 'touch';
           `}
         >
           {children}

@@ -52,7 +52,7 @@ export default function Posts() {
   )
 }
 
-export const postsQuery = graphql`
+const postsQuery = graphql`
   {
     allMdx(
       sort: { order: DESC, fields: [frontmatter___date] }

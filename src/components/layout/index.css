@@ -18,7 +18,7 @@ a {
 
 .container {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 816px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
