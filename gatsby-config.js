@@ -1,50 +1,16 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://www.lyyourc.com',
-    description: '这里是 ly你个c 的博客',
     title: 'ly你个c',
-    disqus: 'lyyourc',
-    navs: [
-      {
-        title: '博客',
-        subTitle: '注意了！不要忘记放到收藏夹(^D)',
-        to: '/',
-        exact: true,
-      },
-    ],
-    socials: [
-      { type: 'github', username: 'lyyourc' },
-      { type: 'twitter', username: 'lyyourc' },
-      { type: 'rss', href: '/rss.xml' },
-    ],
+    description: 'blog of lyyourc',
+    author: 'lyyourc',
   },
   plugins: [
-    'gatsby-plugin-netlify',
-    'gatsby-plugin-offline',
+    'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: 'gatsby-plugin-nprogress',
       options: {
-        name: 'lyyourc',
-        short_name: 'lyyourc',
-        start_url: '/',
-        theme_color: '#fff',
-        background_color: '#fff',
-        display: 'standalone',
-        icons: [
-          {
-            src: '/favicons/android-chrome-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/favicons/android-chrome-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-        ],
+        color: '#e5e5e5',
       },
     },
     {
@@ -53,94 +19,24 @@ module.exports = {
         trackingId: 'UA-63900271-1',
       },
     },
-    'gatsby-plugin-styled-components',
-    'gatsby-transformer-yaml',
     {
-      resolve: 'gatsby-plugin-nprogress',
+      resolve: 'gatsby-mdx',
       options: {
-        // Setting a color is optional.
-        color: '#E5637C',
-        // Disable the loading spinner.
-        showSpinner: false,
-      },
-    },
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: [
+        extensions: ['.mdx', '.md'],
+        gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',
             options: {
-              // It's important to specify the maxWidth (in pixels) of
-              // the content container as this plugin uses this as the
-              // base for generating different widths of each image.
-              maxWidth: 768,
-              // Remove the default behavior of adding a link to each
-              // image.
+              sizeByPixelDensity: true,
               linkImagesToOriginal: false,
+              backgroundColor: 'transparent',
             },
           },
           {
-            resolve: 'gatsby-remark-autolink-headers',
+            resolve: 'gatsby-remark-prismjs',
             options: {
-              offsetY: 78,
+              classPrefix: 'language-jsx',
             },
-          },
-          'gatsby-remark-prismjs',
-        ],
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-feed',
-      options: {
-        feeds: [
-          {
-            query: `
-              {
-                allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] }
-                  filter: {
-                    frontmatter: { draft: { ne: true } }
-                    fileAbsolutePath: { regex: "/post/" }
-                  }
-                ) {
-                  edges {
-                    node {
-                      excerpt
-                      html
-                      frontmatter {
-                        title
-                        date
-                        excerpt
-                      }
-                      fields {
-                        slug
-                      }
-                    }
-                  }
-                }
-              }
-            `,
-            output: '/rss.xml',
-            setup: ({ query: { site: { siteMetadata } } }) => {
-              return {
-                title: siteMetadata.title,
-                description: siteMetadata.description,
-                feed_url: siteMetadata.siteUrl + '/rss.xml',
-                site_url: siteMetadata.siteUrl,
-                generator: 'GatsbyJS',
-              }
-            },
-            serialize: ({ query: { site, allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map(({ node }) => {
-                return {
-                  title: node.frontmatter.title,
-                  description: node.frontmatter.excerpt || node.excerpt,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ 'content:encoded': node.html }],
-                }
-              }),
           },
         ],
       },
@@ -148,16 +44,41 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'content',
-        path: `${__dirname}/content/`,
+        path: `${__dirname}/content/posts`,
+        name: 'posts',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-emotion',
+      options: {
+        // Accepts all options defined by 'babel-plugin-emotion' plugin.
       },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'static',
-        path: `${__dirname}/static`,
+        name: 'images',
+        path: `${__dirname}/src/images`,
       },
     },
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'ly你个c',
+        short_name: 'ly你个c',
+        start_url: '/',
+        theme_color: '#fff',
+        background_color: '#fff',
+        // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
+        // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+        display: 'standalone',
+        icon: 'src/images/avatar.png', // This path is relative to the root of the site.
+      },
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.app/offline
+    // 'gatsby-plugin-offline',
   ],
 }

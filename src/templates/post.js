@@ -1,25 +1,33 @@
 import React from 'react'
-import Post from '@/components/post'
+import { graphql } from 'gatsby'
+import { normalizePost } from '../utils/post'
+import Post from '../components/post'
 
-export default function PostTemplate({ data }) {
-  const { disqus } = data.site.siteMetadata
-  const post = data.markdownRemark
+export default function PostTemplate(props) {
+  const { mdx } = props.data
+  const post = normalizePost(mdx)
 
-  return <Post post={post} disqus={disqus} />
+  return <Post {...post}></Post>
 }
 
-export const query = graphql`
-  query BlogPostQuery($slug: String!) {
-    site {
-      siteMetadata {
-        disqus
+export const pageQuery = graphql`
+ query($id: String!) {
+    mdx(id: { eq: $id }) {
+      id
+      code {
+        body
       }
-    }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      html
       frontmatter {
         title
-        date(formatString: "MMM DD, YYYY")
+        date(formatString: "MMMM DD, YYYY")
+      }
+      tableOfContents
+      headings {
+        value
+        depth
+      }
+      wordCount {
+        words
       }
     }
   }

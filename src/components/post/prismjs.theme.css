@@ -1,0 +1,21 @@
+code[class*="language-"],
+pre[class*="language-"] {
+  color: inherit;
+}
+
+/* code block */
+:not(pre) > code[class*=language-],
+pre[class*=language-] {
+  background-color: #f7f7f7;
+  border: 1px solid rgba(208, 212, 217, 0.5);
+  padding: 0.8em;
+  font-size: 0.9em;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em;
+  border: none;
+  font-size: 1em;
+  background: linear-gradient(to bottom, #f4f4f4, #f6f6f6);
+}

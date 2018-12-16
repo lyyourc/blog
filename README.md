@@ -6,22 +6,13 @@ Built with [Gateby.js](https://www.gatsbyjs.org/) 👍
 
 ```bash
 # install
-yarn install
+npm i
 
 # dev
-npm run dev
+npm start
 
 # build
 npm run build
-```
-
-## 📝 Content
-
-```bash
-content
-├── post        博客
-├── index       首页
-└── learning    学习
 ```
 
 ## 🚀 Deploy

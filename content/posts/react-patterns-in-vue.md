@@ -50,13 +50,13 @@ export default {
 }
 ```
 
-其实上 Container/View 并没有解决组件复用的问题。<br>
+其实上 Container/View 并没有解决组件复用的问题。<br />
 如果我们想要复用 container 里面的 logic 的话，就需要把 Container 里面的 View 解耦出来。
 
 
 ## Render Props Pattern
 
-Vue 里面组件复用只有两种方法，[mixin](https://vuejs.org/v2/guide/mixins.html#ad) 或者 [slot](https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots) 。<br>
+Vue 里面组件复用只有两种方法，[mixin](https://vuejs.org/v2/guide/mixins.html#ad) 或者 [slot](https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots) 。<br />
 想要模仿 render props pattern 的话，需要用到 [slot-scope](https://vuejs.org/v2/guide/components.html#Scoped-Slots) 。写起来的话，就像这样：
 
 ```js

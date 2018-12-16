@@ -1,47 +1,71 @@
+/**
+ * Implement Gatsby's Node APIs in this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/node-apis/
+ */
+
 const path = require('path')
+const { createFilePath } = require(`gatsby-source-filesystem`)
+const componentWithMDXScope = require('gatsby-mdx/component-with-mdx-scope')
 
-exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
-  const { createNodeField } = boundActionCreators
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions
 
-  if (node.internal.type === 'MarkdownRemark') {
-    const { relativePath } = getNode(node.parent)
-    const { name, dir } = path.parse(relativePath)
-    createNodeField({ node, name: 'slug', value: `/${dir}/${name}` })
-  }
-}
-
-exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
   return new Promise((resolve, reject) => {
-    graphql(`
-      {
-        allMarkdownRemark {
-          edges {
-            node {
-              fields {
-                slug
+    resolve(
+      graphql(
+        `
+          {
+            allMdx {
+              edges {
+                node {
+                  id
+                  fields {
+                    slug
+                  }
+                  code {
+                    scope
+                  }
+                }
               }
             }
           }
+        `
+      ).then(result => {
+        if (result.errors) {
+          console.log(result.errors)
+          reject(result.errors)
         }
-      }
-    `).then(result => {
-      result.data.allMarkdownRemark.edges.map(({ node }) => {
-        const { slug } = node.fields
 
-        // exclude '_' started slug
-        if (/_/.test(slug)) return
-
-        createPage({
-          path: node.fields.slug,
-          component: path.resolve('./src/templates/post.js'),
-          context: {
-            // Data passed to context is available in page queries as GraphQL variables.
-            slug,
-          },
+        // Create blog posts pages.
+        result.data.allMdx.edges.forEach(({ node }) => {
+          createPage({
+            path: '/posts' + node.fields.slug,
+            component: componentWithMDXScope(
+              path.resolve('./src/templates/post.js'),
+              node.code.scope
+            ),
+            context: {
+              id: node.id,
+              slug: node.fields.slug,
+            },
+          })
         })
       })
-      resolve()
-    })
+    )
   })
+}
+
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions
+
+  if (node.internal.type === `Mdx`) {
+    const slug = createFilePath({ node, getNode, basePath: `pages` })
+
+    createNodeField({
+      node,
+      name: `slug`,
+      value: slug,
+    })
+  }
 }
