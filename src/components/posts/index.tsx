@@ -14,6 +14,10 @@ const PostEntry = styled.div`
   &:first-of-type {
     margin-top: 0;
   }
+
+  @media (min-width: 768px) {
+    padding: 12px;
+  }
 `
 
 export default function Posts() {
@@ -32,7 +36,7 @@ export default function Posts() {
 
         return yearPosts.map(yearPost => (
           <div key={yearPost.year}>
-            {thisYear !== yearPost.year && <h4>{yearPost.year}</h4>}
+            {thisYear !== yearPost.year && <h3>{yearPost.year}</h3>}
 
             {yearPost.posts.map((post, j) => (
               <Link

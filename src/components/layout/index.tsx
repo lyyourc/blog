@@ -26,6 +26,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
             flex: 1;
             box-shadow: 0 1px 6px #e5e5e5;
             -webkit-overflow-scrolling: 'touch';
+            
+            @media (min-width: 768px) {
+              padding: 50px;
+            }
           `}
         >
           {children}

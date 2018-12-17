@@ -12,9 +12,13 @@ const Header = ({ title = '' }: HeaderProps) => (
     css={css`
       height: 44px;
       line-height: 44px;
-      border-bottom: 0.5px solid #e5e5e5;
       padding: 0 25px;
       background: #fafafa;
+      
+      @media (min-width: 768px) {
+        height: 60px;
+        line-height: 60px;
+      }
     `}
   >
     <header

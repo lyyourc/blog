@@ -35,6 +35,24 @@ const Article = styled.article`
     line-height: 1.25;
   }
 
+  @media (min-width: 768px) {
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin-bottom: 1em;
+    }
+    h2 {
+      margin-top: 2em;
+    }
+    h3 {
+      margin-top: 1.5em;
+    }
+    h4 {
+      margin-top: 1em;
+    }
+  }
+
   blockquote {
     color: #a5a5a5;
     padding-left: 15px;
@@ -42,20 +60,33 @@ const Article = styled.article`
     margin: 0;
   }
 `
+
+const ArticleDate = styled.div`
+  font-size: 0.8em;
+  opacity: 0.7;
+  text-align: right;
+  line-height: 1;
+`
+
 const ArticleTitle = styled.h1`
-  padding: 15px 0;
+  padding: 25px 0 15px 0;
   margin: 0;
-  border-bottom: 0.5px solid rgb(221, 221, 221);
+  border-bottom: 0.5px solid rgb(235, 235, 235);
+
+  @media (min-width: 768px) {
+    margin-bottom: 1.5em;
+  }
 `
 
 export default function PostComponent(props: Post) {
-  const { title, code } = props
+  const { title, date, code } = props
 
   return (
     <Layout>
       <SEO title={title} />
 
       <Article>
+        <ArticleDate>{date}</ArticleDate>
         <ArticleTitle>{title}</ArticleTitle>
         <MDXProvider>
           <MDXRenderer>{code.body}</MDXRenderer>
