@@ -1,0 +1,38 @@
+---
+title: 少年将通过学习 React 得知键盘的声音
+date: "2018-12-17"
+draft: false
+---
+
+假设我们要封装一个业务相关的 Modal ，我们不妨封装成一个函数，而不是一个组件。<br />
+因为组件需要一个 state 来维护他是否显示。
+
+```tsx
+import React from 'react'
+import Modal from 'path/to/modal'
+
+export default function BusinessModal() {
+  const div = document.createElement('div')
+  document.body.append(div)
+
+  function close() {
+    ReactDOM.unmountComponentAtNode(div)
+    if (div && div.parentNode) {
+      div.parentNode.removeChild(div)
+    }
+  }
+
+  function render() {
+    ReactDOM.render(
+      <Modal onClose={close}>
+        <div>My Business Modal</div>
+      </Modal>,
+      div
+    )
+  }
+
+  return {
+    close
+  }
+} 
+```
