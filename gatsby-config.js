@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'ly你个c',
-    description: 'blog of lyyourc',
+    description: 'ly你个c的博客',
     author: 'lyyourc',
   },
   plugins: [
@@ -79,6 +79,6 @@ module.exports = {
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
-    // 'gatsby-plugin-offline',
+    'gatsby-plugin-offline',
   ],
 }

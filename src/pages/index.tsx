@@ -6,7 +6,7 @@ import Posts from '../components/posts'
 export default function IndexPage() {
   return (
     <Layout>
-      <SEO title="首页" />
+      <SEO title="博客" />
       <Posts />
     </Layout>
   )
