@@ -1,0 +1,98 @@
+---
+title: 我们有必要说一下怎么生成微信海报
+date: "2018-12-25"
+draft: false
+---
+
+## 生成海报（图片）
+
+生成图片的技术是调用 canvas 的 `.toDataURL('image/jpeg', 1.0)` 。
+
+不过，我们要先分析一下海报的组成部分，如果很复杂的我们，我们直接用 [html2canvas](https://github.com/niklasvh/html2canvas)，
+否则的话，我们可以自己把 canvas 画出来。下面我们讲得就是这种方法。
+
+## 适配不同屏幕
+
+假设我们的视觉稿尺寸是 `375*677` 的话，我们要按比例地适配各种屏幕。公式就是：
+
+```js
+视觉稿的值 / 视觉稿的宽 === 实际值 / 屏幕的宽度
+```
+
+## 图片不清晰
+
+先把画布放大，然后再缩小。
+
+```ts
+const scale = 2
+canvas.width = screenWidth * scale
+canvas.height = screenHeight * scale
+const context = canvas.getContext('2d')!
+context.scale(scale, scale)
+```
+
+## 图片是黑色
+
+这种情况大多数是因为图片没加载完。
+
+```ts
+const preloadImages = () => {
+  let images: any = {
+    qrCode: require('../../images/qrcode.jpeg'),
+  }
+
+  return new Promise(resolve => {
+    let loadedImageCount = 0
+
+    Object.keys(images).forEach((imgName, i, arr) => {
+      const image = new Image()
+
+      image.onload = onLoad
+      image.onerror = onLoad
+
+      function onLoad() {
+        loadedImageCount++
+        images[imgName as any] = image
+
+        if (loadedImageCount >= arr.length) {
+          resolve(images)
+        }
+      }
+
+      image.src = images[imgName as any]
+    })
+  })
+}
+
+async function drawImage() {
+  const images = await preloadImages() 
+  const context = canvas.getContext('2d')!  
+  context.drawImage(images.qrCode)
+}
+```
+
+## 微信头像跨域
+
+我们可以直接请求微信头像，然后转成 base64 ：
+
+```js
+export const getWechatAvatar = (avatarUrl: string) => {
+  return axios({
+    url: avatarUrl,
+    responseType: 'arraybuffer',
+  }).then(res => {
+    const contentType = res.headers['content-type']
+    return `data:${contentType};base64,${arrayBufferToBase64(res.data)}`
+  })
+}
+
+function arrayBufferToBase64(buffer: any) {
+  var binary = ''
+  var bytes = new Uint8Array(buffer)
+  var len = bytes.byteLength
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return window.btoa(binary)
+}
+```
