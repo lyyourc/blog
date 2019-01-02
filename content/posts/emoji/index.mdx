@@ -1,10 +1,56 @@
 ---
-title: 这么可爱的 emoji 表情，谁顶得住啊
+title: 这么可爱的 emoji 表情，谁顶得住啊 😛
 date: "2019-01-01"
 draft: false
 ---
 
-我们的目标就是把 emoji 表情显示在网页上。
+我们的目标：**把 emoji 表情显示在网页上**。
 
-## Sprite
+## 参考现有的方案
 
+搜索一下，我们找到了 [emoji-mart](https://github.com/missive/emoji-mart) 这个组件。
+简单地看下源码可知，emoji 的数据都来自于 [emoji-data](https://github.com/iamcal/emoji-data) 这个包。
+
+`emoji-data` 里面有个字段 `unified`，他表示 unicode 的一个 codepoint ，通常是 4-5 个数字。
+如果这个 emoji 表情是用多个表情组成起来的，则用 `-` 把表情连接起来。
+
+而我们需要做的是，把 [unicode codepoint 转成原生（ native ）的字符](https://github.com/missive/emoji-mart/blob/master/src/utils/index.js#L9)。
+
+```js
+function unifiedToNative(unified: string) {
+  const unicodes = unified.split('-')
+  const codePoints = unicodes.map(u => `0x${u}`)
+
+  return String.fromCodePoint(...codePoints)
+}
+
+unifiedToNative('1f600') // '😀'
+```
+
+因为不同的字符在不同的平台上会有兼容性问题，所以想要做到全兼容的话，我们可以用图片。
+
+## Emoji Sprite
+
+现有的 emoji 加起来可能有一千多个，为了加载速度，我们不可能把所有的 emoji 表情单独都做成一个图片。
+因此，我们需要用 [image sprites](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Implementing_image_sprites_in_CSS) 。
+
+在 [emoji-data](https://github.com/iamcal/emoji-data) 上，我们可以找到不同平台对应的精灵图，比如 [Apple 系列的 64px](https://github.com/iamcal/emoji-data/blob/master/sheets-indexed-256/sheet_apple_64_indexed_256.png)。
+另外，通过 `sheet_x` 和 `sheet_y` 可以得到每个表情的坐标。最后我们算出对应的位置，设置 `background-position` 。
+
+```js
+const spriteWidth = 3432 // 原图的大小
+const spriteHeight = 3432
+const rows = 52
+const cols = 52
+
+// 假设某个 emoji 的坐标
+const emoji = { sheet_x: 2, sheet_y: 20 }
+
+// 计算位置
+css`
+  background-position: ${sheet_x * (spriteWidth / cols)}, ${sheet_y * (spriteHeight / rows)}
+  background-size: 64px 64px;
+`
+```
+
+可以参考其他算法，如 [emoji-mart](https://github.com/missive/emoji-mart/blob/master/src/components/emoji/nimble-emoji.js#L165-L167) 。
