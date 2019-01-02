@@ -4,4 +4,47 @@ date: "2018-12-01"
 draft: false
 ---
 
-zzz
+如果首页加载很慢，是会被嫌弃的。
+
+## First Contentful Paint
+
+怎么解决首页一开始的白屏？不妨利用 CSS 的 `:empty` 选择器。
+假设我们项目是一个 React 项目，那么通常 `index.html` 里面都是这样子的：
+
+```html
+<div id="#root" />
+```
+
+那么，在加载资源完成并且在 `ReactDOM.render()` 完成之前，`#root` 都是空的，所以可以：
+
+```css
+#root:empty {
+  background: url('path/to/loading.png');
+}
+```
+
+## Preload
+
+利用 Http 2 的特性，我们可以同时请求多个资源，所以可以把首页所需的资源分开同时加载。
+
+具体操作可以用 webpack 的 magic comment :
+
+```js
+import(/* webpackPreload: true */ 'ChartingLibrary')
+```
+
+或者用 [preload-webpack-plugin](https://github.com/GoogleChromeLabs/preload-webpack-plugin) 。
+
+## Code-splitting
+
+把首页不需要的资源都分离出来，把大的 chunk 分成小的。
+
+
+## Tips
+
+把 CDN 的域名解析提前：
+
+```html
+<link rel="dns-prefetch" href="//yourcdn.com">
+<link rel="preconnect" href="//yourcdn.com">
+```
