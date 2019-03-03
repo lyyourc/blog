@@ -31,8 +31,8 @@ const Avatar = () => (
       <Img
         fluid={data.placeholderImage.childImageSharp.fluid}
         css={css`
-          width: 30px;
-          height: 30px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           border: 2px solid #fff;
           margin-right: 10px;

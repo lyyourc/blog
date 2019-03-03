@@ -1,9 +1,10 @@
 import React from 'react'
 import { graphql, StaticQuery, Link } from 'gatsby'
 import { sortPostsBySameYear, Post } from '../../utils/post'
-import styled from '@emotion/styled'
-import { css } from '@emotion/core'
+import styled from '@/styles/styled'
 import PostEntry from './post-entry'
+import { Box } from '@/styles/system'
+import { css } from '@emotion/core'
 
 export default function Posts() {
   return (
@@ -20,18 +21,27 @@ export default function Posts() {
         const thisYear = new Date().getFullYear()
 
         return yearPosts.map(yearPost => (
-          <div key={yearPost.year}>
-            {thisYear !== yearPost.year && <h2>{yearPost.year}</h2>}
+          <Box key={yearPost.year} pl={3}>
+            {thisYear !== yearPost.year && (
+              <PostYear as="h3" css={css`font-weight: normal;`}>
+                📆{yearPost.year}
+              </PostYear>
+            )}
 
             {yearPost.posts.map((post, j) => (
               <PostEntry key={j} {...post} path={`/posts${post.fields.slug}`} />
             ))}
-          </div>
+          </Box>
         ))
       }}
     />
   )
 }
+
+const PostYear = styled(Box)`
+  margin: 8px 0;
+  font-weight: 500;
+`
 
 const postsQuery = graphql`
   {

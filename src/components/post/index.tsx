@@ -6,8 +6,27 @@ import SEO from '../../components/seo'
 import { Post } from '../../utils/post'
 import Layout from '../layout'
 import './prismjs.theme.css'
+import { Box } from '@/styles/system'
 
-const Article = styled.article`
+export default function PostComponent(props: Post) {
+  const { title, date, code } = props
+
+  return (
+    <Layout>
+      <SEO title={title} />
+
+      <Article as="article" p={3}>
+        <ArticleDate>{date}</ArticleDate>
+        <ArticleTitle>{title}</ArticleTitle>
+        <MDXProvider>
+          <MDXRenderer>{code.body}</MDXRenderer>
+        </MDXProvider>
+      </Article>
+    </Layout>
+  )
+}
+
+const Article = styled(Box)`
   line-height: 1.7;
 
   a {
@@ -77,21 +96,3 @@ const ArticleTitle = styled.h1`
     margin-bottom: 1.5em;
   }
 `
-
-export default function PostComponent(props: Post) {
-  const { title, date, code } = props
-
-  return (
-    <Layout>
-      <SEO title={title} />
-
-      <Article>
-        <ArticleDate>{date}</ArticleDate>
-        <ArticleTitle>{title}</ArticleTitle>
-        <MDXProvider>
-          <MDXRenderer>{code.body}</MDXRenderer>
-        </MDXProvider>
-      </Article>
-    </Layout>
-  )
-}

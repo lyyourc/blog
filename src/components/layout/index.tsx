@@ -19,17 +19,11 @@ const Layout: React.SFC = ({ children }) => (
       }
     `}
     render={data => (
-      <Container px={[3]}>
+      <Container>
         <Header title={data.site.siteMetadata.title} />
-
-        <div
-          css={css`
-            padding: 25px 0;
-          `}
-        >
+        <div css={css`flex: 1;`}>
           {children}
         </div>
-
         <AppFooter />
       </Container>
     )}
@@ -42,4 +36,6 @@ const Container = styled(Box)`
   margin: 0 auto;
   max-width: 960px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `

@@ -11,10 +11,11 @@ export const globalStyles = css`
     -webkit-overflow-scrolling: touch;
     font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial,
       'Hiragino Sans GB', 'Microsoft Yahei', 'WenQuanYi Micro Hei', sans-serif;
-    color: #41464b;
+    color: #484848;
   }
 
   a {
     text-decoration: none;
+    color: inherit;
   }
 `

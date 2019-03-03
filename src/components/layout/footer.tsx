@@ -4,12 +4,12 @@ import styled from '../../styles/styled'
 
 export default function AppFooter() {
   return (
-    <Footer>✌️</Footer>
+    <Footer>😛</Footer>
   )
 }
 
 const Footer = styled('footer')`
-  height: 100px;
-  line-height: 100px;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
 `

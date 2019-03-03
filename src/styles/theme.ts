@@ -11,7 +11,7 @@ export function createTheme(): Theme {
   return {
     pallete: {
       primary: ['#ff5a5f'],
-      gray: ['#484848'],
+      gray: ['#f3f4f4'],
     },
     fontSizes: [
       12, 14, 16, 24, 32, 48, 64, 96, 128
