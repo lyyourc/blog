@@ -69,3 +69,15 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     })
   }
 }
+
+exports.onCreateWebpackConfig = ({
+  stage, getConfig, rules, loaders, actions
+ }) => {
+   actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src/'),
+      }
+    }
+   });
+ }

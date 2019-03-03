@@ -11,7 +11,8 @@
     "no-console": [false],
     "jsx-no-lambda": [false],
     "no-submodule-imports": [false],
-    "quotemark": [true, "single", "jsx-double"]
+    "quotemark": [true, "single", "jsx-double"],
+    "no-implicit-dependencies": [false]
   },
   "rulesDirectory": []
 }
