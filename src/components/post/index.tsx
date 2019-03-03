@@ -1,12 +1,13 @@
 import React from 'react'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { MDXProvider } from '@mdx-js/tag'
-import styled from '@emotion/styled'
+import styled from '@/styles/styled'
 import SEO from '../../components/seo'
 import { Post } from '../../utils/post'
 import Layout from '../layout'
 import './prismjs.theme.css'
 import { Box } from '@/styles/system'
+import { css } from '@emotion/core'
 
 export default function PostComponent(props: Post) {
   const { title, date, code } = props
@@ -16,8 +17,10 @@ export default function PostComponent(props: Post) {
       <SEO title={title} />
 
       <Article as="article" p={3}>
-        <ArticleDate>{date}</ArticleDate>
-        <ArticleTitle>{title}</ArticleTitle>
+        <Header mb={[4, 5]}>
+          <ArticleTitle>{title}</ArticleTitle>
+          <ArticleDate>📆{date}</ArticleDate>
+        </Header>
         <MDXProvider>
           <MDXRenderer>{code.body}</MDXRenderer>
         </MDXProvider>
@@ -30,11 +33,11 @@ const Article = styled(Box)`
   line-height: 1.7;
 
   a {
-    color: #70b1e7;
+    color: ${props => props.theme.pallete.teal[0]};
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
   h2 {
     font-size: 20px;
@@ -80,19 +83,17 @@ const Article = styled(Box)`
   }
 `
 
+const Header = styled(Box)`
+  @media (min-width: 768px) {
+    text-align: center;
+  }  
+`
+
 const ArticleDate = styled.div`
   font-size: 0.8em;
   opacity: 0.7;
-  text-align: right;
-  line-height: 1;
 `
 
 const ArticleTitle = styled.h1`
-  padding: 25px 0 15px 0;
   margin: 0;
-  border-bottom: 0.5px solid rgb(235, 235, 235);
-
-  @media (min-width: 768px) {
-    margin-bottom: 1.5em;
-  }
 `

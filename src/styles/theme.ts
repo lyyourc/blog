@@ -1,6 +1,7 @@
 export interface Theme {
   pallete: {
     primary: string[],
+    teal: string[],
     gray: string[],
   },
   fontSizes: number[],
@@ -11,6 +12,7 @@ export function createTheme(): Theme {
   return {
     pallete: {
       primary: ['#ff5a5f'],
+      teal: ['#008489'],
       gray: ['#f3f4f4'],
     },
     fontSizes: [

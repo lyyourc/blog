@@ -27,4 +27,5 @@ const Header = styled(Box)`
 
 const H1 = styled('h1')`
   margin: 0;
+  font-size: 1.6em;
 `
