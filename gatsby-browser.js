@@ -9,6 +9,7 @@ import { ThemeProvider } from 'emotion-theming'
 import { Global } from '@emotion/core'
 import { globalStyles } from './src/styles/global'
 import { createTheme } from './src/styles/theme'
+import Layout from './src/components/layout/index'
 require('prismjs/themes/prism.css')
 
 export const wrapRootElement = ({ element }) => {
@@ -21,5 +22,11 @@ export const wrapRootElement = ({ element }) => {
         {element}
       </>
     </ThemeProvider>
+  )
+}
+
+export const wrapPageElement = ({ element }) => {
+  return (
+    <Layout>{element}</Layout>
   )
 }
