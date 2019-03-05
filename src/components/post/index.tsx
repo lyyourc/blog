@@ -13,7 +13,7 @@ export default function PostComponent(props: Post) {
   const { title, date, code } = props
 
   return (
-    <div>
+    <Layout>
       <SEO title={title} />
 
       <Article as="article" p={3}>
@@ -25,7 +25,7 @@ export default function PostComponent(props: Post) {
           <MDXRenderer>{code.body}</MDXRenderer>
         </MDXProvider>
       </Article>
-    </div>
+    </Layout>
   )
 }
 
